@@ -70,7 +70,7 @@ public class Server extends Thread{
         }
         
         /**
-         * Broadcasts data 
+         * Broadcasts audio to all clients connected.
          * 
          * @param input audio input
          */
@@ -85,26 +85,35 @@ public class Server extends Thread{
          */
         @Override
         public void run() {
-            
+            // Container for our mic input reader
             int readData = -2; // -1 is end of line. Normal range is 0-255.
             
+            // Run while the connection is open
             while(true) {
                 try { // If data is read
                     readData = in.read();
                 } catch (IOException e) {
                     
                 }
-                
+                // And it is not 'nothing'
                 if(readData != -2) {
-                    broadcast(readData);
+                    broadcast(readData); // Broadcast the message
+                    readData = -2; // And set readData container to our default number
                 }
             }
             
         }
         
-        public void play(int audioIn, int threadNum) {
+        /**
+         * Writes the audio input to the socket's output line. This will play
+         * the audio on the client's speakers.
+         * 
+         * @param input audio input
+         * @param threadNum number of thread running (troubleshooting)
+         */
+        public void play(int input, int threadNum) {
             try {
-                out.write(audioIn);
+                out.write(input);
             } catch (IOException ex) {
                 System.err.println("Cannot write audio out to socket " + threadNum);
             }
