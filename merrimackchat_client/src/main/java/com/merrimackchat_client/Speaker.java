@@ -11,7 +11,7 @@ import javax.sound.sampled.SourceDataLine;
  *
  * Class heavily inspired by: https://github.com/surajkumaruk96/VoIP-Client-Server/blob/master/VoIPClient/src/Speaker.java
  *
- * @author Suraj Kumar <k975@live.co.uk> (original author)
+ * @author Suraj Kumar (original author)
  * @version 1.0
  */
 public class Speaker {

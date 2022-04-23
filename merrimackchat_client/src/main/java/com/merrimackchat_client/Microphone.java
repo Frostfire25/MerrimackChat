@@ -10,7 +10,7 @@ import javax.sound.sampled.TargetDataLine;
  * Input audio class.
  * Class heavily inspired by: https://github.com/surajkumaruk96/VoIP-Client-Server/blob/master/VoIPClient/src/Microphone.java
  *
- * @author Suraj Kumar <k975@live.co.uk> (original author)
+ * @author Suraj Kumar (original author)
  * @version 1.0
  */
 public class Microphone {
