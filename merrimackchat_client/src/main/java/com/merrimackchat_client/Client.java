@@ -78,7 +78,7 @@ public class Client implements Runnable{
                     mic.start(); // Starts the TargetDataLine
                     
                     try { // Try writing mic data to the server's data stream
-                            byte[] buffer = new byte[speaker.getBufferSize() / 5];
+                            byte[] buffer = new byte[mic.getBufferSize() / 5];
                             int read = mic.read(buffer, 0, buffer.length);
                             socket.getOutputStream().write(buffer, 0, read);
                         } catch (IOException e) {
