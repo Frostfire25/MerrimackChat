@@ -27,12 +27,13 @@ public class Client implements Runnable{
     
     @Override
     public void run() {
-        // Try to connect to the server
+        // Try to connect to the server, if we can't, crash the program
         try {
             socket = new Socket(IP, PORT);
         } catch (IOException e) {
             System.err.println("Error connecting to server " + IP + " on port " + PORT);
             System.err.println(e);
+            System.exit(1);
         }
         
         
@@ -54,6 +55,9 @@ public class Client implements Runnable{
                             speaker.write(buffer, 0, read);
                         } catch (IOException e) {
                             System.err.println("Could not read audio data from server: " + e.getMessage());
+                        } catch (IllegalArgumentException e) {
+                            System.err.println("Improper argument exception: " + e.getMessage());
+                            e.printStackTrace();
                         }
                         
                     }
