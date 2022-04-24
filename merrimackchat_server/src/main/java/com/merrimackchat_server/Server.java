@@ -50,6 +50,17 @@ public class Server extends Thread{
         }
     }
     
+    /**
+     * Broadcasts audio to all clients connected.
+     * 
+     * @param input audio input
+     */
+    private void broadcast(int input) {
+        for(int i = 0; i < threads.size(); i++) {
+            threads.get(i).play(input, i);
+        }
+    }
+    
     public class ClientThread extends Thread {
         
         private InputStream in;
@@ -64,17 +75,6 @@ public class Server extends Thread{
                 
             } catch (IOException ex) {
                 System.err.println("Error with I/O at server.");
-            }
-        }
-        
-        /**
-         * Broadcasts audio to all clients connected.
-         * 
-         * @param input audio input
-         */
-        private void broadcast(int input) {
-            for(int i = 0; i < threads.size(); i++) {
-                threads.get(i).play(input, i);
             }
         }
         

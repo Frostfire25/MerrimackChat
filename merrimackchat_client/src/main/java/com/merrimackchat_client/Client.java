@@ -77,14 +77,15 @@ public class Client implements Runnable{
                 if(mic.open()) {
                     mic.start(); // Starts the TargetDataLine
                     
-                    try { // Try writing mic data to the server's data stream
-                            byte[] buffer = new byte[mic.getBufferSize() / 5];
-                            int read = mic.read(buffer, 0, buffer.length);
-                            socket.getOutputStream().write(buffer, 0, read);
-                        } catch (IOException e) {
-                            System.err.println("Could not write microphone audio data to server: " + e.getMessage());
-                        }
-                    
+                    while(socket.isConnected()) { // While a connection is still established
+                        try { // Try writing mic data to the server's data stream
+                                byte[] buffer = new byte[mic.getBufferSize() / 5];
+                                int read = mic.read(buffer, 0, buffer.length);
+                                socket.getOutputStream().write(buffer, 0, read);
+                            } catch (IOException e) {
+                                System.err.println("Could not write microphone audio data to server: " + e.getMessage());
+                            }
+                    }
                 } else {
                     System.err.println("Failed to successfully open mic");
                 }            
