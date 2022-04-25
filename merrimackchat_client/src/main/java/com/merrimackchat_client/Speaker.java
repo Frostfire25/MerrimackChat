@@ -11,13 +11,13 @@ import javax.sound.sampled.SourceDataLine;
  *
  * Class heavily inspired by: https://github.com/surajkumaruk96/VoIP-Client-Server/blob/master/VoIPClient/src/Speaker.java
  *
- * @author Suraj Kumar <k975@live.co.uk> (original author)
+ * @author Suraj Kumar (original author)
  * @version 1.0
  */
 public class Speaker {
-	/**
-	 * The sample rate.
-	 */
+    /**
+     * The sample rate.
+     */
     public static final float SAMPLE_RATE = 8000.0f;
     /**
      * The sample size.
@@ -25,13 +25,13 @@ public class Speaker {
     public static final int SAMPLE_SIZE = 16;
  
     /**
-	 * The SourceDataLine used for playback to the users speaker.
-	 */
+     * The SourceDataLine used for playback to the users speaker.
+     */
     private SourceDataLine line;
     
     /**
-	 * AudioFormat instance used to interpret the sound format.
-	 */
+     * AudioFormat instance used to interpret the sound format.
+     */
     private AudioFormat format;
  
     /**
@@ -42,10 +42,10 @@ public class Speaker {
     }
  
     /**
-	 * Opens the users speakers.
-	 * 
-	 * @return If the line was opened successfully.
-	 */
+     * Opens the users speakers.
+     * 
+     * @return If the line was opened successfully.
+     */
     public boolean open() {
     	DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
         boolean lineOpen = false;
@@ -61,8 +61,8 @@ public class Speaker {
     }
  
     /**
-	 * Starts the {@link Speaker#SourceDataLine}.
-	 */
+     * Starts the {@link Speaker#SourceDataLine}.
+     */
     public void start() {
         line.start();
     }
@@ -79,16 +79,16 @@ public class Speaker {
     }
  
     /**
-	 * Closes @link Speaker#SourceDataLine}.
-	 */
+     * Closes @link Speaker#SourceDataLine}.
+     */
     public void stop() {
         line.stop();
         line.flush();
     }
  
     /**
-	 * @return The @link Speaker#SourceDataLine} buffer size.
-	 */
+     * @return The @link Speaker#SourceDataLine} buffer size.
+     */
     public int getBufferSize() {
         return line.getBufferSize();
     }

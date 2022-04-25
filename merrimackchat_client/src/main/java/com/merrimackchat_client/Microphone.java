@@ -10,7 +10,7 @@ import javax.sound.sampled.TargetDataLine;
  * Input audio class.
  * Class heavily inspired by: https://github.com/surajkumaruk96/VoIP-Client-Server/blob/master/VoIPClient/src/Microphone.java
  *
- * @author Suraj Kumar <k975@live.co.uk> (original author)
+ * @author Suraj Kumar (original author)
  * @version 1.0
  */
 public class Microphone {
@@ -37,7 +37,7 @@ public class Microphone {
      * Constructs a new Microphone.
      */
     public Microphone() {
-            format = new AudioFormat(SAMPLE_RATE, SAMPLE_SIZE, 1, true, false);
+        format = new AudioFormat(SAMPLE_RATE, SAMPLE_SIZE, 1, true, false);
     }
 
     /**
@@ -46,25 +46,25 @@ public class Microphone {
      * @return If the line was opened successfully.
      */
     public boolean open() {
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-            boolean lineOpen = false;
+        DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+        boolean lineOpen = false;
 
-            try {
-                    line = (TargetDataLine) AudioSystem.getLine(info);
-                    line.open(format);
-                    lineOpen = true;
-            } catch (LineUnavailableException e) {
-                    lineOpen = false;
-                    System.err.println("There was an error open your microphone:" + e.getMessage());
-            }
-            return lineOpen;
+        try {
+            line = (TargetDataLine) AudioSystem.getLine(info);
+            line.open(format);
+            lineOpen = true;
+        } catch (LineUnavailableException e) {
+            lineOpen = false;
+            System.err.println("There was an error open your microphone:" + e.getMessage());
+        }
+        return lineOpen;
     }
 
     /**
      * Starts the {@link Microphone#TargetDataLine}.
      */
     public void start() {
-            line.start();
+        line.start();
     }
 
     /**
@@ -75,21 +75,21 @@ public class Microphone {
      * @param len requested number of bytes to read
      */
     public int read(byte[] buf, int off, int len) {
-            return line.read(buf, off, len);
+        return line.read(buf, off, len);
     }
 
     /**
      * Closes {@link Microphone#TargetDataLine}.
      */
     public void stop() {
-            line.stop();
-            line.flush();
+        line.stop();
+        line.flush();
     }
 
     /**
      * @return The {@link Microphone#TargetDataLine} buffer size.
      */
     public int getBufferSize() {
-            return line.getBufferSize();
+        return line.getBufferSize();
     }
 }
