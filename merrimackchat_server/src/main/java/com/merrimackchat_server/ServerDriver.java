@@ -26,5 +26,11 @@ public class ServerDriver {
         // Initilizes the client manager
         clientManager = new ClientManager();
        
+        // Message displaying the server has been started correctly.
+        System.out.println("Server has been opened on localhost:"+PORT);
+        System.out.println("Awating the connection of clients.");
+        
+        System.out.println(java.io.BufferedOutputStream.class.descriptorString());
+        
     }
 }

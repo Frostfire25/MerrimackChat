@@ -1,6 +1,5 @@
 package com.merrimackchat_packet.data;
 
-import com.sun.jdi.ByteType;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
@@ -75,6 +74,19 @@ public class Packet implements Sendable {
      */
     public byte[] getBuff() {
         return buff;
+    }
+    
+    /**
+     * Gets the datavalue at a certian argument position
+     * Returns a position in the byte array
+     * 
+     * @param i  0 < n <= packetType.getNumOfArgs()
+     * @return The argument in a certian position
+     */
+    public byte getArgs(int i) {
+        if(i > packetType.getNumOfArgs()) return -1;
+        
+        return buff[i];
     }
     
     
