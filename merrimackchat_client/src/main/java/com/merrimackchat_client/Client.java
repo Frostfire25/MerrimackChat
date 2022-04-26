@@ -18,6 +18,9 @@ public class Client implements Runnable{
     private static final String IP = "localhost";
     private static final int PORT = 5000;
     
+    private String name = "Alex";
+    private byte ID;
+    
     /**
      * Constructor initializing the mic and speaker for the client's audio I/O.
      */
@@ -101,11 +104,6 @@ public class Client implements Runnable{
         }).start();
         
         
-    }
-    
-    public static void main(String[] args) {
-        Client client = new Client();
-        new Thread(client).start();
     }
     
 }
