@@ -5,6 +5,12 @@
     <artifactId>merrimackchat_client</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+    
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -12,10 +18,14 @@
             <version>1.18.22</version>
             <type>jar</type>
         </dependency>
+        
+        <dependency>
+            <groupId>com.packets</groupId>
+            <artifactId>MerrimackPackets</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/merrimackchat_packet.jar</systemPath> 
+        </dependency>
+            
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
 </project>

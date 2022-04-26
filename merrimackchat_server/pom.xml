@@ -18,6 +18,16 @@
             <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>com.packets</groupId>
+            <artifactId>MerrimackPackets</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/merrimackchat_packet.jar</systemPath> 
+        </dependency>
+            
+            
     </dependencies> 
     
 </project>
