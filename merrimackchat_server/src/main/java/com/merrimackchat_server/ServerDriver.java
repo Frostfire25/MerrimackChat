@@ -25,5 +25,6 @@ public class ServerDriver {
         
         // Initilizes the client manager
         clientManager = new ClientManager();
+       
     }
 }

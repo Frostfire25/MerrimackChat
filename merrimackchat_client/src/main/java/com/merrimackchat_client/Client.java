@@ -1,5 +1,7 @@
 package com.merrimackchat_client;
 
+import com.merrimackchat_packet.data.Packet;
+import com.merrimackchat_packet.data.PacketEncoder;
 import java.io.IOException;
 import java.net.*;
 import java.util.Arrays;
@@ -53,7 +55,7 @@ public class Client implements Runnable{
                     
                     while(socket.isConnected()) { // While a connection is still established
                         
-                        try { // Try writing data to the Client's speakers
+                        try { // Try writing data to the Client's speakers                            
                             byte[] buffer = new byte[speaker.getBufferSize() / 5];
                             int read = socket.getInputStream().read(buffer, 0, buffer.length);
                             
@@ -86,11 +88,21 @@ public class Client implements Runnable{
                     
                     while(socket.isConnected()) { // While a connection is still established
                         try { // Try writing mic data to the server's data stream
+                            
+                                // Test for sending a packet
+                                Packet packet = PacketEncoder.createUserJoinPacket("Alex");
+                                packet.send(socket.getOutputStream());
+                                
+                                // End of Test.
+                            
                                 byte[] buffer = new byte[mic.getBufferSize() / 5];
                                 int read = mic.read(buffer, 0, buffer.length);
                                 
                                 //System.out.println(Arrays.toString(buffer));
-                                socket.getOutputStream().write(buffer);
+                                
+                                // UNCOMMENT TO SEND AUDIO!!! socket.getOutputStream().write(buffer);
+                                
+                                
                                 //socket.getOutputStream().
                                 //socket.getOutputStream().write(buffer, 0, read);
                             } catch (IOException e) {

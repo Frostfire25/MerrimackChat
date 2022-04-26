@@ -10,4 +10,33 @@ package com.merrimackchat_packet.data;
  */
 public class PacketDecoder {
     
+    /**
+     * Creates a packet from the byte[] buff
+     * 
+     * @param buff Array that is taken in.
+     * @return Packet that is created
+     */
+    public static Packet decodeByteArray(byte[] buff) {
+        // ID of the packet
+        byte ID = buff[0];
+        
+        // Gets the packet type and asserts that it exists
+        PacketType packetType = PacketType.getByID(ID);
+        if(packetType == null) { System.out.println("Error! Null Packet Type"); return null; }
+        
+        byte[] args = new byte[0];
+        // Creates the args array
+        if(packetType.getNumOfArgs() > 0) {
+           args = new byte[packetType.getNumOfArgs()];
+           
+           int pos = 0;
+           for(int i = 1; i < packetType.getNumOfArgs() + 1; i++) {
+               args[pos++] = buff[i];
+           }
+        }
+        
+        // Returns the new packet
+        return new Packet(packetType, buff, buff.length, args);
+    }
+    
 }

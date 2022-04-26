@@ -1,5 +1,7 @@
 package com.merrimackchat_packet.data;
 
+import java.util.Arrays;
+
 /**
  * Determines the type of packet being used
  * @author Alex
@@ -52,6 +54,14 @@ public enum PacketType {
         return hasResponse;
     }
     
-    
+    /**
+     * Gets a packet by the ID type
+     * 
+     * @param id ID type
+     * @return PacketType of {@code id}
+     */
+    public static PacketType getByID(byte id) {
+        return Arrays.stream(values()).filter(n -> n.getID() == id).findFirst().orElse(null);
+    }
     
 }

@@ -4,10 +4,16 @@
  */
 package com.merrimackchat_packet.data;
 
+import java.util.Base64;
+
 /**
  *
  * @author Alex
  */
 public class PacketEncoder {
+    
+    public static Packet createUserJoinPacket(String clientName) {
+        return new Packet(PacketType.USER_JOIN_SERVER, Base64.getDecoder().decode(clientName));
+    }    
     
 }

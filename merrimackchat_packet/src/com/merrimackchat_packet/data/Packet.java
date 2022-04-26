@@ -1,22 +1,31 @@
 package com.merrimackchat_packet.data;
 
 import com.sun.jdi.ByteType;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Arrays;
 
 /**
  *
  * @author Alex
  */
-public class Packet {
+public class Packet implements Sendable {
     
     private PacketType packetType;
     private byte[] buff;
     private int len;
     
-    public Packet(PacketType packetType, byte[] buff, int len) {
-        this(packetType, buff, len, new Byte[] {});
+    public Packet(PacketType packetType, byte[] buff) {
+        // Create a packet with the buff length, no data and an empty buffer 
+        this(packetType, buff, buff.length, new byte[] {});
     }
     
-    public Packet(PacketType packetType, byte[] buff, int len, Byte... args) {
+    public Packet(PacketType packetType, byte[] buff, int len) {
+        // Create a packet with no data and an empty buffer
+        this(packetType, buff, len, new byte[] {});
+    }
+    
+    public Packet(PacketType packetType, byte[] buff, int len, byte... args) {
         if(args.length != packetType.getNumOfArgs()) {
             System.out.println("Issue sending packet " + packetType.name());
             return;
@@ -37,6 +46,21 @@ public class Packet {
         for(Byte n : args) {
             buff = insertIntoSpace(buff, pos++, n);
         }
+        
+        // Updates the length of the byte[]
+        this.len = buff.length;
+    }
+    
+    /**
+     * Gets a copy of {@code buff} with the arguments removed
+     * 
+     * @return A byte array with no buffs. 
+     */
+    public byte[] getBuffWithoutArgs() {
+        // Returns everything with the ID removed
+        if(packetType.getNumOfArgs() <= 0) return Arrays.copyOfRange(buff, 1, buff.length);
+        // Returns everything with the ID and arguments removed
+        return Arrays.copyOfRange(buff, packetType.getNumOfArgs() + 1, buff.length);
     }
     
     /**
@@ -51,6 +75,21 @@ public class Packet {
      */
     public byte[] getBuff() {
         return buff;
+    }
+    
+    
+    /**
+     * Used for sending packets
+     * @param out the stream for this packet to be written to.
+     */
+    @Override
+    public void send(OutputStream out) {
+        try {
+            // Sends the packet
+            out.write(buff);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
     
     /*
@@ -88,6 +127,5 @@ public class Packet {
         
         return newarr;
     }
-
     
 }

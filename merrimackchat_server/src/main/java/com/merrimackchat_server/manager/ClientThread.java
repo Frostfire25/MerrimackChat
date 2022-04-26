@@ -50,7 +50,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                 // Number here determines the delay, since are waiting for x amount of bytes to come through.
                 // Starting number was 1962
                 // Tested working values are 1962, 1284
-
+                
                 readData = in.readNBytes(1000);
                 System.out.println(Arrays.toString(readData));
             } catch (IOException e) {
