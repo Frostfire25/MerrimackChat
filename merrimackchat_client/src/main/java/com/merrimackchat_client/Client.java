@@ -2,6 +2,7 @@ package com.merrimackchat_client;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.Arrays;
 
 /**
  * Class used to handle Client I/O to the server.
@@ -14,8 +15,11 @@ public class Client implements Runnable{
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    private static final String IP = "127.0.0.1";
+    private static final String IP = "localhost";
     private static final int PORT = 5000;
+    
+    private String name = "Alex";
+    private byte ID;
     
     /**
      * Constructor initializing the mic and speaker for the client's audio I/O.
@@ -52,6 +56,9 @@ public class Client implements Runnable{
                         try { // Try writing data to the Client's speakers
                             byte[] buffer = new byte[speaker.getBufferSize() / 5];
                             int read = socket.getInputStream().read(buffer, 0, buffer.length);
+                            
+                            System.out.println(Arrays.toString(buffer));
+                            
                             speaker.write(buffer, 0, read);
                         } catch (IOException e) {
                             System.err.println("Could not read audio data from server: " + e.getMessage());
@@ -81,7 +88,11 @@ public class Client implements Runnable{
                         try { // Try writing mic data to the server's data stream
                                 byte[] buffer = new byte[mic.getBufferSize() / 5];
                                 int read = mic.read(buffer, 0, buffer.length);
-                                socket.getOutputStream().write(buffer, 0, read);
+                                
+                                //System.out.println(Arrays.toString(buffer));
+                                socket.getOutputStream().write(buffer);
+                                //socket.getOutputStream().
+                                //socket.getOutputStream().write(buffer, 0, read);
                             } catch (IOException e) {
                                 System.err.println("Could not write microphone audio data to server: " + e.getMessage());
                             }
@@ -93,11 +104,6 @@ public class Client implements Runnable{
         }).start();
         
         
-    }
-    
-    public static void main(String[] args) {
-        Client client = new Client();
-        new Thread(client).start();
     }
     
 }
