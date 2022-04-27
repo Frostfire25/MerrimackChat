@@ -12,7 +12,7 @@ import java.util.Arrays;
  *
  * @author Derek Costello, Suraj Kumar (original author)
  */
-public class Client implements Runnable{
+public class Client implements Runnable {
     
     private Microphone mic;
     private Speaker speaker;

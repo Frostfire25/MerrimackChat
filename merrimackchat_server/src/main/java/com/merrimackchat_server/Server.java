@@ -61,9 +61,17 @@ public class Server extends Thread {
                 client.start();
                 
             } catch (IOException ex) {
+                
+                ex.printStackTrace();
                 System.err.println("Connection to client can't be established");
+                
+                return;
             } catch (NullPointerException ex) {
-                System.err.println("Connection to client can't be established");
+                
+                ex.printStackTrace();
+                System.err.println("Connection to client can't be established, there is a null area.");
+                
+                return;
             } catch (ServerFullException ex) {
                 System.out.println("The server is full, sorry.");
             }
@@ -93,7 +101,7 @@ public class Server extends Thread {
         
         // Play for every client
         // Added input for no audio echo / feedback, if you want feedback just remove the filter statement.
-        clients.stream().filter(n -> n.getID() != senderID).forEach(n -> n.play(input, n.getID()));
+        clients.stream()/*.filter(n -> n.getID() != senderID)*/.forEach(n -> n.play(input, n.getID()));
     }
      
 }

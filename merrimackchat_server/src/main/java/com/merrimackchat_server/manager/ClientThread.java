@@ -4,6 +4,8 @@
  */
 package com.merrimackchat_server.manager;
 
+import com.merrimackchat_packet.data.Packet;
+import com.merrimackchat_packet.data.PacketDecoder;
 import com.merrimackchat_server.ServerDriver;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +54,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                 // Tested working values are 1962, 1284
                 
                 readData = in.readNBytes(1000);
+                                
                 System.out.println(Arrays.toString(readData));
             } catch (IOException e) {
 

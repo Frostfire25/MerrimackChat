@@ -7,8 +7,8 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
     </properties>
     
     <dependencies>
@@ -18,12 +18,21 @@
             <version>1.18.22</version>
             <type>jar</type>
         </dependency>
+        
+        <!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>merrimack_packets</artifactId>
             <version>${project.version}</version>
             <scope>system</scope>
             <systemPath>${basedir}/libs/merrimack_packets-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        -->
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>merrimack_packets</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     
@@ -36,84 +45,58 @@
         
         <plugins>
             
+            <!-- download source code in Eclipse, best practice -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.apache.httpcomponents*</include>
-                                    <include>org.json*</include>
-                                    <include>com.github.oshi*</include>
-                                    <include>commons-logging*</include>
-                                    <include>net.java.dev.jna*</include>
-                                    <include>org.slf4j*</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
-                    </execution>
-                </executions>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>false</downloadJavadocs>
+                </configuration>
             </plugin>
-            
+
+            <!-- Set a compiler level -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>2.3.2</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>18</source>
+                    <target>18</target>
                 </configuration>
             </plugin>
-            
-            <!-- Creates a JAR file -->
+
+            <!-- Maven Assembly Plugin -->
             <plugin>
-                <!-- Build an executable JAR -->
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
                 <configuration>
+                    <!-- get all project dependencies -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- MainClass in mainfest make a executable jar -->
                     <archive>
                         <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>com.merrimackchat_client.ClientDriver</mainClass>
                         </manifest>
                     </archive>
+
                 </configuration>
-            </plugin>
-            
-            <!-- Assembly Plugin -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>make-assembly</id>
+                        <!-- bind to the packaging phase -->
+                        <phase>package</phase> 
                         <goals>
                             <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <!-- ... -->
-                    <archive>
-                        <manifest>
-                            <mainClass>com.merrimackchat_client.ClientDriver</mainClass>
-                        </manifest>
-                    </archive>
-                                  
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
             </plugin>
-
+          
         </plugins>
     
         <resources>
@@ -122,41 +105,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-    
     </build>
     
-    <!--
-      <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.4</version>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>shade</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>com.merrimackchat_client.ClientDriver</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      </plugins>
-    </build>
-    -->
   
 </project>

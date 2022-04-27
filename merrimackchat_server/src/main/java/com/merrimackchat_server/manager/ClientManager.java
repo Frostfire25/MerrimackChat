@@ -16,6 +16,7 @@ import lombok.Getter;
 public class ClientManager {
     
     @Getter
+    // ID of the User to the Client
     private HashMap<Byte, Client> clientMap = new HashMap<>();
     
     public ClientManager() {

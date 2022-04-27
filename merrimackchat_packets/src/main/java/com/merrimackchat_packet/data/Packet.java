@@ -129,15 +129,19 @@ public class Packet implements Sendable {
         // then insert x at pos
         // then insert rest of the elements
         for (i = 0; i < buff.length + 1; i++) {
-            if (i < location - 1)
-                newarr[i] = buff[i];
-            else if (i == location - 1)
+            if (i == location)
                 newarr[i] = value;
-            else
+            else if (i > location)
                 newarr[i] = buff[i - 1];
+            else if(i < location)
+               newarr[i] = buff[i];
         }
         
         return newarr;
     }
+    
+    // 0 1 2 3
+    // 0 4 1 2 3
+    // 0 4
     
 }
