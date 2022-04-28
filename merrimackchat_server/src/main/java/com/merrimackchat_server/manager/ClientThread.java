@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Base64;
 
 /**
  *
@@ -48,14 +49,24 @@ public abstract class ClientThread extends Thread implements Identifiable {
 
         // Run while the connection is open
         while (true) {
-            try { // If data is read
+            try { 
+                System.out.println(System.currentTimeMillis());
+                // If data is read
                 // Number here determines the delay, since are waiting for x amount of bytes to come through.
                 // Starting number was 1962
                 // Tested working values are 1962, 1284
+                // Using a 1400 Packet byte size
                 
-                readData = in.readNBytes(1000);
-                                
+                readData = in.readNBytes(1400);
+                //Packet packet = PacketDecoder.
+                
                 System.out.println(Arrays.toString(readData));
+                
+                Packet packet = PacketDecoder.decodeByteArray(readData);
+                System.out.println(Base64.getEncoder().encodeToString(packet.getBuffWithoutArgs()));
+                System.out.println("ReadData Length: " + readData.length + "   PacketType: " + packet.getPacketType() == null ? "null" : packet.getPacketType().name());
+
+                //System.out.println(Arrays.toString(readData));
             } catch (IOException e) {
 
             }

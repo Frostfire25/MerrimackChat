@@ -16,8 +16,10 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
-            <scope>provided</scope>
+            <type>jar</type>
         </dependency>
+        
+        <!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>merrimack_packets</artifactId>
@@ -25,71 +27,23 @@
             <scope>system</scope>
             <systemPath>${basedir}/libs/merrimack_packets-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
-    </dependencies> 
+        -->
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>merrimack_packets</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
     
     <build>
         <!-- Assigns the final name -->
-        <finalName>merrimackchat-server</finalName>
+        <finalName>server</finalName>
 
         <!-- Sets the Build Profile -->
-        <defaultGoal>clean install</defaultGoal>
+        <defaultGoal>clean package</defaultGoal>
         
         <plugins>
-            
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.apache.httpcomponents*</include>
-                                    <include>org.json*</include>
-                                    <include>com.github.oshi*</include>
-                                    <include>commons-logging*</include>
-                                    <include>net.java.dev.jna*</include>
-                                    <include>org.slf4j*</include>
-                                </includes>
-                            </artifactSet>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            
-           
-            <plugin>
-                
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.merrimackchat_server.ServerDriver</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            -->
             
             <!-- download source code in Eclipse, best practice -->
             <plugin>
@@ -142,6 +96,7 @@
                     </execution>
                 </executions>
             </plugin>
+          
         </plugins>
     
         <resources>
@@ -150,7 +105,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-    
     </build>
     
+  
 </project>

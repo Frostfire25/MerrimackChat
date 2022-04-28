@@ -92,11 +92,12 @@ public class Client implements Runnable {
                                 // Test for sending a packet
                                 Packet packet = PacketEncoder.createUserJoinPacket("Alex");
                                 packet.send(socket.getOutputStream());
+                                System.out.println(Arrays.toString(packet.getBuff()));                                
                                 
                                 // End of Test.
                             
-                                byte[] buffer = new byte[mic.getBufferSize() / 5];
-                                int read = mic.read(buffer, 0, buffer.length);
+                                //byte[] buffer = new byte[mic.getBufferSize() / 5];
+                                //int read = mic.read(buffer, 0, buffer.length);
                                 
                                 //System.out.println(Arrays.toString(buffer));
                                 

@@ -38,7 +38,7 @@
     
     <build>
         <!-- Assigns the final name -->
-        <finalName>merrimackchat-client</finalName>
+        <finalName>client</finalName>
 
         <!-- Sets the Build Profile -->
         <defaultGoal>clean package</defaultGoal>
