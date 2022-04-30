@@ -4,7 +4,6 @@
  */
 package com.merrimackchat_packet.data;
 
-import com.sun.jdi.ByteType;
 import java.util.Base64;
 
 /**

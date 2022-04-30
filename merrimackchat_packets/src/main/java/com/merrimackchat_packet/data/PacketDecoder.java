@@ -26,7 +26,7 @@ public class PacketDecoder {
         
         // Gets the packet type and asserts that it exists
         PacketType packetType = PacketType.getByID(ID);
-        if(packetType == null) { System.out.println("Error! Null Packet Type"); return null; }
+        if(packetType == null) { System.out.println("Error! Null Packet Type ID:(" + ID + ")"); return null; }
         
         byte[] args = new byte[0];
         // Creates the args array
@@ -49,7 +49,9 @@ public class PacketDecoder {
         
         System.out.println("Packet Argument 3:" + packet.getArgs(3));
         
-        return Arrays.copyOfRange(packet.getBuffWithoutArgs(), 0, packet.getArgs(3));
+        int toValue = (int) packet.getArgs(3);
+        
+        return Arrays.copyOfRange(packet.getBuff(), 4, 1600);
         
     }
 }

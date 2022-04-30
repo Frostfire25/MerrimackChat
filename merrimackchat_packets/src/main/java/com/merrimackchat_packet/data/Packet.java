@@ -3,6 +3,9 @@ package com.merrimackchat_packet.data;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -47,7 +50,7 @@ public class Packet implements Sendable {
     private void idPacket() {
         // Sets the ID number
         buff = insertIntoSpace(buff, 0, packetType.getID());
-        System.out.println(Arrays.toString(buff));
+        //System.out.println(Arrays.toString(buff));
 
         if (args.length > 0) {
 
@@ -119,8 +122,8 @@ public class Packet implements Sendable {
 
         // Sends the packet
         // Fixes the length to be to sending protocol
-        idPacket();
-        System.out.println(Arrays.toString(buff));
+        //idPacket();
+        //System.out.println(Arrays.toString(buff));
         this.buff = fixLength();
         out.write(buff);
 
@@ -167,28 +170,14 @@ public class Packet implements Sendable {
      * @param location location to be insterted in
      *
      * Method from
-     * (https://www.geeksforgeeks.org/how-to-insert-an-element-at-a-specific-position-in-an-array-in-java/)
+     * (https://stackoverflow.com/questions/11638123/how-to-add-an-element-to-array-and-shift-indexes/)
      */
-    private byte[] insertIntoSpace(byte[] buff, int location, byte value) {
-        // create a new array of size n+1
-        byte newarr[] = new byte[buff.length + 1];
-
-        // insert the elements from
-        // the old array into the new array
-        // insert all elements till pos
-        // then insert x at pos
-        // then insert rest of the elements
-        for (int i = 0; i < buff.length + 1; i++) {
-            if (i < location) {
-                newarr[i] = buff[i];
-            } else if (i == location) {
-                newarr[i] = value;
-            } else {
-                newarr[i] = buff[i - 1];
-            }
-        }
-
-        return newarr;
+    public byte[] insertIntoSpace(byte[] buff, int index, byte location) {
+        byte[] result = new byte[buff.length];
+        System.arraycopy(buff, 0, result, 0, index);
+        System.arraycopy(buff, index, result, index + 1, buff.length - index - 1);
+        result[index] = location;
+        return result;
     }
 
     // 0 1 2 3

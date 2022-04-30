@@ -21,6 +21,13 @@ public enum PacketType {
     */
     USER_LEFT_SERVER((byte) 1, 1, false),
     
+    /**
+     Used for audio being sent from a client to a server
+     * Has three arguments
+     * - User Sending ID
+     * - Destination Chanel ID
+     * - Length of Audio Buffer
+     */
     AUDIO_BEING_SENT((byte) 4, 3, true)
     
     ;
