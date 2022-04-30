@@ -58,7 +58,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                 // Tested working values are 1962, 1284
                 // Using a 1400 Packet byte size
                 
-                byte[] readData = in.readNBytes(2400);
+                byte[] readData = in.readNBytes(4600);
                 //Packet packet = PacketDecoder.
                 
                 packet = PacketDecoder.decodeByteArray(readData);
@@ -84,8 +84,8 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case AUDIO_BEING_SENT: {
                         
                         byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
-                        System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
-                        ServerDriver.getServer().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2));
+                        //System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
+                        ServerDriver.getServer().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2), packet.getArgs(3), packet.getArgs(4));
                         
                     }; break;
                 }

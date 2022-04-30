@@ -28,7 +28,7 @@ public enum PacketType {
      * - Destination Chanel ID
      * - Length of Audio Buffer
      */
-    AUDIO_BEING_SENT((byte) 4, 3, true)
+    AUDIO_BEING_SENT((byte) 4, 4, true)
     
     ;
 

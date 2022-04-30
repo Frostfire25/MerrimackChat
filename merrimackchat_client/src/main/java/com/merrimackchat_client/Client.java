@@ -57,13 +57,13 @@ public class Client implements Runnable {
 
                         try {
                             // Try writing data to the Client's speakers                            
-                            byte[] readData = socket.getInputStream().readNBytes(2400);
+                            byte[] readData = socket.getInputStream().readNBytes(4600);
                             //Packet packet = PacketDecoder.
 
                             Packet audioPacket = PacketDecoder.decodeByteArray(readData);
                             byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(audioPacket);
 
-                            System.out.println("AUDIO INTO SPEAKER: " + Arrays.toString(speakerBuffer));
+                            //System.out.println("AUDIO INTO SPEAKER: " + Arrays.toString(speakerBuffer));
 
                             // Writing Out
                             speaker.write(speakerBuffer, 0, speakerBuffer.length);
@@ -102,14 +102,19 @@ public class Client implements Runnable {
                             //packet.send(socket.getOutputStream());
                             //System.out.println(Arrays.toString(packet.getBuff()));                                
                             // End of Test.
-                            byte[] buffer = new byte[mic.getBufferSize() / 5]; // Commented dividing the buffer by 5 so I can take in as much audio as possible.
+                            
+                            byte value1 = 40;
+                            byte value2 = 100;
+                            byte[] buffer = new byte[(int) value1 * (int) value2 /* mic.getBufferSize() / 5 */]; // Commented dividing the buffer by 5 so I can take in as much audio as possible.
                             int read = mic.read(buffer, 0, buffer.length);
                             
-                            System.out.println(Arrays.toString(buffer));
+                            //System.out.println(Arrays.toString(buffer));
 
                             //if(System.currentTimeMillis() >= nextTimeToRun) {
                             System.out.println("Buffer length : " + buffer.length + "   Read Length: " + read);
-                            Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) 50, (byte) 50, buffer);
+                            
+                            
+                            Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) 50, (byte) 50, value1, value2, buffer);
                             audioPacket.send(socket.getOutputStream());
 
                             // Update the send time

@@ -16,8 +16,8 @@ public class PacketEncoder {
         return new Packet(PacketType.USER_JOIN_SERVER, Base64.getDecoder().decode(clientName));
     }    
     
-    public static Packet createAudioBeingSentPacket(byte userID, byte channelID, byte[] sound) {
-        return new Packet(PacketType.AUDIO_BEING_SENT, sound, sound.length, new byte[] {userID, channelID, (byte) sound.length});
+    public static Packet createAudioBeingSentPacket(byte userID, byte channelID, byte len1, byte len2, byte[] sound) {
+        return new Packet(PacketType.AUDIO_BEING_SENT, sound, sound.length, new byte[] {userID, channelID, len1, len2});
     }
     
 }

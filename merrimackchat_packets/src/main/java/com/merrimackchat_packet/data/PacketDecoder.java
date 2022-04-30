@@ -49,9 +49,12 @@ public class PacketDecoder {
         
         System.out.println("Packet Argument 3:" + packet.getArgs(3));
         
-        int toValue = (int) packet.getArgs(3);
+        int toValue1 = (int) packet.getArgs(3);
+        int toValue2 = (int) packet.getArgs(4);
+
+        System.out.println("Packet Updated : " + Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 6)));
         
-        return Arrays.copyOfRange(packet.getBuff(), 4, 1600);
+        return Arrays.copyOfRange(packet.getBuff(), 4, toValue1 * toValue2);
         
     }
 }

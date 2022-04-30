@@ -99,11 +99,14 @@ public class Server extends Thread {
      * 
      * @param input audio input
      * @param senderID ID of the user sending the audio.
+     * @param channelID ID of the channel the user is sending the audio to.
+     * @param len1 Length of the audio stream * {@code len2}
+     * @param len2 Length of the audio stream * {@code len1}
      */
-    public void broadcastAudio(byte[] input, byte senderID, byte channelID) {
+    public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2 ) {
         Collection<Client> clients = ServerDriver.getClientManager().getClientMap().values();
         
-        Packet audioPacket = PacketEncoder.createAudioBeingSentPacket(senderID, channelID, input);
+        Packet audioPacket = PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input);
         
         
         // Play for every client

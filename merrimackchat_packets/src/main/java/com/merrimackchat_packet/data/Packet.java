@@ -18,7 +18,7 @@ public class Packet implements Sendable {
     private int len;
     private byte[] args;
 
-    public static final int BUFFER_LENGTH = 2400;
+    public static final int BUFFER_LENGTH = 4600; // Was 2400
 
     public Packet(PacketType packetType, byte[] buff) {
         // Create a packet with the buff length, no data and an empty buffer 
@@ -60,6 +60,7 @@ public class Packet implements Sendable {
              */
             int pos = 1;
             for (Byte n : args) {
+                System.out.println("Insterted arg : "+ n +" at : " + pos + " " );
                 buff = insertIntoSpace(buff, pos++, n);
             }
 
