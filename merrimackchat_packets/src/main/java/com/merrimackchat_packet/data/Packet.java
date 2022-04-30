@@ -15,7 +15,7 @@ public class Packet implements Sendable {
     private int len;
     private byte[] args;
 
-    public static final int BUFFER_LENGTH = 1400;
+    public static final int BUFFER_LENGTH = 2400;
 
     public Packet(PacketType packetType, byte[] buff) {
         // Create a packet with the buff length, no data and an empty buffer 
@@ -40,7 +40,7 @@ public class Packet implements Sendable {
 
         idPacket();
     }
-    
+
     /**
      * Adds the necsiary identification to a packet before sending it out.
      */
@@ -48,7 +48,7 @@ public class Packet implements Sendable {
         // Sets the ID number
         buff = insertIntoSpace(buff, 0, packetType.getID());
         System.out.println(Arrays.toString(buff));
-        
+
         if (args.length > 0) {
 
             /**
@@ -98,8 +98,8 @@ public class Packet implements Sendable {
      * Gets the datavalue at a certian argument position Returns a position in
      * the byte array
      *
-     * @param i 0 < n <= packetType.getNumOfArgs() @return The argument
-     * in a certian position
+     * @param i 0 < n <= packetType.getNumOfArgs() @return The argument in a
+     * certian position
      */
     public byte getArgs(int i) {
         if (i > packetType.getNumOfArgs()) {
@@ -115,17 +115,15 @@ public class Packet implements Sendable {
      * @param out the stream for this packet to be written to.
      */
     @Override
-    public void send(OutputStream out) {
-        try {
-            // Sends the packet
-            // Fixes the length to be to sending protocol
-            idPacket();
-            System.out.println(Arrays.toString(buff));
-            this.buff = fixLength();
-            out.write(buff);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void send(OutputStream out) throws IOException {
+
+        // Sends the packet
+        // Fixes the length to be to sending protocol
+        idPacket();
+        System.out.println(Arrays.toString(buff));
+        this.buff = fixLength();
+        out.write(buff);
+
     }
 
     /*
@@ -146,9 +144,8 @@ public class Packet implements Sendable {
             //System.out.println("here 2");
             return buff;
         }
-        
-        //System.out.println("here 3");
 
+        //System.out.println("here 3");
         // Fills the return array
         byte[] ret = new byte[BUFFER_LENGTH];
 
@@ -172,26 +169,25 @@ public class Packet implements Sendable {
      * Method from
      * (https://www.geeksforgeeks.org/how-to-insert-an-element-at-a-specific-position-in-an-array-in-java/)
      */
-    private byte[] insertIntoSpace(byte[] buff, int location, byte value) {            
+    private byte[] insertIntoSpace(byte[] buff, int location, byte value) {
         // create a new array of size n+1
         byte newarr[] = new byte[buff.length + 1];
-        
-        
-        
+
         // insert the elements from
         // the old array into the new array
         // insert all elements till pos
         // then insert x at pos
         // then insert rest of the elements
         for (int i = 0; i < buff.length + 1; i++) {
-            if (i < location)
+            if (i < location) {
                 newarr[i] = buff[i];
-            else if (i == location)
+            } else if (i == location) {
                 newarr[i] = value;
-            else
+            } else {
                 newarr[i] = buff[i - 1];
+            }
         }
-        
+
         return newarr;
     }
 

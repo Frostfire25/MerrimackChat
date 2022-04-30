@@ -90,14 +90,18 @@ public class Client implements Runnable {
                         try { // Try writing mic data to the server's data stream
                             
                                 // Test for sending a packet
-                                Packet packet = PacketEncoder.createUserJoinPacket("Alex");
-                                packet.send(socket.getOutputStream());
-                                System.out.println(Arrays.toString(packet.getBuff()));                                
+                                //Packet packet = PacketEncoder.createUserJoinPacket("Alex");
+                                //packet.send(socket.getOutputStream());
+                                //System.out.println(Arrays.toString(packet.getBuff()));                                
                                 
                                 // End of Test.
                             
-                                //byte[] buffer = new byte[mic.getBufferSize() / 5];
-                                //int read = mic.read(buffer, 0, buffer.length);
+                                byte[] buffer = new byte[mic.getBufferSize() / 5];
+                                int read = mic.read(buffer, 0, buffer.length);
+                                
+                                System.out.println("Buffer length : " + buffer.length);
+                                Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) 50, (byte) 50, buffer);
+                                audioPacket.send(socket.getOutputStream());
                                 
                                 //System.out.println(Arrays.toString(buffer));
                                 
@@ -107,7 +111,7 @@ public class Client implements Runnable {
                                 //socket.getOutputStream().
                                 //socket.getOutputStream().write(buffer, 0, read);
                             } catch (IOException e) {
-                                System.err.println("Could not write microphone audio data to server: " + e.getMessage());
+                                System.err.println("Could not write packet microphone audio data to server: " + e.getMessage());
                             }
                     }
                 } else {

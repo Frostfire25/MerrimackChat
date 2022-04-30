@@ -4,6 +4,7 @@
  */
 package com.merrimackchat_packet.data;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -12,6 +13,6 @@ import java.io.OutputStream;
  */
 public interface Sendable {
     
-    public void send(OutputStream out);
+    public void send(OutputStream out) throws IOException;
     
 }

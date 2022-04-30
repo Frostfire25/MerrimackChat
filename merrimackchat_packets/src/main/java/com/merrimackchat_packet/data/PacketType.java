@@ -19,7 +19,9 @@ public enum PacketType {
     Used for when a user leaves a server
     Has one argument which is Client.ID
     */
-    USER_LEFT_SERVER((byte) 1, 1, false)
+    USER_LEFT_SERVER((byte) 1, 1, false),
+    
+    AUDIO_BEING_SENT((byte) 4, 3, true)
     
     ;
 

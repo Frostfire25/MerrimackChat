@@ -4,6 +4,8 @@
  */
 package com.merrimackchat_packet.data;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Alex
@@ -19,6 +21,8 @@ public class PacketDecoder {
     public static Packet decodeByteArray(byte[] buff) {
         // ID of the packet
         byte ID = buff[0];
+        
+        System.out.println("ID: " + ID);
         
         // Gets the packet type and asserts that it exists
         PacketType packetType = PacketType.getByID(ID);
@@ -39,4 +43,13 @@ public class PacketDecoder {
         return new Packet(packetType, buff, buff.length, args);
     }
     
+    
+    public static byte[] getAudioStreamFromAnAudioPacket(Packet packet) {
+        if(packet == null || packet.getPacketType() == null || packet.getPacketType() != PacketType.AUDIO_BEING_SENT) return null;
+        
+        System.out.println("Packet Argument 3:" + packet.getArgs(3));
+        
+        return Arrays.copyOfRange(packet.getBuffWithoutArgs(), 0, packet.getArgs(3));
+        
+    }
 }

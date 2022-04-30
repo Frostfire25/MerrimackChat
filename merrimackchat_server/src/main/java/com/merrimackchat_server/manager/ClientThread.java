@@ -57,18 +57,25 @@ public abstract class ClientThread extends Thread implements Identifiable {
                 // Tested working values are 1962, 1284
                 // Using a 1400 Packet byte size
                 
-                readData = in.readNBytes(1400);
+                readData = in.readNBytes(2400);
                 //Packet packet = PacketDecoder.
                 
-                System.out.println(Arrays.toString(readData));
+                Packet audioPacket = PacketDecoder.decodeByteArray(readData);
+                readData = PacketDecoder.getAudioStreamFromAnAudioPacket(audioPacket);
+                //System.out.println(Arrays.toString(readData));
                 
-                Packet packet = PacketDecoder.decodeByteArray(readData);
-                System.out.println(Base64.getEncoder().encodeToString(packet.getBuffWithoutArgs()));
-                System.out.println("ReadData Length: " + readData.length + "   PacketType: " + packet.getPacketType() == null ? "null" : packet.getPacketType().name());
+                //Packet packet = PacketDecoder.decodeByteArray(readData);
+                //System.out.println(Base64.getEncoder().encodeToString(packet.getBuffWithoutArgs()));
+                //System.out.println("ReadData Length: " + readData.length + "   PacketType: " + packet.getPacketType() == null ? "null" : packet.getPacketType().name());
 
                 //System.out.println(Arrays.toString(readData));
+                
+            // If we have any errors, we want to assign readData to null.    
             } catch (IOException e) {
-
+                readData = null;
+            }
+            catch (NullPointerException e) {
+                readData = null;
             }
             // And it is not 'nothing'
             if (readData != null) {
