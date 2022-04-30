@@ -1,0 +1,3 @@
+For running the server do
+
+java -jar merrimackchat_server-1.0-SNAPSHOT.jar

@@ -11,9 +11,12 @@ package com.merrimackchat_client;
 public class ClientDriver {
     
     private static Thread thread;
+    private static Client client;
     
     public static void main(String[] args) {
-        Client client = new Client();
+        // Assigns the client out
+        client = new Client();
+        
         thread = new Thread(client);
         thread.start();
     }

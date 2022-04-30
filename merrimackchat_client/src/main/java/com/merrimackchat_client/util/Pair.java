@@ -4,12 +4,22 @@
  */
 package com.merrimackchat_client.util;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 /**
  *
  * @author Alex
+ * Used for having two objects linked together
+ * 
+ * @param <T> Type one
+ * @param <V> Type two
  */
-public class ByteEncoderUtil {
+@AllArgsConstructor
+@Data
+public class Pair <T, V> {
     
-   // public static byte[] 
-      
+    private T value1;
+    private V value2;
+    
 }

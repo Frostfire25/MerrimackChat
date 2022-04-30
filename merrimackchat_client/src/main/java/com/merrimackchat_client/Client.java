@@ -1,5 +1,7 @@
 package com.merrimackchat_client;
 
+import com.merrimackchat_packet.data.Packet;
+import com.merrimackchat_packet.data.PacketEncoder;
 import java.io.IOException;
 import java.net.*;
 import java.util.Arrays;
@@ -10,7 +12,7 @@ import java.util.Arrays;
  *
  * @author Derek Costello, Suraj Kumar (original author)
  */
-public class Client implements Runnable{
+public class Client implements Runnable {
     
     private Microphone mic;
     private Speaker speaker;
@@ -53,7 +55,7 @@ public class Client implements Runnable{
                     
                     while(socket.isConnected()) { // While a connection is still established
                         
-                        try { // Try writing data to the Client's speakers
+                        try { // Try writing data to the Client's speakers                            
                             byte[] buffer = new byte[speaker.getBufferSize() / 5];
                             int read = socket.getInputStream().read(buffer, 0, buffer.length);
                             
@@ -86,15 +88,30 @@ public class Client implements Runnable{
                     
                     while(socket.isConnected()) { // While a connection is still established
                         try { // Try writing mic data to the server's data stream
+                            
+                                // Test for sending a packet
+                                //Packet packet = PacketEncoder.createUserJoinPacket("Alex");
+                                //packet.send(socket.getOutputStream());
+                                //System.out.println(Arrays.toString(packet.getBuff()));                                
+                                
+                                // End of Test.
+                            
                                 byte[] buffer = new byte[mic.getBufferSize() / 5];
                                 int read = mic.read(buffer, 0, buffer.length);
                                 
+                                System.out.println("Buffer length : " + buffer.length);
+                                Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) 50, (byte) 50, buffer);
+                                audioPacket.send(socket.getOutputStream());
+                                
                                 //System.out.println(Arrays.toString(buffer));
-                                socket.getOutputStream().write(buffer);
+                                
+                                // UNCOMMENT TO SEND AUDIO!!! socket.getOutputStream().write(buffer);
+                                
+                                
                                 //socket.getOutputStream().
                                 //socket.getOutputStream().write(buffer, 0, read);
                             } catch (IOException e) {
-                                System.err.println("Could not write microphone audio data to server: " + e.getMessage());
+                                System.err.println("Could not write packet microphone audio data to server: " + e.getMessage());
                             }
                     }
                 } else {

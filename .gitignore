@@ -23,3 +23,7 @@
 hs_err_pid*
 /merrimackchat_client/target/
 /merrimackchat_server/target/
+/merrimackchat_packet/build/
+/merrimackchat_packet/dist/
+/merrimackchat_packets/nbproject/
+/merrimackchat_packets/target/
