@@ -1,5 +1,6 @@
 package com.merrimackchat_server.channel;
 
+import com.merrimackchat_packet.data.PacketEncoder;
 import java.util.HashMap;
 import lombok.Getter;
 
@@ -66,6 +67,19 @@ public class ChannelManager {
      */
     public void userLeaveChannel(byte userID, byte channelID) {
         channels.get(channelID).add(userID);
+    }
+    
+    /**
+     * Broadcasts audio to all clients connected.
+     * 
+     * @param input audio input
+     * @param senderID ID of the user sending the audio.
+     * @param channelID ID of the channel the user is sending the audio to.
+     * @param len1 Length of the audio stream * {@code len2}
+     * @param len2 Length of the audio stream * {@code len1}
+     */
+    public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2 ) {
+        channels.get(channelID).broadcast(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input));
     }
     
 }
