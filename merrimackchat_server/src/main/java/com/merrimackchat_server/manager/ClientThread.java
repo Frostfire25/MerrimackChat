@@ -88,6 +88,10 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         ServerDriver.getServer().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2), packet.getArgs(3), packet.getArgs(4));
                         
                     }; break;
+                    case USER_JOIN_CHANNEL: {
+                        byte[] info = PacketDecoder.getDataFromAChannelJoinPacket(packet);
+                        ServerDriver.getClientManager().channelJoined(info[0], info[1]);
+                    }; break;
                 }
                 
                 packet = null; // And set readData container to our default number

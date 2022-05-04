@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.merrimackchat_server.manager;
 
 import com.merrimackchat_server.util.Pair;
 import java.util.HashMap;
-import java.util.stream.IntStream;
 import lombok.Getter;
 
 /**
@@ -37,8 +32,8 @@ public class ClientManager {
         // If the id is greater than the max allowed value, we must return false
         if(id == Byte.MAX_VALUE) return new Pair(false, null);
         
-        // Creates and assigns a client
-        Client client = new Client(name, address, port, id);
+        // Creates and assigns a client; -1 implies no channle is joined
+        Client client = new Client(name, address, port, id, (byte) -1);
         clientMap.put(id, client);
         
         // Send back the ID to the client Here
@@ -46,6 +41,17 @@ public class ClientManager {
         
         // User was successfully assigned
         return new Pair(true, client);
+    }
+    
+    public boolean channelJoined(byte userID, byte channelID) {
+        // Remove from old channel
+        
+        // Add to new channel
+        
+        // Set the client's channel ID
+        clientMap.get(userID).setChannel(channelID);
+        
+        return false;
     }
     
     /**

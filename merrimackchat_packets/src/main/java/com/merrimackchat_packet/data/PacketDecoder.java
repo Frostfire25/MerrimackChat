@@ -48,4 +48,11 @@ public class PacketDecoder {
         return Arrays.copyOfRange(packet.getBuff(), 15, ((int) packet.getArgs(3) * (int) packet.getArgs(4)) + 1);
         
     }
+    
+    public static byte[] getDataFromAChannelJoinPacket(Packet packet) {
+        if(packet == null || packet.getPacketType() == null || packet.getPacketType() != PacketType.USER_JOIN_CHANNEL) return null;
+        
+        // Returns the packet's data as a byte array
+        return packet.getBuff();
+    }
 }
