@@ -49,10 +49,19 @@ public class PacketDecoder {
         
     }
     
+    /*
+        Most likely unnecessary packets to decode
+    
     public static byte[] getDataFromAChannelJoinPacket(Packet packet) {
         if(packet == null || packet.getPacketType() == null || packet.getPacketType() != PacketType.USER_JOIN_CHANNEL) return null;
-        
         // Returns the packet's data as a byte array
         return packet.getBuff();
     }
+    
+    public static byte[] getDataFromAChannelLeavePacket(Packet packet) {
+        if(packet == null || packet.getPacketType() == null || packet.getPacketType() != PacketType.USER_LEAVE_CHANNEL) return null;
+        // Returns the packet's data as a byte array
+        return packet.getBuff();
+    }
+    */
 }

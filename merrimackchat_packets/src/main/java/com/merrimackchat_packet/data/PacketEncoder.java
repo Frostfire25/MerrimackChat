@@ -19,9 +19,13 @@ public class PacketEncoder {
     public static Packet createAudioBeingSentPacket(byte userID, byte channelID, byte len1, byte len2, byte[] sound) {
         return new Packet(PacketType.AUDIO_BEING_SENT, sound, sound.length, new byte[] {userID, channelID, len1, len2});
     }
-    // PacketType packetType, byte[] buff, int len, byte... args
+    
     public static Packet createChannelJoinPacket(byte userID, byte channelID) {
         return new Packet(PacketType.USER_JOIN_CHANNEL, new byte[]{}, 0, new byte[]{userID, channelID});
+    }
+    
+    public static Packet createChannelLeavePacket(byte userID, byte channelID) {
+        return new Packet(PacketType.USER_LEAVE_CHANNEL, new byte[]{}, 0, new byte[]{userID, channelID});
     }
     
 }

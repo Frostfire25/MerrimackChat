@@ -89,8 +89,10 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         
                     }; break;
                     case USER_JOIN_CHANNEL: {
-                        byte[] info = PacketDecoder.getDataFromAChannelJoinPacket(packet);
-                        ServerDriver.getClientManager().channelJoined(info[0], info[1]);
+                        ServerDriver.getClientManager().joinChannel(packet.getArgs(0), packet.getArgs(1));
+                    }; break;
+                    case USER_LEAVE_CHANNEL: {
+                        ServerDriver.getClientManager().leaveChannel(packet.getArgs(0), packet.getArgs(1));
                     }; break;
                 }
                 

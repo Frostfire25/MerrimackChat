@@ -111,7 +111,7 @@ public class Server extends Thread {
         
         // Play for every client
         // Added input for no audio echo / feedback, if you want feedback just remove the filter statement.
-        clients.stream()/*.filter(n -> n.getID() != senderID)*/.forEach(n -> {
+        clients.stream()/*.filter(n -> n.getID() != senderID && n.getChannel() == channelID)*/.forEach(n -> {
             
             try {
                 audioPacket.send(n.getOut());
