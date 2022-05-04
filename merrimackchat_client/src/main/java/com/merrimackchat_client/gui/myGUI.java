@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
@@ -33,9 +33,7 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         
         addPlaceHolderStyle(chatText);
         
-        
-        
-        //removePLaceHolderStyle
+
     }
     
 
@@ -72,7 +70,6 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         });
 
         menuPanel.setBackground(new java.awt.Color(30, 61, 89));
-        menuPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         menuLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         menuLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -134,7 +131,6 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         );
 
         headerPanel.setBackground(new java.awt.Color(255, 110, 64));
-        headerPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         headerLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -161,7 +157,6 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         cardPanels.setLayout(new java.awt.CardLayout());
 
         chatPanel.setBackground(new java.awt.Color(245, 240, 225));
-        chatPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         chatText.setText("Type your response here...");
         chatText.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -184,13 +179,13 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
             chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(chatPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chatText, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
+                .addComponent(chatText, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
                 .addContainerGap())
         );
         chatPanelLayout.setVerticalGroup(
             chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chatPanelLayout.createSequentialGroup()
-                .addContainerGap(449, Short.MAX_VALUE)
+                .addContainerGap(457, Short.MAX_VALUE)
                 .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -198,23 +193,21 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         cardPanels.add(chatPanel, "card3");
 
         audioPanel.setBackground(new java.awt.Color(245, 240, 225));
-        audioPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout audioPanelLayout = new javax.swing.GroupLayout(audioPanel);
         audioPanel.setLayout(audioPanelLayout);
         audioPanelLayout.setHorizontalGroup(
             audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
+            .addGap(0, 682, Short.MAX_VALUE)
         );
         audioPanelLayout.setVerticalGroup(
             audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
+            .addGap(0, 485, Short.MAX_VALUE)
         );
 
         cardPanels.add(audioPanel, "card2");
 
         clockPanel.setBackground(new java.awt.Color(30, 61, 89));
-        clockPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         clockLabel.setBackground(new java.awt.Color(30, 61, 89));
         clockLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -246,7 +239,7 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
                     .addComponent(cardPanels, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(clockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );

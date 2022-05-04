@@ -7,7 +7,7 @@ package com.merrimackchat_client.listeners;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import gui.myGUI;
+import com.merrimackchat_client.gui.myGUI;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
