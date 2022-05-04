@@ -60,7 +60,6 @@ public class Packet implements Sendable {
              */
             int pos = 1;
             for (Byte n : args) {
-                System.out.println("Insterted arg : "+ n +" at : " + pos + " " );
                 buff = insertIntoSpace(buff, pos++, n);
             }
 
