@@ -7,24 +7,25 @@ package com.merrimackchat_client.listeners;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-/**
- * Used for push to talk
- * @author Alex
- */
-public class KeyListener extends KeyAdapter {
-    
-    /**
-     * Invoked when a key has been pressed.
-     */
-    public void keyPressed(KeyEvent e) {
-        
-    }
+import gui.myGUI;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
-    /**
-     * Invoked when a key has been released.
-     */
-    public void keyReleased(KeyEvent e) {
+/**
+ *
+ * @author Mark
+ */
+public class KeyListener {
         
+        myGUI get = new myGUI();
+    
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                //test
+                JOptionPane.showMessageDialog(get.getChatPanel(), "Enter has been hit");
+
+            }
+        }
     }
     
-}
