@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Base64;
+import lombok.Getter;
 
 /**
  *
@@ -19,7 +19,9 @@ import java.util.Base64;
  */
 public abstract class ClientThread extends Thread implements Identifiable {
 
+    @Getter
     private InputStream in;
+    @Getter
     private OutputStream out;
 
     public ClientThread(String address, int port) {
@@ -45,42 +47,50 @@ public abstract class ClientThread extends Thread implements Identifiable {
         //Changing things will audio
 
         // Container for our mic input reader
-        byte[] readData = null; // -1 is end of line. Normal range is 0-255.
-
+        Packet packet = null;      
+        
         // Run while the connection is open
         while (true) {
             try { 
-                System.out.println(System.currentTimeMillis());
                 // If data is read
                 // Number here determines the delay, since are waiting for x amount of bytes to come through.
                 // Starting number was 1962
                 // Tested working values are 1962, 1284
                 // Using a 1400 Packet byte size
                 
-                readData = in.readNBytes(2400);
+                byte[] readData = in.readNBytes(4600);
                 //Packet packet = PacketDecoder.
                 
-                Packet audioPacket = PacketDecoder.decodeByteArray(readData);
-                readData = PacketDecoder.getAudioStreamFromAnAudioPacket(audioPacket);
-                //System.out.println(Arrays.toString(readData));
-                
-                //Packet packet = PacketDecoder.decodeByteArray(readData);
-                //System.out.println(Base64.getEncoder().encodeToString(packet.getBuffWithoutArgs()));
-                //System.out.println("ReadData Length: " + readData.length + "   PacketType: " + packet.getPacketType() == null ? "null" : packet.getPacketType().name());
+                packet = PacketDecoder.decodeByteArray(readData);
+                                
 
-                //System.out.println(Arrays.toString(readData));
-                
-            // If we have any errors, we want to assign readData to null.    
-            } catch (IOException e) {
+                // If we have any errors, we want to assign readData to null.    
                 readData = null;
+              
+            } catch (IOException e) {
+                packet = null;
             }
             catch (NullPointerException e) {
-                readData = null;
+                packet = null;
             }
+            
             // And it is not 'nothing'
-            if (readData != null) {
-                ServerDriver.getServer().broadcast(readData, getID()); // Broadcast the message
-                readData = null; // And set readData container to our default number
+            // Broadcasting th packet out
+            if (packet != null && packet.getPacketType() != null) {
+                
+                switch(packet.getPacketType()) {
+                    
+                    // Sends out the packet if it is an Audio Packet type.
+                    case AUDIO_BEING_SENT: {
+                        
+                        byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
+                        //System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
+                        ServerDriver.getServer().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2), packet.getArgs(3), packet.getArgs(4));
+                        
+                    }; break;
+                }
+                
+                packet = null; // And set readData container to our default number
             }
         }
 

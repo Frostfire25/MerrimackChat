@@ -1,5 +1,7 @@
 package com.merrimackchat_server;
 
+import com.merrimackchat_packet.data.Packet;
+import com.merrimackchat_packet.data.PacketEncoder;
 import com.merrimackchat_server.exceptions.ServerFullException;
 import com.merrimackchat_server.manager.Client;
 import com.merrimackchat_server.manager.ClientThread;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
 
 /**
@@ -95,13 +99,27 @@ public class Server extends Thread {
      * 
      * @param input audio input
      * @param senderID ID of the user sending the audio.
+     * @param channelID ID of the channel the user is sending the audio to.
+     * @param len1 Length of the audio stream * {@code len2}
+     * @param len2 Length of the audio stream * {@code len1}
      */
-    public void broadcast(byte[] input, byte senderID) {
+    public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2 ) {
         Collection<Client> clients = ServerDriver.getClientManager().getClientMap().values();
+        
+        Packet audioPacket = PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input);
+        
         
         // Play for every client
         // Added input for no audio echo / feedback, if you want feedback just remove the filter statement.
-        clients.stream()/*.filter(n -> n.getID() != senderID)*/.forEach(n -> n.play(input, n.getID()));
+        clients.stream()/*.filter(n -> n.getID() != senderID)*/.forEach(n -> {
+            
+            try {
+                audioPacket.send(n.getOut());
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        });
     }
      
 }

@@ -77,7 +77,7 @@ public class Speaker {
     public void write(byte[] buf, int off, int len) {
         line.write(buf, off, len);
     }
- 
+    
     /**
      * Closes @link Speaker#SourceDataLine}.
      */
