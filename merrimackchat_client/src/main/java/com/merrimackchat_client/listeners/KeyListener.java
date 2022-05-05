@@ -19,9 +19,11 @@ import javax.swing.JOptionPane;
  */
 public class KeyListener {
         
-      
-     myGUI get = new myGUI();
-    ClientChat cc = new ClientChat();
+     // Default Push to talk key is F1. 
+     private static int PUSH_TO_TALK_KEY = KeyEvent.VK_F1;
+    
+        myGUI get = new myGUI();
+        ClientChat cc = new ClientChat();
     
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -32,7 +34,14 @@ public class KeyListener {
                 ClientChat.getOut().flush();
 //                // Clear the text in the text field
                 myGUI.getChatText().setText("");
+            } 
+            // Person is pressing their press to talk key
+            else if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY) {
+                
             }
+            
+            
+            
         }
     }
     

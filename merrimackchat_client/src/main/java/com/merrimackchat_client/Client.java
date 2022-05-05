@@ -6,6 +6,8 @@ import com.merrimackchat_packet.data.PacketEncoder;
 import java.io.IOException;
 import java.net.*;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class used to handle Client I/O to the server. Inspired by :
@@ -13,23 +15,32 @@ import java.util.Arrays;
  *
  * @author Derek Costello, Suraj Kumar (original author)
  */
-public class Client implements Runnable {
+public class Client extends PacketSender implements Runnable {
 
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
     private static final String IP = "localhost";
     private static final int PORT = 5000;
-
-    private String name = "Alex";
+    
+    // ID refrence of this Client default is -128 which is min;
     private byte ID;
 
+    // Name that needs to be set through the GUI
+    private String name = "Alex";
+        
+    // Does not allow this client to send any packets until 
+    //private boolean waitingForPacketResponse = false;
+    
     /**
      * Constructor initializing the mic and speaker for the client's audio I/O.
      */
     public Client() {
         mic = new Microphone();
         speaker = new Speaker();
+        
+        // Sets the ID to the empty value
+        ID = Byte.MIN_VALUE;
     }
 
     @Override
@@ -86,7 +97,7 @@ public class Client implements Runnable {
         }).start();
 
         /**
-         * Send mic audio from client out to the server.
+         * This thread is used for sending audio out.
          */
         new Thread(new Runnable() {
             @Override
@@ -94,7 +105,7 @@ public class Client implements Runnable {
 
                 //long nextTimeToRun = System.currentTimeMillis();
                 // If the mic successfully opened
-                if (mic.open()) {
+                if (mic.isOpen()) {
                     mic.start(); // Starts the TargetDataLine
 
                     while (socket.isConnected()) { // While a connection is still established
@@ -131,7 +142,7 @@ public class Client implements Runnable {
                             //socket.getOutputStream().
                             //socket.getOutputStream().write(buffer, 0, read);
                         } catch (IOException e) {
-                            System.err.println("Could not write packet microphone audio data to server: " + e.getMessage());
+                            System.err.println("Could not write an audio packet microphone audio data to server: " + e.getMessage());
                         }
                     }
                 } else {
@@ -140,6 +151,36 @@ public class Client implements Runnable {
             }
         }).start();
 
+    }
+    
+    /**
+     * Determines if this client is ready to send audio.
+     * 
+     * @param value
+     * @return 
+     */
+    public void sendAudio(boolean value) {
+        if(value) {
+           mic.open();
+        } else {
+           mic.stop();
+        }   
+    }
+
+    /**
+     * Sends a packet out to the socket of this client
+     * 
+     * @param packet Packet to be sent out 
+     */
+    @Override
+    public boolean sendPacket(Packet packet) {
+        try {
+            packet.send(socket.getOutputStream());
+        } catch (IOException e) {
+            System.err.println("Could not write packet microphone audio data to server: " + e.getMessage());
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return true;
     }
 
 }

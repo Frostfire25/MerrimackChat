@@ -39,6 +39,12 @@ public class Microphone {
     public Microphone() {
         format = new AudioFormat(SAMPLE_RATE, SAMPLE_SIZE, 1, true, false);
     }
+    
+    private boolean lineOpen = false;
+    
+    public boolean isOpen() {
+        return lineOpen;
+    }
 
     /**
      * Opens the users microphone.
@@ -47,8 +53,7 @@ public class Microphone {
      */
     public boolean open() {
         DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-        boolean lineOpen = false;
-
+        
         try {
             line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format);
@@ -65,6 +70,8 @@ public class Microphone {
      */
     public void start() {
         line.start();
+        
+        lineOpen = true;
     }
 
     /**
@@ -84,6 +91,8 @@ public class Microphone {
     public void stop() {
         line.stop();
         line.flush();
+        
+        lineOpen = false;
     }
 
     /**

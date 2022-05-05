@@ -319,13 +319,13 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
+    private KeyListener keyListener = new KeyListener();
     
     /*
     Calls key event in KeyListener class
     */
     private void chatTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatTextKeyReleased
-         KeyListener keyListener = new KeyListener();
-         keyListener.keyReleased(evt);
+        keyListener.keyReleased(evt);
     }//GEN-LAST:event_chatTextKeyReleased
 
     private void audioPanelCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_audioPanelCaretUpdate
