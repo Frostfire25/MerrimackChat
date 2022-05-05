@@ -17,11 +17,11 @@ public class ClientDriver {
     private static Client client;
     
     public static void main(String[] args) {
-        // Assigns the client out
-        client = new Client();
-        
-        thread = new Thread(client);
-        thread.start();
+//        // Assigns the client out
+//        client = new Client();
+//        
+//        thread = new Thread(client);
+//        thread.start();
         
                         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -48,6 +48,7 @@ public class ClientDriver {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 myGUI myGUI = new myGUI();
                 myGUI.setVisible(true);

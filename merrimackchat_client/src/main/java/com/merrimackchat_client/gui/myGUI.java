@@ -5,14 +5,19 @@
  */
 package com.merrimackchat_client.gui;
 
+import com.merrimackchat_client.ClientDriver;
 import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.undo.UndoManager;
+
+
 
 /**
  *
@@ -23,6 +28,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     private int second, minute, hour;
     
 
+    UndoManager um = new UndoManager();
     
     /**
      * Creates new form myGUI
@@ -52,6 +58,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         chooseCommComboBox = new javax.swing.JComboBox<>();
         chooseCommLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        undo = new javax.swing.JButton();
+        redo = new javax.swing.JButton();
         headerPanel = new javax.swing.JPanel();
         headerLabel = new javax.swing.JLabel();
         cardPanels = new javax.swing.JPanel();
@@ -95,6 +103,20 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             }
         });
 
+        undo.setText("undo");
+        undo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoActionPerformed(evt);
+            }
+        });
+
+        redo.setText("redo");
+        redo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                redoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
@@ -110,7 +132,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                                 .addGap(16, 16, 16)
                                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(chooseCommComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(chooseCommLabel))))
+                                    .addComponent(chooseCommLabel)
+                                    .addComponent(undo)
+                                    .addComponent(redo))))
                         .addGap(0, 89, Short.MAX_VALUE))
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addContainerGap()
@@ -126,6 +150,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addComponent(chooseCommLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chooseCommComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addComponent(undo)
+                .addGap(28, 28, 28)
+                .addComponent(redo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -165,11 +193,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         audioPanel.setBackground(new java.awt.Color(245, 240, 225));
         audioPanel.setColumns(20);
         audioPanel.setRows(5);
-        audioPanel.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                audioPanelCaretUpdate(evt);
-            }
-        });
         cardPanels.add(audioPanel, "card6");
 
         clockPanel.setBackground(new java.awt.Color(30, 61, 89));
@@ -193,6 +216,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         );
 
         chatText.setText("Type your response here...");
+        chatText.getDocument().addUndoableEditListener(new javax.swing.event.UndoableEditListener(){
+            public void undoableEditHappened(javax.swing.event.UndoableEditEvent evt) {
+                um.addEdit(evt.getEdit());
+            }
+        });
         chatText.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 chatTextFocusGained(evt);
@@ -328,10 +356,18 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
          keyListener.keyReleased(evt);
     }//GEN-LAST:event_chatTextKeyReleased
 
-    private void audioPanelCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_audioPanelCaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_audioPanelCaretUpdate
+    private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
+        undo();
+    }//GEN-LAST:event_undoActionPerformed
 
+    private void redoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoActionPerformed
+        redo();
+    }//GEN-LAST:event_redoActionPerformed
+    
+
+//    private void chatPanelUndoableEdit(javax.swing.event.UndoableEditEvent evt) {                                       
+//        JOptionPane.showMessageDialog(chatPanel, "Hi");
+//    } 
 
       /*
     Getter method for JOptionPane messages
@@ -367,6 +403,15 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     } // end run
 
     
+    public void undo() {
+        um.undo();
+    }
+    
+    public void redo() {
+        um.redo();
+    }
+
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JTextArea audioPanel;
@@ -382,5 +427,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel menuLabel;
     private javax.swing.JPanel menuPanel;
+    private javax.swing.JButton redo;
+    private javax.swing.JButton undo;
     // End of variables declaration//GEN-END:variables
 }
