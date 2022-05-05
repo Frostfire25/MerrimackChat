@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.merrimackchat_server.manager;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,14 +14,16 @@ public class Client extends ClientThread {
     private String address;
     private int port;
     private byte ID;
+    @Getter @Setter private byte channel;
     
-    public Client(String userName, String address, int port, byte ID) {
+    public Client(String userName, String address, int port, byte ID, byte channel) {
         super(address, port);
         
         this.userName = userName;
         this.address = address;
         this.port = port;
         this.ID = ID;
+        this.channel = channel;
     }
     
 }

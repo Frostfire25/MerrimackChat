@@ -7,10 +7,11 @@ package com.merrimackchat_server.manager;
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
 import com.merrimackchat_server.ServerDriver;
+import com.merrimackchat_server.exceptions.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
+import java.util.Base64;
 import lombok.Getter;
 
 /**
@@ -85,8 +86,28 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         
                         byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
                         //System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
-                        ServerDriver.getServer().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2), packet.getArgs(3), packet.getArgs(4));
+                        ServerDriver.getChannelManager().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2), packet.getArgs(3), packet.getArgs(4));
                         
+                    }; break;
+                    case USER_JOIN_CHANNEL: {
+                        ServerDriver.getClientManager().joinChannel(packet.getArgs(0), packet.getArgs(1));
+                    }; break;
+                    case USER_LEAVE_CHANNEL: {
+                        ServerDriver.getClientManager().leaveChannel(packet.getArgs(0), packet.getArgs(1));
+                    }; break;
+                    case USER_CREATE_CHANNEL: {
+                        try {
+                            ServerDriver.getChannelManager().createChannel(Base64.getEncoder().encodeToString(packet.getBuff()));
+                        } catch (NoIDAvailableException e) {
+                            // Send error to client requesting
+                        }
+                    }; break;
+                    case USER_DELETE_CHANNEL: {
+                        try {
+                            ServerDriver.getChannelManager().deleteChannel(Base64.getEncoder().encodeToString(packet.getBuff()));
+                        } catch (ChannelNotFoundException e) {
+                            // Send error to client requesting
+                        }
                     }; break;
                 }
                 
