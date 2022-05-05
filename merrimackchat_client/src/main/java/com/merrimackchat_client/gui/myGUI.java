@@ -8,6 +8,7 @@ package com.merrimackchat_client.gui;
 import com.merrimackchat_client.ClientDriver;
 import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -42,6 +43,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         
 
     }
+    
+    
     
 
     /**
@@ -103,6 +106,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             }
         });
 
+        undo.setMnemonic('c');
         undo.setText("undo");
         undo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,7 +189,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         cardPanels.setBackground(new java.awt.Color(255, 255, 255));
         cardPanels.setLayout(new java.awt.CardLayout());
 
-        chatPanel.setBackground(new java.awt.Color(245, 240, 225));
+        chatPanel.setBackground(new java.awt.Color(51, 255, 51));
         chatPanel.setColumns(20);
         chatPanel.setRows(5);
         cardPanels.add(chatPanel, "card5");
@@ -283,6 +287,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         font = font.deriveFont(Font.ITALIC);
         textField.setFont(font);
         textField.setForeground(Color.LIGHT_GRAY);
+        textField.setText("Type your response here...");
     }
     
     public void removePlaceHolderStyle(JTextField textField) {
@@ -319,19 +324,19 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     If lost, set back to ghost text
     */
     private void chatTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatTextFocusGained
-        if(chatText.getText().equals("Type your response here...")){
-            chatText.setText(null);
+        
+            chatText.setText("");
             chatText.requestFocus();
             
             removePlaceHolderStyle(chatText);
             
-        } 
+        
     }//GEN-LAST:event_chatTextFocusGained
 
     private void chatTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatTextFocusLost
-        if(chatText.getText().length()==0) {
+        if(chatText.getText().equals("")) {
             addPlaceHolderStyle(chatText);
-            chatText.setText("Type your response here...");
+            //chatText.setText("Type your response here...");
         }
     }//GEN-LAST:event_chatTextFocusLost
 
@@ -353,17 +358,22 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     */
     private void chatTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatTextKeyReleased
          KeyListener keyListener = new KeyListener();
-         keyListener.keyReleased(evt);
+         keyListener.keyReleasedEnter(evt);
+         
     }//GEN-LAST:event_chatTextKeyReleased
-
+    
+    
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
         undo();
+        System.out.println(System.getProperty("java.awt.Toolkit getDefaultToolkitd"));
+System.out.println(System.getProperty("awt.toolkit"));
     }//GEN-LAST:event_undoActionPerformed
 
     private void redoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoActionPerformed
         redo();
     }//GEN-LAST:event_redoActionPerformed
-    
+
+
 
 //    private void chatPanelUndoableEdit(javax.swing.event.UndoableEditEvent evt) {                                       
 //        JOptionPane.showMessageDialog(chatPanel, "Hi");

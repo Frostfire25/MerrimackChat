@@ -17,13 +17,20 @@ public class ClientDriver {
     private static Client client;
     
     public static void main(String[] args) {
-//        // Assigns the client out
-//        client = new Client();
-//        
-//        thread = new Thread(client);
-//        thread.start();
+        // Assigns the client out
+        client = new Client();
         
-                        /* Set the Nimbus look and feel */
+        thread = new Thread(client);
+        thread.start();
+        
+     
+
+
+        
+        /* Set the Nimbus look and feel 
+        * @author Mark
+        */
+        
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -58,6 +65,6 @@ public class ClientDriver {
             }
         });
     }
-    }
+}
     
 

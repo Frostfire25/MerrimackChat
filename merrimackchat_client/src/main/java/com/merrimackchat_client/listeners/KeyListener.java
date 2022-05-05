@@ -23,16 +23,17 @@ public class KeyListener {
      myGUI get = new myGUI();
     ClientChat cc = new ClientChat();
     
-        public void keyReleased(KeyEvent e) {
+        public void keyReleasedEnter(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                //test
+                System.out.println(ClientChat.getPrintWriter());
                 JOptionPane.showMessageDialog(get.getChatPanel(), "Enter has been hit");
-                ClientChat.getOut().println(ClientChat.name + ": " + myGUI.getChatText().getText());
-//                // NECESSARY:
-                ClientChat.getOut().flush();
-//                // Clear the text in the text field
+                ClientChat.getPrintWriter().println(ClientChat.name + ": " + myGUI.getChatText().getText());
+                // NECESSARY:
+                ClientChat.getPrintWriter().flush();
+                // Clear the text in the text field
                 myGUI.getChatText().setText("");
             }
         }
+        
     }
     
