@@ -3,9 +3,6 @@ package com.merrimackchat_packet.data;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -133,7 +130,7 @@ public class Packet implements Sendable {
     Private methods
      */
     /**
-     * Fixes the length of this buffer so it can be sended over a stream for
+     * Fixes the length of this buffer so it can be sent over a stream for
      * packets Uses BUFFER_LENGTH as the setting length
      *
      * @return

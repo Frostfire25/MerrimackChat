@@ -44,7 +44,23 @@ public enum PacketType {
      * - Destination Channel ID
      * - Length of Audio Buffer
      */
-    AUDIO_BEING_SENT((byte) 4, 4, true)
+    AUDIO_BEING_SENT((byte) 4, 4, true),
+    
+    /**
+     * Used for when a user creates a channel
+     * Has 2 arguments
+     *  - User Sending ID
+     *  - Created Channel ID
+     */
+    USER_CREATE_CHANNEL((byte) 5, 2, true),
+    
+    /**
+     * Used for when a user deletes a channel
+     * Has 2 arguments
+     *  - User Sending ID
+     *  - Deleted Channel ID
+     */
+    USER_DELETE_CHANNEL((byte) 6, 2, true)
     
     
     

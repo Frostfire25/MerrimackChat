@@ -28,4 +28,12 @@ public class PacketEncoder {
         return new Packet(PacketType.USER_LEAVE_CHANNEL, new byte[]{}, 0, new byte[]{userID, channelID});
     }
     
+    public static Packet createChannelCreatePacket(String channelName) {
+        return new Packet(PacketType.USER_CREATE_CHANNEL, Base64.getDecoder().decode(channelName));
+    }
+    
+    public static Packet createChannelDeletePacket(String channelName) {
+        return new Packet(PacketType.USER_DELETE_CHANNEL, Base64.getDecoder().decode(channelName));
+    }
+    
 }
