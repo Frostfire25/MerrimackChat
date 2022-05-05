@@ -18,10 +18,10 @@ public class ClientDriver {
     
     public static void main(String[] args) {
         // Assigns the client out
-//        client = new Client();
-//        
-//        thread = new Thread(client);
-//        thread.start();
+        client = new Client();
+        
+        thread = new Thread(client);
+        thread.start();
         
                         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
