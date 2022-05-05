@@ -4,10 +4,12 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author Derek Costello
+ * @author Derek Costello, Mark Case
  */
 public class Server extends Thread{
     
@@ -15,6 +17,9 @@ public class Server extends Thread{
     private ServerSocket server = null;
     private int port;
     private ArrayList<ClientThread> threads = new ArrayList<>();
+    
+    ArrayList<ChatThread> chatThreads = new ArrayList();
+    
 
     // Constructor with port 
     public Server(int p) {
@@ -43,6 +48,11 @@ public class Server extends Thread{
                 ClientThread newThread = new ClientThread(connection.getInetAddress().getHostAddress(), connection.getLocalPort());
                 newThread.start();
                 threads.add(newThread);
+                
+                ChatThread myNewThread = new ChatThread(this.port);
+                myNewThread.start();
+                chatThreads.add(myNewThread);
+                
             } catch (IOException ex) {
                 System.err.println("Connection to client can't be established");
             } catch (NullPointerException ex) {
@@ -157,6 +167,104 @@ public class Server extends Thread{
                 System.err.println("Cannot write audio out to socket " + threadNum);
             }
         }
+
+        /**
+         *
+         */
+        @Override
+        public void finalize() {
+            System.out.println("Closing connection");
+
+            try {
+                // close connection
+                connection.close();
+                in.close();
+                out.close();
+            } catch (IOException ex) {
+                System.err.println("Error closing socket connection from server.");
+            } finally {
+                try {
+                    super.finalize();
+                } catch (Throwable ex) {
+
+                }
+            }
+        }
+
     }
     
-}
+    /*
+    Posts chat to all the windows
+        */
+    private void postToChatWindows(String line) {
+        for (int i = 0; i < chatThreads.size(); i++) {
+            chatThreads.get(i).post(line);
+        }
+    }    
+    
+    /*
+    Run seperate thread per window open
+    */
+    public class ChatThread extends Thread {
+        private BufferedReader in2 = null;
+        private PrintWriter out2 = null;
+        
+        public ChatThread(int p) throws IOException {
+                in2 = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                out2 = new PrintWriter(connection.getOutputStream());
+        }
+        
+        /*
+        Reads message from client continuously, and when one is received
+        it adds the new text to the "chat window" string that controls
+        the entire chat window for each chat client.
+        */
+        @Override
+        public void run() {
+            while(true) {
+                String line ="";
+                try {
+                    line = in2.readLine();
+                } catch (IOException ex) {
+                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                postToChatWindows(line);
+            }
+        }
+        
+        /**
+         * This method simply posts the newly read line to the output stream.
+         *
+         * @param line The text to submit to the output stream
+        */
+        private void post(String line) {
+                out2.println(line);
+                out2.flush();
+        }
+    
+        @Override
+        public void finalize() {
+            System.out.println("Closing connection");
+
+            try {
+                // close connection
+                connection.close();
+                in2.close();
+                out2.close();
+            } catch (IOException ex) {
+                System.err.println("Error closing socket connection from server.");
+            } finally {
+                try {
+                    super.finalize();
+                } catch (Throwable ex) {
+
+                }
+            }
+        }     
+             
+    } // chatThread
+    
+} // end server class
+
+    
+
