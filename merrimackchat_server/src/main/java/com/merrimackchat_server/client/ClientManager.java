@@ -1,4 +1,4 @@
-package com.merrimackchat_server.manager;
+package com.merrimackchat_server.client;
 
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.channel.ChannelManager;

@@ -3,8 +3,8 @@ package com.merrimackchat_server;
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketEncoder;
 import com.merrimackchat_server.exceptions.ServerFullException;
-import com.merrimackchat_server.manager.Client;
-import com.merrimackchat_server.manager.ClientThread;
+import com.merrimackchat_server.client.Client;
+import com.merrimackchat_server.client.ClientThread;
 import com.merrimackchat_server.util.Pair;
 import java.io.*;
 import java.net.*;
@@ -63,6 +63,11 @@ public class Server extends Thread {
                 
                 Client client = value.getValue2();
                 client.start();
+                
+                // Assigns the client to the temp channel
+                client.setChannel((byte)0);
+                ServerDriver.getChannelManager().getChannels().get((byte) 0).add(value.getValue2().getID());
+                System.out.println("Users ID: " + value.getValue2().getID());
                 
             } catch (IOException ex) {
                 

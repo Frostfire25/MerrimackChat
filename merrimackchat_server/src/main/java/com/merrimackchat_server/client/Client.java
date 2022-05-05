@@ -1,4 +1,4 @@
-package com.merrimackchat_server.manager;
+package com.merrimackchat_server.client;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ public class Client extends ClientThread {
     private String address;
     private int port;
     private byte ID;
-    @Getter @Setter private byte channel;
+    @Setter private byte channel;
     
     public Client(String userName, String address, int port, byte ID, byte channel) {
         super(address, port);

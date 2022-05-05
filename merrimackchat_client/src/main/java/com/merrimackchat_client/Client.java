@@ -109,7 +109,7 @@ public class Client implements Runnable {
                             byte value1 = 40;
                             byte value2 = 100;
                             byte[] buffer = new byte[(int) value1 * (int) value2 /* mic.getBufferSize() / 5 */]; // Commented dividing the buffer by 5 so I can take in as much audio as possible.
-                            int read = mic.read(buffer, 0, buffer.length);
+                            mic.read(buffer, 0, buffer.length);
                             
                             //System.out.println(Arrays.toString(buffer));
 
@@ -119,9 +119,9 @@ public class Client implements Runnable {
                             
                             System.out.println(String.format("SENDING: First in buffer : [%s]  Last in Buffer : [%s]", buffer[0], buffer[buffer.length-1]));
                             
-                            Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) 50, (byte) 50, value1, value2, buffer);
+                            Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) -128, (byte) 0, value1, value2, buffer);
                             audioPacket.send(socket.getOutputStream());
-
+                            
                             // Update the send time
                             // nextTimeToRun += 5000;
                             //}

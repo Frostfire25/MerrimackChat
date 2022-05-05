@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.merrimackchat_server.manager;
+package com.merrimackchat_server.client;
 
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
 import com.merrimackchat_server.ServerDriver;
+import com.merrimackchat_server.channel.Channel;
 import com.merrimackchat_server.exceptions.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -86,6 +87,19 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         
                         byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
                         //System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
+                        // Gets the client
+                        //Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));
+                        
+                        // Makes sure the client exists.
+                        //if (client == null) { System.out.println("Null Client! In Client Thread, ID: " + packet.getArgs(1)); break; }
+                        
+                        // Gets the channel
+                        //Channel channel = ServerDriver.getChannelManager().getChannels().get(client.getChannel());
+                        
+                        // Makes sure the channel exists.
+                        //if (channel == null) { System.out.println("Null Client! In Client Thread, ID: " + client.getChannel()); break; }
+                               
+                        //channel.broadcastAudio(packet);
                         ServerDriver.getChannelManager().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2), packet.getArgs(3), packet.getArgs(4));
                         
                     }; break;

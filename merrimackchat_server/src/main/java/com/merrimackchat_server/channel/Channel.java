@@ -3,7 +3,7 @@ package com.merrimackchat_server.channel;
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_server.Server;
 import com.merrimackchat_server.ServerDriver;
-import com.merrimackchat_server.manager.Client;
+import com.merrimackchat_server.client.Client;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -20,7 +20,7 @@ public class Channel {
     @Getter private byte id;
     @Getter private ArrayList<Client> clients = new ArrayList<>();
 
-    Channel(String name, byte id) {
+    public Channel(String name, byte id) {
         this.name = name;
         this.id = id;
     }
@@ -55,7 +55,7 @@ public class Channel {
      * 
      * @param packet audio packet
      */
-    public void broadcast(Packet packet) {
+    public void broadcastAudio(Packet packet) {
         clients.stream()/*.filter(n -> n.getID() != senderID && n.getChannel() == channelID)*/.forEach(n -> {
             try {
                 packet.send(n.getOut());
