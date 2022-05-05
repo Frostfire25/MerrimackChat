@@ -4,6 +4,7 @@
  */
 package com.merrimackchat_client;
 
+import com.merrimackchat_client.gui.IdAndPasswords;
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
 
@@ -17,15 +18,15 @@ public class ClientDriver {
     private static Client client;
     
     public static void main(String[] args) {
-        // Assigns the client out
-        client = new Client();
-        
-        thread = new Thread(client);
-        thread.start();
+//        // Assigns the client out
+//        client = new Client();
+//        
+//        thread = new Thread(client);
+//        thread.start();
         
      
 
-
+        IdAndPasswords safe = new IdAndPasswords();
         
         /* Set the Nimbus look and feel 
         * @author Mark

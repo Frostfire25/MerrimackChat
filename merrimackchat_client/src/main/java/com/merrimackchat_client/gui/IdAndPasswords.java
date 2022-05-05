@@ -8,25 +8,8 @@ package com.merrimackchat_client.gui;
  *
  * @author Mark Case
  */
-public class FunctionEdit {
+public class IdAndPasswords {
     
-    myGUI gui = new myGUI(); 
     
-//    public FunctionEdit(myGUI gui) {
-//        this.gui = gui;
-//    }
-
-    public FunctionEdit() {
-      
-    }
     
-    public void undo() {
-        gui.um.undo();
-    }
-    
-    public void redo() {
-        gui.um.redo();
-    }
-
-
 }
