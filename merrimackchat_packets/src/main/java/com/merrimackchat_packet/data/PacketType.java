@@ -22,13 +22,49 @@ public enum PacketType {
     USER_LEFT_SERVER((byte) 1, 1, false),
     
     /**
+     * Used for when a user joins a channel
+     * Has 2 arguments
+     *  - User Sending ID
+     *  - Destination Channel ID
+     */
+    USER_JOIN_CHANNEL((byte) 2, 2, false),
+    
+    /**
+     * Used for when a user leaves a channel
+     * Has 2 arguments
+     *  - User Sending ID
+     *  - Destination Channel ID
+     */
+    USER_LEAVE_CHANNEL((byte) 3, 2, false),
+    
+    /**
      Used for audio being sent from a client to a server
      * Has three arguments
      * - User Sending ID
-     * - Destination Chanel ID
+     * - Destination Channel ID
      * - Length of Audio Buffer
      */
-    AUDIO_BEING_SENT((byte) 4, 4, true)
+    AUDIO_BEING_SENT((byte) 4, 4, true),
+    
+    /**
+     * Used for when a user creates a channel
+     * Has 2 arguments
+     *  - User Sending ID
+     *  - Created Channel ID
+     */
+    USER_CREATE_CHANNEL((byte) 5, 2, true),
+    
+    /**
+     * Used for when a user deletes a channel
+     * Has 2 arguments
+     *  - User Sending ID
+     *  - Deleted Channel ID
+     */
+    USER_DELETE_CHANNEL((byte) 6, 2, true)
+    
+    
+    
+    
     
     ;
 

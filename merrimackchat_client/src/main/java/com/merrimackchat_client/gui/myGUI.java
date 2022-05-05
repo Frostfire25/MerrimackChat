@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
@@ -11,13 +11,14 @@ import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 /**
  *
  * @author Mark Case
  */
-public class myGUI extends javax.swing.JFrame implements Runnable {
+public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     private int second, minute, hour;
     
@@ -33,9 +34,7 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         
         addPlaceHolderStyle(chatText);
         
-        
-        
-        //removePLaceHolderStyle
+
     }
     
 
@@ -56,11 +55,11 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         headerPanel = new javax.swing.JPanel();
         headerLabel = new javax.swing.JLabel();
         cardPanels = new javax.swing.JPanel();
-        chatPanel = new javax.swing.JPanel();
-        chatText = new javax.swing.JTextField();
-        audioPanel = new javax.swing.JPanel();
+        chatPanel = new javax.swing.JTextArea();
+        audioPanel = new javax.swing.JTextArea();
         clockPanel = new javax.swing.JPanel();
         clockLabel = new javax.swing.JLabel();
+        chatText = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
@@ -72,7 +71,6 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         });
 
         menuPanel.setBackground(new java.awt.Color(30, 61, 89));
-        menuPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         menuLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         menuLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -134,7 +132,6 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         );
 
         headerPanel.setBackground(new java.awt.Color(255, 110, 64));
-        headerPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         headerLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -161,60 +158,21 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
         cardPanels.setLayout(new java.awt.CardLayout());
 
         chatPanel.setBackground(new java.awt.Color(245, 240, 225));
-        chatPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        chatText.setText("Type your response here...");
-        chatText.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                chatTextFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                chatTextFocusLost(evt);
-            }
-        });
-        chatText.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                chatTextKeyReleased(evt);
-            }
-        });
-
-        javax.swing.GroupLayout chatPanelLayout = new javax.swing.GroupLayout(chatPanel);
-        chatPanel.setLayout(chatPanelLayout);
-        chatPanelLayout.setHorizontalGroup(
-            chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chatPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(chatText, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        chatPanelLayout.setVerticalGroup(
-            chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chatPanelLayout.createSequentialGroup()
-                .addContainerGap(449, Short.MAX_VALUE)
-                .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        cardPanels.add(chatPanel, "card3");
+        chatPanel.setColumns(20);
+        chatPanel.setRows(5);
+        cardPanels.add(chatPanel, "card5");
 
         audioPanel.setBackground(new java.awt.Color(245, 240, 225));
-        audioPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        javax.swing.GroupLayout audioPanelLayout = new javax.swing.GroupLayout(audioPanel);
-        audioPanel.setLayout(audioPanelLayout);
-        audioPanelLayout.setHorizontalGroup(
-            audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
-        );
-        audioPanelLayout.setVerticalGroup(
-            audioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
-        );
-
-        cardPanels.add(audioPanel, "card2");
+        audioPanel.setColumns(20);
+        audioPanel.setRows(5);
+        audioPanel.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                audioPanelCaretUpdate(evt);
+            }
+        });
+        cardPanels.add(audioPanel, "card6");
 
         clockPanel.setBackground(new java.awt.Color(30, 61, 89));
-        clockPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         clockLabel.setBackground(new java.awt.Color(30, 61, 89));
         clockLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -234,6 +192,21 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
             .addComponent(clockLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        chatText.setText("Type your response here...");
+        chatText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                chatTextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                chatTextFocusLost(evt);
+            }
+        });
+        chatText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                chatTextKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -242,12 +215,13 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
                 .addContainerGap()
                 .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cardPanels, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cardPanels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(clockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(clockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chatText))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -261,7 +235,9 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
                             .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(clockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cardPanels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(cardPanels, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -352,12 +328,20 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
          keyListener.keyReleased(evt);
     }//GEN-LAST:event_chatTextKeyReleased
 
+    private void audioPanelCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_audioPanelCaretUpdate
+        // TODO add your handling code here:
+    }//GEN-LAST:event_audioPanelCaretUpdate
 
-    /*
+
+      /*
     Getter method for JOptionPane messages
     */
-    public static JPanel getChatPanel() {
+    public static JTextArea getChatPanel() {
         return chatPanel;
+    }
+
+    public static JTextField getChatText() {
+        return chatText;
     }
     
     
@@ -385,10 +369,10 @@ public class myGUI extends javax.swing.JFrame implements Runnable {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel audioPanel;
+    private static javax.swing.JTextArea audioPanel;
     private javax.swing.JPanel cardPanels;
-    private static javax.swing.JPanel chatPanel;
-    private javax.swing.JTextField chatText;
+    private static javax.swing.JTextArea chatPanel;
+    private static javax.swing.JTextField chatText;
     private javax.swing.JComboBox<String> chooseCommComboBox;
     private javax.swing.JLabel chooseCommLabel;
     private static javax.swing.JLabel clockLabel;

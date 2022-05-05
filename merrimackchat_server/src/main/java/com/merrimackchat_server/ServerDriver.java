@@ -1,5 +1,6 @@
 package com.merrimackchat_server;
 
+import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.manager.ClientManager;
 import lombok.Getter;
 
@@ -16,6 +17,9 @@ public class ServerDriver {
     private static ClientManager clientManager;
     
     @Getter
+    private static ChannelManager channelManager;
+    
+    @Getter
     private static Server server;
     
     public static void main(String[] args) {
@@ -23,8 +27,9 @@ public class ServerDriver {
         server = new Server(PORT);
         server.start();
         
-        // Initilizes the client manager
+        // Initilizes the client and channel managers
         clientManager = new ClientManager();
+        channelManager = new ChannelManager();
        
         // Message displaying the server has been started correctly.
         System.out.println("Server has been opened on localhost:"+PORT);

@@ -20,4 +20,20 @@ public class PacketEncoder {
         return new Packet(PacketType.AUDIO_BEING_SENT, sound, sound.length, new byte[] {userID, channelID, len1, len2});
     }
     
+    public static Packet createChannelJoinPacket(byte userID, byte channelID) {
+        return new Packet(PacketType.USER_JOIN_CHANNEL, new byte[]{}, 0, new byte[]{userID, channelID});
+    }
+    
+    public static Packet createChannelLeavePacket(byte userID, byte channelID) {
+        return new Packet(PacketType.USER_LEAVE_CHANNEL, new byte[]{}, 0, new byte[]{userID, channelID});
+    }
+    
+    public static Packet createChannelCreatePacket(String channelName) {
+        return new Packet(PacketType.USER_CREATE_CHANNEL, Base64.getDecoder().decode(channelName));
+    }
+    
+    public static Packet createChannelDeletePacket(String channelName) {
+        return new Packet(PacketType.USER_DELETE_CHANNEL, Base64.getDecoder().decode(channelName));
+    }
+    
 }

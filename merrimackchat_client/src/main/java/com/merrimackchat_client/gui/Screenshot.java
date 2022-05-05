@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package com.merrimackchat_client.gui;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -11,7 +11,6 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import gui.myGUI;
 
 /**
  *
