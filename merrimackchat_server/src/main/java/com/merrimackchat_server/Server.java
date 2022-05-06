@@ -1,19 +1,11 @@
 package com.merrimackchat_server;
 
-import com.merrimackchat_packet.data.Packet;
-import com.merrimackchat_packet.data.PacketEncoder;
 import com.merrimackchat_server.exceptions.ServerFullException;
 import com.merrimackchat_server.manager.Client;
-import com.merrimackchat_server.manager.ClientThread;
 import com.merrimackchat_server.util.Pair;
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lombok.Getter;
 
 /**

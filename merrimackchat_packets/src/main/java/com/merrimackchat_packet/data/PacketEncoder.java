@@ -48,4 +48,8 @@ public class PacketEncoder {
         return new Packet(PacketType.ERROR_MESSAGE, Base64.getDecoder().decode(message));
     }
     
+    public static Packet createChannelInfoPacket(String name, byte id, byte operation) {
+        return new Packet(PacketType.CHANNEL_INFO, Base64.getDecoder().decode(name), 0, new byte[]{id, operation});
+    }
+    
 }

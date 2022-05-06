@@ -67,6 +67,15 @@ public enum PacketType {
      */
     SEND_USERS_IN_CHANNEL((byte) 7, 1, false),
     
+    /**
+     * Used to send channel information once one is created / when a user connects to the server
+     * Has 2 arguments
+     *  - Channel name
+     *  - Channel ID
+     *  - Operation on channel (0 = create, 1 = remove)
+     */
+    CHANNEL_INFO((byte) 11, 3, false),
+    
     
 // DATA TYPES:    
     /**

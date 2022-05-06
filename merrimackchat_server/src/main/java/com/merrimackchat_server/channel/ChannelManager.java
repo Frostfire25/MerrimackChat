@@ -1,6 +1,7 @@
 package com.merrimackchat_server.channel;
 
 import com.merrimackchat_packet.data.PacketEncoder;
+import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.exceptions.*;
 import com.merrimackchat_server.util.Pair;
 import java.io.File;
@@ -8,6 +9,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
 
 /**
@@ -46,8 +49,10 @@ public class ChannelManager {
      */
     public void createChannel(String name) throws NoIDAvailableException {
         byte id = getAvailableID();
-        if(id != -1)
+        if(id != -1) {
             channels.put(id, new Channel(name, id));
+            broadcastChannelChange(name, id, (byte) 0); // Broadcast change
+        }
         else throw new NoIDAvailableException("No available IDs to create the new channel. Reduce the number of channels.");
     }
     
@@ -59,10 +64,13 @@ public class ChannelManager {
      */
     public void deleteChannel(byte id) throws ChannelNotFoundException {
         if(exists(id)) {
+            // Get channel
+            Channel c = channels.get(id);
             // Remove users
-            channels.get(id).clear();
+            c.clear();
             // Remove channel
             channels.remove(id);
+            broadcastChannelChange(c.getName(), id, (byte) 1); // Broadcast change
         } else throw new ChannelNotFoundException("No such channel is not found, so it cannot be deleted.");
     }
     
@@ -146,5 +154,15 @@ public class ChannelManager {
      */
     private void playSound(File sound) {
         
+    }
+    
+    private void broadcastChannelChange(String name, byte id, byte operation) {
+        ServerDriver.getClientManager().getClientMap().values().forEach(n -> {
+            try {
+                PacketEncoder.createChannelInfoPacket(name, id, operation).send(n.getOut());
+            } catch (IOException ex) {
+                System.err.println("Could not send channel info to client: " + n.getName());
+            }
+        });
     }
 }
