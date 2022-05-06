@@ -4,12 +4,22 @@
  */
 package com.merrimackchat_client.gui;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Mark Case
  */
 public class IdAndPasswords {
     
+    HashMap<String, String> loginInfo = new HashMap<String,String>();
     
+    public IdAndPasswords() {
+        loginInfo.put("Mark", "123");
+    }
+    
+    public HashMap getInfo() {
+        return loginInfo;
+    }
     
 }
