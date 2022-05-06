@@ -5,6 +5,7 @@
 package com.merrimackchat_client;
 
 import com.merrimackchat_client.gui.IdAndPasswords;
+import com.merrimackchat_client.gui.LoginPage;
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
 import lombok.Getter;
@@ -23,13 +24,14 @@ public class ClientDriver {
     private static myGUI myGUI;
 
     public static void main(String[] args) {
-//        // Assigns the client out
+        // Assigns the client out
         client = new Client();
-//        
+
         thread = new Thread(client);
         thread.start();
-
-        IdAndPasswords safe = new IdAndPasswords();
+        
+        IdAndPasswords s = new IdAndPasswords();        
+        LoginPage L = new LoginPage(s.getInfo());
 
         /* Set the Nimbus look and feel 
         * @author Mark
@@ -69,3 +71,4 @@ public class ClientDriver {
         });
     }
 }
+

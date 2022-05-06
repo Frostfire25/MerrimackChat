@@ -31,7 +31,7 @@ public class ClientChat extends myGUI implements Runnable {
         
     }
     
-    myGUI get = new myGUI();
+//    myGUI get = new myGUI();
     
     public static PrintWriter getPrintWriter () {
         return out2;
