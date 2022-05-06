@@ -17,16 +17,11 @@ public class PacketEncoder {
     
     public static Packet createUserJoinPacket(byte clientID, String clientName) {
         
-        // Encodes nameDecoded
-        byte[] nameDecoded;
-        try {
-            nameDecoded = clientName.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(PacketEncoder.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
+        // Decodes clientName and encodes array
+        byte[] array = Util.getByteArrayFromString(clientName);
+        if(array == null) return null;
         
-        return new Packet(PacketType.USER_JOIN_SERVER, nameDecoded, nameDecoded.length, new byte[]{clientID});
+        return new Packet(PacketType.USER_JOIN_SERVER, array, array.length, new byte[]{clientID});
     }    
     
     public static Packet createAudioBeingSentPacket(byte clientID, byte channelID, byte len1, byte len2, byte[] sound) {
@@ -42,11 +37,19 @@ public class PacketEncoder {
     }
     
     public static Packet createChannelCreatePacket(String channelName) {
-        return new Packet(PacketType.USER_CREATE_CHANNEL, Base64.getDecoder().decode(channelName));
+        // Decodes channelName and encodes array
+        byte[] array = Util.getByteArrayFromString(channelName);
+        if(array == null) return null;
+        
+        return new Packet(PacketType.USER_CREATE_CHANNEL, array);
     }
     
     public static Packet createChannelDeletePacket(String channelName) {
-        return new Packet(PacketType.USER_DELETE_CHANNEL, Base64.getDecoder().decode(channelName));
+        // Decodes channelName and encodes array
+        byte[] array = Util.getByteArrayFromString(channelName);
+        if(array == null) return null;
+        
+        return new Packet(PacketType.USER_DELETE_CHANNEL, array);
     }
     
     public static Packet createResponseToUserConnectToServerAPakcet(byte ID) {
