@@ -32,8 +32,20 @@ public class PacketEncoder {
         return new Packet(PacketType.USER_CREATE_CHANNEL, Base64.getDecoder().decode(channelName));
     }
     
-    public static Packet createChannelDeletePacket(String channelName) {
-        return new Packet(PacketType.USER_DELETE_CHANNEL, Base64.getDecoder().decode(channelName));
+    public static Packet createChannelDeletePacket(byte channelID) {
+        return new Packet(PacketType.USER_DELETE_CHANNEL, new byte[]{}, 0, new byte[]{channelID});
+    }
+    
+    public static Packet createRequestChannelUsersPacket(byte channelID) {
+        return new Packet(PacketType.REQUEST_USERS_IN_CHANNEL, new byte[]{}, 0, new byte[]{channelID});
+    }
+    
+    public static Packet createSendChannelUserPacket(String name) {
+        return new Packet(PacketType.SEND_USERS_IN_CHANNEL, Base64.getDecoder().decode(name));
+    }
+    
+    public static Packet createErrorMessagePacket(String message) {
+        return new Packet(PacketType.ERROR_MESSAGE, Base64.getDecoder().decode(message));
     }
     
 }
