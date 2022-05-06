@@ -81,6 +81,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         
 
     }
+
+    public myGUI() {
+        initComponents();
+    }
     
     
     

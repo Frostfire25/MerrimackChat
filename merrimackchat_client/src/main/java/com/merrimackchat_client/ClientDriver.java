@@ -8,6 +8,8 @@ import com.merrimackchat_client.gui.IdAndPasswords;
 import com.merrimackchat_client.gui.LoginPage;
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -69,6 +71,8 @@ public class ClientDriver {
 //            }
 //        });
     }
+
+
 
 }    
 
