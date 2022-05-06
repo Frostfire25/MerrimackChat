@@ -10,9 +10,12 @@ import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Area;
+import java.awt.geom.RoundRectangle2D;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.AbstractBorder;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -572,7 +575,7 @@ System.out.println(System.getProperty("awt.toolkit"));
         um.redo();
     }
 
-    
+   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JTextArea audioPanel;
