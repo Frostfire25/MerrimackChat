@@ -476,8 +476,8 @@ System.out.println(System.getProperty("awt.toolkit"));
     }//GEN-LAST:event_chatTextActionPerformed
 
     private void chatTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatTextKeyPressed
-        KeyListener keyListener = new KeyListener();
-        
+        keyListener.keyPressed(evt);
+    
     }//GEN-LAST:event_chatTextKeyPressed
 
 

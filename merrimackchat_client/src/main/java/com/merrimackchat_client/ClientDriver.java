@@ -18,13 +18,16 @@ public class ClientDriver {
     private static Thread thread;
     @Getter
     private static Client client;
+    
+    @Getter
+    private static myGUI myGUI;
 
     public static void main(String[] args) {
 //        // Assigns the client out
-//        client = new Client();
+        client = new Client();
 //        
-//        thread = new Thread(client);
-//        thread.start();
+        thread = new Thread(client);
+        thread.start();
 
         IdAndPasswords safe = new IdAndPasswords();
 
@@ -57,7 +60,7 @@ public class ClientDriver {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                myGUI myGUI = new myGUI();
+                myGUI = new myGUI();
                 myGUI.setVisible(true);
                 myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 myGUI.setTitle("Chat App");

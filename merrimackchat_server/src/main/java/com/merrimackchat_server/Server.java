@@ -50,24 +50,38 @@ public class Server extends Thread {
             try {
                 // Every time a connection is made, spawn a new client thread
                 connection = server.accept();
-                // Spawn a new thread for each client (person using chatting software)
-                //ClientThread newThread = new ClientThread(connection.getInetAddress().getHostAddress(), connection.getLocalPort());
-                //newThread.start();
-                
+              
                 // Adds the new client to the client manager
-                String name = "Alex-Update";
-                Pair<Boolean, Client> value = ServerDriver.getClientManager().clientJoined(name, connection.getInetAddress().getHostAddress(), connection.getLocalPort());
+                // Has empty as the default name until the client sends their join packet allocating their name.
+                Pair<Boolean, Client> value = ServerDriver.getClientManager().clientJoined("empty", connection.getInetAddress().getHostAddress(), connection.getLocalPort());
                 
                 // If the client could not join, ex. server is full
-                if(!value.getValue1() || value.getValue2() == null) throw new ServerFullException("Server "+server.getInetAddress().getHostAddress()+" has reached member capacity at this time.");
+                if(!value.getValue1() || value.getValue2() == null) {
+                    // Sends the default server is full packet to a client if the server is full Byte.MIN_VALUE
+                    Packet packet = PacketEncoder.createResponseToUserConnectToServerAPakcet(Byte.MIN_VALUE);
+                    packet.send(value.getValue2().getOut());
+                    throw new ServerFullException("Server "+server.getInetAddress().getHostAddress()+" has reached member capacity at this time.");
+                }
                 
                 Client client = value.getValue2();
                 client.start();
                 
+                // Sends the user their initial joining packet
+                byte clientID = value.getValue2().getID();
+                Packet packet = PacketEncoder.createResponseToUserConnectToServerAPakcet(clientID);
+                packet.send(client.getOut());
+                
+                /**
+                 * ALL TEMPORARY BELOW
+                 *   Allocates the user to a default channel
+                 */
+                
                 // Assigns the client to the temp channel
                 client.setChannel((byte)0);
-                ServerDriver.getChannelManager().getChannels().get((byte) 0).add(value.getValue2().getID());
-                System.out.println("Users ID: " + value.getValue2().getID());
+                
+                // Test to add the cline to the default channel
+                ServerDriver.getChannelManager().getChannels().get((byte) 0).add(clientID);
+                System.out.println("Users ID: " + clientID);
                 
             } catch (IOException ex) {
                 
@@ -98,5 +112,7 @@ public class Server extends Thread {
         // Play for every client
         clients.stream().forEach(n -> n.play(input, n.getID()));
     }
-     
+    
+    
+    
 }

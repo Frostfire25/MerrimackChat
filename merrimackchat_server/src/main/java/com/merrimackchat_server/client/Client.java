@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 public class Client extends ClientThread {
     
-    private String userName;
+    @Setter private String userName;
     private String address;
     private int port;
     private byte ID;
@@ -18,6 +18,8 @@ public class Client extends ClientThread {
     
     public Client(String userName, String address, int port, byte ID, byte channel) {
         super(address, port);
+        
+        setClient(this);
         
         this.userName = userName;
         this.address = address;

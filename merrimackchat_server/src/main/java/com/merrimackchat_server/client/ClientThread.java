@@ -1,19 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.merrimackchat_server.client;
 
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
+import com.merrimackchat_packet.data.Util;
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.channel.Channel;
 import com.merrimackchat_server.exceptions.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Base64;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -25,8 +24,12 @@ public abstract class ClientThread extends Thread implements Identifiable {
     private InputStream in;
     @Getter
     private OutputStream out;
+    
+    @Getter @Setter private Client client;
 
     public ClientThread(String address, int port) {
+        // Assigns this clien to this thread.
+        this.client = client;
         try {
             // Get audio input from the client (speaker)
             in = ServerDriver.getServer().getConnection().getInputStream();
@@ -64,7 +67,6 @@ public abstract class ClientThread extends Thread implements Identifiable {
                 //Packet packet = PacketDecoder.
                 
                 packet = PacketDecoder.decodeByteArray(readData);
-                                
 
                 // If we have any errors, we want to assign readData to null.    
                 readData = null;
@@ -122,6 +124,24 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         } catch (ChannelNotFoundException e) {
                             // Send error to client requesting
                         }
+                    }; break;
+                    case USER_JOIN_SERVER: {
+                        //System.out.println("Buff: " + Arrays.toString(packet.getBuff()));
+                        System.out.println("Buff Without Args: " + Arrays.toString(packet.getBuffWithoutArgsAndTrailingFillers()));
+                        // Update the clients name
+                        String clientsName = Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers());
+                        byte clientID = packet.getArgs(1);
+                        
+                        ServerDriver.getClientManager().getClientMap().get(clientID).setName(clientsName);
+                        
+                        System.out.println(String.format("(thread_%s): Joined: %s", getClient().getName(), clientsName));
+                        
+                        // ToDo here!
+                        // Send out all channel packets to the client
+                        // For Derek or Alex with Channels
+                    }; break;
+                    case USER_LEFT_SERVER: {
+                        
                     }; break;
                 }
                 

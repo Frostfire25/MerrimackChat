@@ -42,7 +42,7 @@ public class Packet implements Sendable {
     }
 
     /**
-     * Adds the necsiary identification to a packet before sending it out.
+     * Adds the necessary identification to a packet before sending it out.
      */
     private void idPacket() {
         // Sets the ID number
@@ -71,13 +71,25 @@ public class Packet implements Sendable {
      *
      * @return A byte array with no buffs.
      */
-    public byte[] getBuffWithoutArgs() {
+    public byte[] getBuffWithoutArgsAndTrailingFillers() {
         // Returns everything with the ID removed
         if (packetType.getNumOfArgs() <= 0) {
-            return Arrays.copyOfRange(buff, 1, buff.length);
+            return removeTrailingFillers(Arrays.copyOfRange(buff, 1, buff.length));
         }
         // Returns everything with the ID and arguments removed
-        return Arrays.copyOfRange(buff, packetType.getNumOfArgs() + 1, buff.length);
+        return removeTrailingFillers(Arrays.copyOfRange(buff, (packetType.getNumOfArgs() * 2) + 2, buff.length));
+    }
+    
+    public byte[] removeTrailingFillers(byte[] array) {
+        int upTo = 0;
+        for(int i = array.length -1; i > 0; i--) {
+            if(array[i] != Byte.MIN_VALUE) {
+                upTo = i;
+                break;
+            }
+        }
+        
+        return Arrays.copyOfRange(array, 0, upTo+1);
     }
 
     /**
@@ -169,12 +181,39 @@ public class Packet implements Sendable {
      * Method from
      * (https://stackoverflow.com/questions/11638123/how-to-add-an-element-to-array-and-shift-indexes/)
      */
+    /*
     public byte[] insertIntoSpace(byte[] buff, int index, byte location) {
         byte[] result = new byte[buff.length];
         System.arraycopy(buff, 0, result, 0, index);
         System.arraycopy(buff, index, result, index + 1, buff.length - index - 1);
         result[index] = location;
         return result;
+    }
+    */
+    
+    public static byte[] insertIntoSpace(byte buff[], int location, byte value)
+    {
+        int i;
+ 
+        int loc = location + 1;
+        
+        // create a new array of size n+1
+        byte newarr[] = new byte[buff.length + 1];
+ 
+        // insert the elements from
+        // the old array into the new array
+        // insert all elements till pos
+        // then insert x at pos
+        // then insert rest of the elements
+        for (i = 0; i < newarr.length; i++) {
+            if (i < loc - 1)
+                newarr[i] = buff[i];
+            else if (i == loc - 1)
+                newarr[i] = value;
+            else
+                newarr[i] = buff[i - 1];
+        }
+        return newarr;
     }
 
     // 0 1 2 3
