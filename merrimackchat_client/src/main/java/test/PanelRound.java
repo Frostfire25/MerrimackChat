@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.merrimackchat_client.gui;
+package test;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,6 +12,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JPanel;
+
 
 /**
  *
@@ -127,3 +128,4 @@ public class PanelRound extends JPanel {
         return area;
     }
 }
+
