@@ -22,14 +22,14 @@ public class Client extends PacketSender implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    private static final String IP = "10.0.0.231";
+    private static final String IP = "10.0.118.2"/*"73.249.253.64"*/;
     private static final int PORT = 5000;
 
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
      
     // Name that needs to be set through the GUI
-    public static String name = ClientDriver.getLoginBrowser().getTest();
+    public static String clientName;
 
     // Does not allow this client to send any packets until 
     //private boolean waitingForPacketResponse = false;
@@ -40,11 +40,14 @@ public class Client extends PacketSender implements Runnable {
         mic = new Microphone();
         speaker = new Speaker();
 
+        // Assigns the name
+        clientName = "Alex";
+        
         // Sets the ID to the empty value
         ID = Byte.MIN_VALUE;
     }
 
-    /**
+   /**
      * Reads a packet and manages the packet correctly.
      * @param packet pack to be read
      */
@@ -57,7 +60,9 @@ public class Client extends PacketSender implements Runnable {
                     //System.out.println(audioPacket.getBuff()[10] + " " + audioPacket.getBuff()[audioPacket.getBuff().length-1]);
                     System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
                     speaker.write(speakerBuffer, 0, speakerBuffer.length);
-                } ; break;
+                }
+                ;
+                break;
                 case RESPONSE_USER_CONNECT_SERVER: {
                     byte serverID = packet.getArgs(1);
                     this.ID = serverID;
@@ -72,8 +77,10 @@ public class Client extends PacketSender implements Runnable {
                     System.out.println(this.ID);
                     
                     // Now we want to send the user join packet that contains the users name
-                    sendPacket(PacketEncoder.createUserJoinPacket(ID, name));
-                }; break;
+                    sendPacket(PacketEncoder.createUserJoinPacket(ID, clientName));
+                }
+                ;
+                break;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,11 +99,8 @@ public class Client extends PacketSender implements Runnable {
 
     @Override
     public void run() {
-
         // Try to connect to the server, if we can't, crash the program
         try {
-            
-//            System.out.println("I'm: " + Client.name + " and am connected");
             socket = new Socket(IP, PORT);
         } catch (IOException e) {
             System.err.println("Error connecting to server " + IP + " on port " + PORT);
@@ -128,7 +132,7 @@ public class Client extends PacketSender implements Runnable {
                             }
 
                             // Reads the packet in
-//                            readPacket(packet);
+                            readPacket(packet);
 
                         } catch(SocketException e) {
                             // If the server diconnected we want to force disconnect.
@@ -173,6 +177,12 @@ public class Client extends PacketSender implements Runnable {
                     Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
+                if(!socket.isConnected()) {
+                    System.out.println("Socket is not connected, closing down.");
+                    disconnect();
+                    return;
+                }
+                
                 // Determines if the user is talking
                 while (socket.isConnected()) { // While a connection is still established
                     if (mic.isSending()) {

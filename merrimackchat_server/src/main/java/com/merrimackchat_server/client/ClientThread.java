@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +22,7 @@ import lombok.Setter;
  * @author Alex
  */
 public abstract class ClientThread extends Thread implements Identifiable {
-
-    @Getter
+ @Getter
     private InputStream in;
     @Getter
     private OutputStream out;
@@ -89,7 +90,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case AUDIO_BEING_SENT: {
                         
                         byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
-                        System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
+                        //System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
                         // Gets the client
                         //Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));
                         
@@ -107,47 +108,32 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         
                     }; break;
                     case USER_JOIN_CHANNEL: {
-                        try {
-                            ServerDriver.getClientManager().joinChannel(packet.getArgs(0), packet.getArgs(1));
-                        } catch (ChannelNotFoundException ex) {
-                            try {
-                                PacketEncoder.createErrorMessagePacket(ex.getMessage()).send(out);
-                            } catch (IOException e) {
-                                System.err.println("Cannot send Join Channel Error Packet: " + e);
-                            }
-                        }
+                    try {
+                        ServerDriver.getClientManager().joinChannel(packet.getArgs(1), packet.getArgs(2));
+                    } catch (ChannelNotFoundException ex) {
+                        Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     }; break;
                     case USER_LEAVE_CHANNEL: {
-                        ServerDriver.getClientManager().leaveChannel(packet.getArgs(0), packet.getArgs(1));
+                        ServerDriver.getClientManager().leaveChannel(packet.getArgs(1), packet.getArgs(2));
                     }; break;
                     case USER_CREATE_CHANNEL: {
                         try {
                             ServerDriver.getChannelManager().createChannel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()));
-                        } catch (NoIDAvailableException ex) {
-                            try {
-                                PacketEncoder.createErrorMessagePacket(ex.getMessage()).send(out);
-                            } catch (IOException e) {
-                                System.err.println("Cannot send Create Channel Error Packet: " + e);
-                            }
+                        } catch (NoIDAvailableException e) {
+                            // Send error to client requesting
                         }
                     }; break;
                     case USER_DELETE_CHANNEL: {
                         try {
-                            ServerDriver.getChannelManager().deleteChannel(packet.getArgs(0));
-                        } catch (ChannelNotFoundException ex) {
-                            try {
-                                PacketEncoder.createErrorMessagePacket(ex.getMessage()).send(out);
-                            } catch (IOException e) {
-                                System.err.println("Cannot send Delete Channel Error Packet: " + e);
-                            }
+                            ServerDriver.getChannelManager().deleteChannel(packet.getArgs(1));
+                        } catch (ChannelNotFoundException e) {
+                            // Send error to client requesting
                         }
-                    }; break;
-                    case REQUEST_USERS_IN_CHANNEL: {
-                        ServerDriver.getChannelManager().sendUserData(out, packet.getArgs(0));
                     }; break;
                     case USER_JOIN_SERVER: {
                         //System.out.println("Buff: " + Arrays.toString(packet.getBuff()));
-                        //System.out.println("Buff Without Args: " + Arrays.toString(packet.getBuffWithoutArgsAndTrailingFillers()));
+                        System.out.println("Buff Without Args: " + Arrays.toString(packet.getBuffWithoutArgsAndTrailingFillers()));
                         // Update the clients name
                         String clientsName = Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers());
                         byte clientID = packet.getArgs(1);
@@ -159,9 +145,6 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         // ToDo here!
                         // Send out all channel packets to the client
                         // For Derek or Alex with Channels
-                        
-                        // Still needs to be done so the server can be built.
-                        // Ex. Server building features
                     }; break;
                     case USER_LEFT_SERVER: {
                         

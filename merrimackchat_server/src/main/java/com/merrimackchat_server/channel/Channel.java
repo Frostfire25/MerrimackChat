@@ -6,6 +6,8 @@ import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.client.Client;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
@@ -55,13 +57,27 @@ public class Channel {
      * 
      * @param packet audio packet
      */
-    public void broadcastAudio(Packet packet) {
+    public void broadcastAudio(Packet packet) {       
+        
+        Set<Client> toRemove = new HashSet<>();
+        
         clients.stream()/*.filter(n -> n.getID() != senderID && n.getChannel() == channelID)*/.forEach(n -> {
+            
+            // Assert that the client is still connected
             try {
                 packet.send(n.getOut());
             } catch (IOException ex) {
+                if(ex.getMessage().contains("Connection reset by peer")) {
+                    toRemove.add(n);
+                }
+                
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
+        });
+        
+        // Removes all the clients that aren't connected
+        toRemove.forEach(n -> {
+            ServerDriver.getClientManager().removeClient(n.getID());
         });
     }
 }

@@ -100,5 +100,17 @@ public class ClientManager {
         
         return Byte.MAX_VALUE;
     }
+
+    public void removeClient(byte ID) {
+        if(clientMap.containsKey(ID)) {
+            Client client = clientMap.remove(ID);
+            
+            // Leaves channel
+            leaveChannel(client.getID(), client.getChannel());
+            
+            // Stop thread (UNSAFE MAY HAVE TO REMOVE)
+            client.stop();
+        }
+    }
     
 }
