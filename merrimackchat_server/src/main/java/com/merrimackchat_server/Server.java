@@ -28,7 +28,7 @@ public class Server extends Thread {
 
         // Attempt to build a server socket to the port
         try {
-            server = new ServerSocket(this.port);
+            server = new ServerSocket(this.port, 5, InetAddress.getByName("10.0.0.231"));
         } catch (IOException ex) {
             System.out.println("Problem occurred when creating server on port: " + this.port);
         }

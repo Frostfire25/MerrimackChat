@@ -5,17 +5,22 @@
 package com.merrimackchat_client;
 
 import com.merrimackchat_client.gui.IdAndPasswords;
-import com.merrimackchat_client.gui.LoginPage;
+import com.merrimackchat_client.gui.LoginBrowser;
+
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 /**
  *
  * @author Alex
  */
+
+
 public class ClientDriver {
 
+    @Generated
     private static Thread thread;
     
     @Getter
@@ -23,9 +28,14 @@ public class ClientDriver {
     
     @Getter
     private static myGUI myGUI;
-
+    
     public static void main(String[] args) {
-        // Assigns the client out
+        
+        // Login
+        IdAndPasswords s = new IdAndPasswords(); 
+        LoginBrowser lb = new LoginBrowser(s.getInfo());
+    
+         //Assigns the client out
         client = new Client();
 
         thread = new Thread(client);
@@ -61,18 +71,24 @@ public class ClientDriver {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+
+       java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                myGUI = new myGUI();
+                myGUI = new myGUI("Derek");
                 myGUI.setVisible(true);
                 myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 myGUI.setTitle("Chat App");
                 myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                lb.setVisible(true);
+                //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+                lb.setTitle("Chat App");
+                lb.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });        
         
+  
     }
+  
 }
 

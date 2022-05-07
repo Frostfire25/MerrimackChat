@@ -1,5 +1,7 @@
 package com.merrimackchat_client;
 
+import com.merrimackchat_client.gui.IdAndPasswords;
+import com.merrimackchat_client.gui.LoginBrowser;
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
 import com.merrimackchat_packet.data.PacketEncoder;
@@ -20,7 +22,7 @@ public class Client extends PacketSender implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    private static final String IP = "10.0.118.2";
+    private static final String IP = "10.0.0.231";
     private static final int PORT = 5000;
 
     // ID refrence of this Client default is -128 which is min;
@@ -28,6 +30,11 @@ public class Client extends PacketSender implements Runnable {
 
     // Name that needs to be set through the GUI
     private String name = "Evan";
+    //  static final IdAndPasswords s = new IdAndPasswords(); 
+    //  static final LoginBrowser lb = new LoginBrowser(s.getInfo());
+//        
+//    // Name that needs to be set through the GUI
+//    public static String name  = lb.getTest();
 
     // Does not allow this client to send any packets until 
     //private boolean waitingForPacketResponse = false;
@@ -80,6 +87,7 @@ public class Client extends PacketSender implements Runnable {
         }
     }
 
+
     public void disconnect() {
 
     }
@@ -92,8 +100,11 @@ public class Client extends PacketSender implements Runnable {
 
     @Override
     public void run() {
+
         // Try to connect to the server, if we can't, crash the program
         try {
+            
+//            System.out.println("I'm: " + Client.name + " and am connected");
             socket = new Socket(IP, PORT);
         } catch (IOException e) {
             System.err.println("Error connecting to server " + IP + " on port " + PORT);
@@ -125,7 +136,7 @@ public class Client extends PacketSender implements Runnable {
                             }
 
                             // Reads the packet in
-                            readPacket(packet);
+//                            readPacket(packet);
 
                         } catch(SocketException e) {
                             // If the server diconnected we want to force disconnect.
