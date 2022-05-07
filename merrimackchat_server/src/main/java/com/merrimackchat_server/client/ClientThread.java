@@ -89,7 +89,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case AUDIO_BEING_SENT: {
                         
                         byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
-                        //System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
+                        System.out.println("Broadcasting out : " + Arrays.toString(toBroadCast));
                         // Gets the client
                         //Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));
                         

@@ -20,7 +20,7 @@ public class Client extends PacketSender implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    private static final String IP = "localhost";
+    private static final String IP = "10.0.0.231";
     private static final int PORT = 5000;
 
     // ID refrence of this Client default is -128 which is min;

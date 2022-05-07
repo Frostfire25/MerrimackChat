@@ -30,8 +30,8 @@ public class ClientDriver {
         thread = new Thread(client);
         thread.start();
         
-        IdAndPasswords s = new IdAndPasswords();        
-        LoginPage L = new LoginPage(s.getInfo());
+        //IdAndPasswords s = new IdAndPasswords();        
+        //LoginPage L = new LoginPage(s.getInfo());
 
         /* Set the Nimbus look and feel 
         * @author Mark
@@ -62,7 +62,7 @@ public class ClientDriver {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                myGUI = new myGUI();
+                myGUI = new myGUI("Derek");
                 myGUI.setVisible(true);
                 myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 myGUI.setTitle("Chat App");

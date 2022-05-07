@@ -2,6 +2,10 @@ package com.merrimackchat_server;
 
 import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.client.ClientManager;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
 
 /**
@@ -32,8 +36,12 @@ public class ServerDriver {
         server = new Server(PORT);
         server.start();
         
-        // Message displaying the server has been started correctly.
-        System.out.println("Server has been opened on localhost:"+PORT);
+        try {
+            // Message displaying the server has been started correctly.
+            System.out.println("Server has been opened on " + InetAddress.getLocalHost() + ":"+PORT);
+        } catch (UnknownHostException ex) {
+            System.out.println("Unknown host");
+        }
         System.out.println("Awating the connection of clients.");
                
     }
