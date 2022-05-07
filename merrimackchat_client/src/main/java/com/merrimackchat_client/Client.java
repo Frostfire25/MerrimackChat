@@ -20,14 +20,14 @@ public class Client extends PacketSender implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    private static final String IP = "localhost";
+    private static final String IP = "10.0.118.2";
     private static final int PORT = 5000;
 
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
 
     // Name that needs to be set through the GUI
-    private String name = "Alex";
+    private String name = "Evan";
 
     // Does not allow this client to send any packets until 
     //private boolean waitingForPacketResponse = false;

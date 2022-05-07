@@ -159,6 +159,9 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         // ToDo here!
                         // Send out all channel packets to the client
                         // For Derek or Alex with Channels
+                        
+                        // Still needs to be done so the server can be built.
+                        // Ex. Server building features
                     }; break;
                     case USER_LEFT_SERVER: {
                         
