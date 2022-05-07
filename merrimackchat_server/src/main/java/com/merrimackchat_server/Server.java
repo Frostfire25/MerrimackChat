@@ -23,12 +23,12 @@ public class Server extends Thread {
     private int port;
 
     // Constructor with port 
-    public Server(int p) {
+    public Server(int p, String addr) {
         this.port = p;
 
         // Attempt to build a server socket to the port
         try {
-            server = new ServerSocket(this.port, 5, InetAddress.getByName("10.0.0.231"));
+            server = new ServerSocket(this.port, 5, InetAddress.getByName(addr));
         } catch (IOException ex) {
             System.out.println("Problem occurred when creating server on port: " + this.port);
         }

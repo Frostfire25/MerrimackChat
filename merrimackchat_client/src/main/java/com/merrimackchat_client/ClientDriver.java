@@ -30,11 +30,11 @@ public class ClientDriver {
     
     public static void main(String[] args) {
         
-         IdAndPasswords s = new IdAndPasswords(); 
+        IdAndPasswords s = new IdAndPasswords(); 
         LoginBrowser lb = new LoginBrowser(s.getInfo());
     
     
-         //Assigns the client out
+        //Assigns the client out
         client = new Client();
 
         thread = new Thread(client);
@@ -44,17 +44,17 @@ public class ClientDriver {
        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                myGUI = new myGUI("Derek");
+                /*myGUI = new myGUI();
                 myGUI.setVisible(true);
                 myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 myGUI.setTitle("Chat App");
-                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
                 lb.setVisible(true);
                 //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 lb.setTitle("Chat App");
                 lb.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
-        }); 
+        });
   
     }
   

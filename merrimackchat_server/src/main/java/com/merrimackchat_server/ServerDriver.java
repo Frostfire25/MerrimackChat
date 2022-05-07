@@ -16,6 +16,7 @@ import lombok.Getter;
 public class ServerDriver {
     
     public static final int PORT = 5000;
+    public static final String ADDR = "10.0.0.231";
     
     @Getter
     private static ClientManager clientManager;
@@ -33,7 +34,7 @@ public class ServerDriver {
         channelManager = new ChannelManager();
       
         // Starts the server
-        server = new Server(PORT);
+        server = new Server(PORT, ADDR);
         server.start();
         
         try {

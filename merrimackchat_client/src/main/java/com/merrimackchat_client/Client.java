@@ -28,11 +28,11 @@ public class Client extends PacketSender implements Runnable {
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
 
-//    static final IdAndPasswords s = new IdAndPasswords(); 
-//       static final LoginBrowser lb = new LoginBrowser(s.getInfo());
-//        
-//    // Name that needs to be set through the GUI
-//    public static String name  = lb.getTest();
+    static final IdAndPasswords s = new IdAndPasswords(); 
+    static final LoginBrowser lb = new LoginBrowser(s.getInfo());
+     
+    // Name that needs to be set through the GUI
+    public static String name  = lb.getTest();
 
     // Does not allow this client to send any packets until 
     //private boolean waitingForPacketResponse = false;
@@ -51,41 +51,41 @@ public class Client extends PacketSender implements Runnable {
      * Reads a packet and manages the packet correctly.
      * @param packet pack to be read
      */
-//    public void readPacket(Packet packet) {
-//        try {
-//            switch (packet.getPacketType()) {
-//                case AUDIO_BEING_SENT: {
-//                    byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
-//                    System.out.println(Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
-//                    //System.out.println(audioPacket.getBuff()[10] + " " + audioPacket.getBuff()[audioPacket.getBuff().length-1]);
-//                    System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
-//                    speaker.write(speakerBuffer, 0, speakerBuffer.length);
-//                }
-//                ;
-//                break;
-//                case RESPONSE_USER_CONNECT_SERVER: {
-//                    byte serverID = packet.getArgs(1);
-//                    this.ID = serverID;
-//
-//                    // Handle if the server is full.
-//                    if (ID == Byte.MIN_VALUE) {
-//                        System.out.println("Server is full, disconnecting.");
-//                        forceDisconect(); return;
-//                    }
-//
-//                    // prints out the users ID
-//                    System.out.println(this.ID);
-//                    
-//                    // Now we want to send the user join packet that contains the users name
-//                    sendPacket(PacketEncoder.createUserJoinPacket(ID, name));
-//                }
-//                ;
-//                break;
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void readPacket(Packet packet) {
+        try {
+            switch (packet.getPacketType()) {
+                case AUDIO_BEING_SENT: {
+                    byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
+                    System.out.println(Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
+                    //System.out.println(audioPacket.getBuff()[10] + " " + audioPacket.getBuff()[audioPacket.getBuff().length-1]);
+                    System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
+                    speaker.write(speakerBuffer, 0, speakerBuffer.length);
+                }
+                ;
+                break;
+                case RESPONSE_USER_CONNECT_SERVER: {
+                    byte serverID = packet.getArgs(1);
+                    this.ID = serverID;
+
+                    // Handle if the server is full.
+                    if (ID == Byte.MIN_VALUE) {
+                        System.out.println("Server is full, disconnecting.");
+                        forceDisconect(); return;
+                    }
+
+                    // prints out the users ID
+                    System.out.println(this.ID);
+                    
+                    // Now we want to send the user join packet that contains the users name
+                    sendPacket(PacketEncoder.createUserJoinPacket(ID, name));
+                }
+                ;
+                break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void disconnect() {
 
