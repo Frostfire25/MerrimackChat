@@ -29,13 +29,19 @@ public class ClientDriver {
     @Getter
     private static myGUI myGUI;
     
+    @Getter
+    private static IdAndPasswords idAndPasswords;
+    
+    @Getter
+    private static LoginBrowser loginBrowser;
+    
     public static void main(String[] args) {
         
         // Login
-        IdAndPasswords s = new IdAndPasswords(); 
-        LoginBrowser lb = new LoginBrowser(s.getInfo());
+        idAndPasswords = new IdAndPasswords(); 
+        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());    
     
-         //Assigns the client out
+        //Assigns the client out
         client = new Client();
 
         thread = new Thread(client);
@@ -75,19 +81,17 @@ public class ClientDriver {
        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                myGUI = new myGUI("Derek");
+                /*myGUI = new myGUI();
                 myGUI.setVisible(true);
                 myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 myGUI.setTitle("Chat App");
-                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                lb.setVisible(true);
+                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+                loginBrowser.setVisible(true);
                 //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
-                lb.setTitle("Chat App");
-                lb.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                loginBrowser.setTitle("Chat App");
+                loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });        
-        
-  
     }
   
 }

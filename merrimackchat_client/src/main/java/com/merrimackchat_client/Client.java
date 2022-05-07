@@ -27,14 +27,9 @@ public class Client extends PacketSender implements Runnable {
 
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
-
+     
     // Name that needs to be set through the GUI
-    private String name = "Evan";
-    //  static final IdAndPasswords s = new IdAndPasswords(); 
-    //  static final LoginBrowser lb = new LoginBrowser(s.getInfo());
-//        
-//    // Name that needs to be set through the GUI
-//    public static String name  = lb.getTest();
+    public static String name = ClientDriver.getLoginBrowser().getTest();
 
     // Does not allow this client to send any packets until 
     //private boolean waitingForPacketResponse = false;
@@ -78,15 +73,12 @@ public class Client extends PacketSender implements Runnable {
                     
                     // Now we want to send the user join packet that contains the users name
                     sendPacket(PacketEncoder.createUserJoinPacket(ID, name));
-                }
-                ;
-                break;
+                }; break;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public void disconnect() {
 

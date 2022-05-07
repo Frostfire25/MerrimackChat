@@ -17,6 +17,7 @@ import lombok.Getter;
 public class ServerDriver {
     
     public static final int PORT = 5000;
+    public static final String ADDR = "10.0.0.231";
     
     @Getter
     private static ClientManager clientManager;
@@ -37,7 +38,7 @@ public class ServerDriver {
         channelManager = new ChannelManager();
       
         // Starts the server
-        server = new Server(PORT);
+        server = new Server(PORT, ADDR);
         server.start();
         // Server has been sarted
         System.out.println(String.format("\n[Server Launched]: The Server has been launched on, IP: %s (%s)", server.getServer().getInetAddress().getHostAddress(), server.getServer().getLocalPort()));
