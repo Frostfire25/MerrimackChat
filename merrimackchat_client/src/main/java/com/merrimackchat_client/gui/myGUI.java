@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.ClientDriver;
@@ -32,6 +27,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     UndoManager um = new UndoManager();
     
     /**
+     * 3.
      * Creates new form myGUI
      */
     public myGUI(String userIDNew) {

@@ -147,7 +147,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     }; break;
                     case USER_JOIN_SERVER: {
                         //System.out.println("Buff: " + Arrays.toString(packet.getBuff()));
-                        System.out.println("Buff Without Args: " + Arrays.toString(packet.getBuffWithoutArgsAndTrailingFillers()));
+                        //System.out.println("Buff Without Args: " + Arrays.toString(packet.getBuffWithoutArgsAndTrailingFillers()));
                         // Update the clients name
                         String clientsName = Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers());
                         byte clientID = packet.getArgs(1);
