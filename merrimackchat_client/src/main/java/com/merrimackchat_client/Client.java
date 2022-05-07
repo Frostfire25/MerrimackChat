@@ -55,9 +55,7 @@ public class Client extends PacketSender implements Runnable {
                     //System.out.println(audioPacket.getBuff()[10] + " " + audioPacket.getBuff()[audioPacket.getBuff().length-1]);
                     System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
                     speaker.write(speakerBuffer, 0, speakerBuffer.length);
-                }
-                ;
-                break;
+                } ; break;
                 case RESPONSE_USER_CONNECT_SERVER: {
                     byte serverID = packet.getArgs(1);
                     this.ID = serverID;

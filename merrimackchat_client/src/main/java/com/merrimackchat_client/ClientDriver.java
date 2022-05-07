@@ -17,6 +17,7 @@ import lombok.Setter;
 public class ClientDriver {
 
     private static Thread thread;
+    
     @Getter
     private static Client client;
     
