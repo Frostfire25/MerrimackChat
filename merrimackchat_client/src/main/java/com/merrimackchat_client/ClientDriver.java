@@ -6,7 +6,7 @@ package com.merrimackchat_client;
 
 import com.merrimackchat_client.gui.IdAndPasswords;
 import com.merrimackchat_client.gui.LoginBrowser;
-import com.merrimackchat_client.gui.LoginPage;
+
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
 import lombok.Getter;
@@ -34,11 +34,11 @@ public class ClientDriver {
         LoginBrowser lb = new LoginBrowser(s.getInfo());
     
     
-          // Assigns the client out
-//        client = new Client();
-//
-//        thread = new Thread(client);
-//        thread.start();
+         //Assigns the client out
+        client = new Client();
+
+        thread = new Thread(client);
+        thread.start();
 
 
        java.awt.EventQueue.invokeLater(new Runnable() {

@@ -19,8 +19,10 @@ import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.util.HashMap;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.LineBorder;
 
@@ -46,7 +48,7 @@ public final class LoginBrowser extends javax.swing.JFrame {
         
  
     }
-
+ public static  String test;
    
 
          
@@ -127,7 +129,7 @@ public final class LoginBrowser extends javax.swing.JFrame {
                         .addComponent(loginBtn)
                         .addGap(29, 29, 29)
                         .addComponent(resetBtn)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel3)
@@ -184,6 +186,10 @@ public final class LoginBrowser extends javax.swing.JFrame {
     when pressed
     */
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
+//        test = usernameText.getText();
+        test = usernameText.getText();
+//        System.out.println("hi:" + test);
+        
         if(evt.getSource()==loginBtn) {
            String userIDNew = usernameText.getText(); // get text of JTextfield
            String passwordNew = String.valueOf(passwordText.getPassword()); // get text of JPasswordfield and convert
@@ -221,6 +227,16 @@ public final class LoginBrowser extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
 
+    public  String getTest() {
+        return test;
+    }
+
+
+
+   
+
+    
+   
     
 class RoundedPanel extends JPanel
     {

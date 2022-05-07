@@ -106,10 +106,12 @@
     
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>\merrimackchat_client\src\main\java\com\merrimackchat_client\gui</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
+        
+        
     </build>
     <repositories>
         <repository>

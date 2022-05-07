@@ -12,13 +12,13 @@ import java.util.HashMap;
  */
 public class IdAndPasswords {
     
-    HashMap<String, String> loginInfo = new HashMap<String,String>();
+    public static HashMap<String, String> loginInfo = new HashMap<String,String>();
     
     public IdAndPasswords() {
         loginInfo.put("burger", "fries");
     }
     
-    public HashMap getInfo() {
+    public  HashMap getInfo() {
         return loginInfo;
     }
     
