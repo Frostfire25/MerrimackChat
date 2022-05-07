@@ -29,6 +29,14 @@ public class ChannelManager {
         for(byte b = 0; b < 127; b++) {
             ids.add(new Pair(true, b));
         }
+        
+        // TEST
+        try {
+            // Creates a test chanel for this purpose
+            createChannel("TestChanel");
+        } catch (NoIDAvailableException ex) {
+            Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -108,7 +116,7 @@ public class ChannelManager {
      * @param len2 Length of the audio stream * {@code len1}
      */
     public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2 ) {
-        channels.get(channelID).broadcast(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input));
+        channels.get(channelID).broadcastAudio(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input));
     }
     
     /**

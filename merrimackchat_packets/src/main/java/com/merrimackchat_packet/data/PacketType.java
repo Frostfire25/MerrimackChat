@@ -9,11 +9,13 @@ import java.util.Arrays;
 public enum PacketType {
 // OPERATIONS:
     /*
+    ** This Packet is basically the "Set Name" packet**
     Used for when a client joins a server
-    No arguments, the name proceeds the id
-    Expects the client ID to be returned. If Byte.MAX_VALUE is returned the client couldn't connect.
+       - Has 1 argument 
+         - User Sending ID
+       - Expects all the channels as packets to be returned
     */
-    USER_JOIN_SERVER((byte) 0, 0, true),
+    USER_JOIN_SERVER((byte) 0, 1, true),
     
     /*
     Used for when a user leaves a server
@@ -92,9 +94,18 @@ public enum PacketType {
      * Has 1 argument
      *  - Error message
      */
-    ERROR_MESSAGE((byte) 10, 1, false)
+    ERROR_MESSAGE((byte) 10, 1, false),
     
-    
+    /**
+     * OUT from Server -> Client
+     * Response from the server to a client when a client joins the server 
+     * Has 1 argument 
+     *  - User ID to be displayed
+     * 
+     * Expects a Response
+     *  - User sends their display name back
+     */
+    RESPONSE_USER_CONNECT_SERVER((byte) 12, 1, true)
     
     
     

@@ -1,4 +1,4 @@
-package com.merrimackchat_server.manager;
+package com.merrimackchat_server.client;
 
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.channel.ChannelManager;
@@ -91,10 +91,10 @@ public class ClientManager {
      * Goes from the Byte.MIN_VALUE up to the Byte.MAX_VALUE
      */
     private byte getID() {
-        if(clientMap.isEmpty()) return Byte.MIN_VALUE;
+        if(clientMap.isEmpty()) return Byte.MIN_VALUE + 1;
         
         // Gets the next byte value to be used
-        for(byte b = Byte.MIN_VALUE; b <= Byte.MAX_VALUE; b++) {
+        for(byte b = Byte.MIN_VALUE + 1; b <= Byte.MAX_VALUE; b++) {
             if(!clientMap.containsKey(b)) return b;
         }        
         
