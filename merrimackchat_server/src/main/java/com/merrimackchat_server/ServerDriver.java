@@ -25,8 +25,8 @@ public class ServerDriver {
     public static void main(String[] args) {
                
         // Initilizes the channel manager and client manager
-        channelManager = new ChannelManager();
         clientManager = new ClientManager();
+        channelManager = new ChannelManager();
       
         // Starts the server
         server = new Server(PORT);

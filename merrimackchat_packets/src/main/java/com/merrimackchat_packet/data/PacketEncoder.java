@@ -44,14 +44,35 @@ public class PacketEncoder {
         return new Packet(PacketType.USER_CREATE_CHANNEL, array);
     }
     
-    public static Packet createChannelDeletePacket(String channelName) {
-        // Decodes channelName and encodes array
-        byte[] array = Util.getByteArrayFromString(channelName);
-        if(array == null) return null;
-        
-        return new Packet(PacketType.USER_DELETE_CHANNEL, array);
+    public static Packet createChannelDeletePacket(byte channelID) {
+        return new Packet(PacketType.USER_DELETE_CHANNEL, new byte[]{}, 0, new byte[]{channelID});
     }
     
+    public static Packet createRequestChannelUsersPacket(byte channelID) {
+        return new Packet(PacketType.REQUEST_USERS_IN_CHANNEL, new byte[]{}, 0, new byte[]{channelID});
+    }
+    
+    public static Packet createSendChannelUserPacket(String name) {
+        byte[] array = Util.getByteArrayFromString(name);
+        if(array == null) return null;
+        
+        return new Packet(PacketType.SEND_USERS_IN_CHANNEL, array);
+    }
+    
+    public static Packet createErrorMessagePacket(String message) {
+        byte[] array = Util.getByteArrayFromString(message);
+        if(array == null) return null;
+        
+        return new Packet(PacketType.ERROR_MESSAGE, array);
+    }
+    
+    public static Packet createChannelInfoPacket(String name, byte id, byte operation) {
+        byte[] array = Util.getByteArrayFromString(name);
+        if(array == null) return null;
+        
+        return new Packet(PacketType.CHANNEL_INFO, array, 0, new byte[]{id, operation});
+    }
+        
     public static Packet createResponseToUserConnectToServerAPakcet(byte ID) {
         return new Packet(PacketType.RESPONSE_USER_CONNECT_SERVER, new byte[]{}, 0, new byte[]{ID});
     }

@@ -2,6 +2,7 @@ package com.merrimackchat_server.client;
 
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.channel.ChannelManager;
+import com.merrimackchat_server.exceptions.ChannelNotFoundException;
 import com.merrimackchat_server.util.Pair;
 import java.util.HashMap;
 import lombok.Getter;
@@ -51,8 +52,9 @@ public class ClientManager {
      * @param userID ID of the client
      * @param channelID ID of the channel being joined
      * @return true if the channel exists and the client was added, false otherwise
+     * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
-    public boolean joinChannel(byte userID, byte channelID) {
+    public boolean joinChannel(byte userID, byte channelID) throws ChannelNotFoundException {
         ChannelManager cm = ServerDriver.getChannelManager();
         if(cm.exists(channelID)) {
             // Remove from old channel (if possible)

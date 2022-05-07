@@ -2,6 +2,8 @@ package com.merrimackchat_server.client;
 
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
+import com.merrimackchat_packet.data.PacketEncoder;
+import com.merrimackchat_packet.data.PacketType;
 import com.merrimackchat_packet.data.Util;
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.channel.Channel;
@@ -10,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Base64;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -106,24 +107,43 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         
                     }; break;
                     case USER_JOIN_CHANNEL: {
-                        ServerDriver.getClientManager().joinChannel(packet.getArgs(0), packet.getArgs(1));
+                        try {
+                            ServerDriver.getClientManager().joinChannel(packet.getArgs(0), packet.getArgs(1));
+                        } catch (ChannelNotFoundException ex) {
+                            try {
+                                PacketEncoder.createErrorMessagePacket(ex.getMessage()).send(out);
+                            } catch (IOException e) {
+                                System.err.println("Cannot send Join Channel Error Packet: " + e);
+                            }
+                        }
                     }; break;
                     case USER_LEAVE_CHANNEL: {
                         ServerDriver.getClientManager().leaveChannel(packet.getArgs(0), packet.getArgs(1));
                     }; break;
                     case USER_CREATE_CHANNEL: {
                         try {
-                            ServerDriver.getChannelManager().createChannel(Base64.getEncoder().encodeToString(packet.getBuff()));
-                        } catch (NoIDAvailableException e) {
-                            // Send error to client requesting
+                            ServerDriver.getChannelManager().createChannel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()));
+                        } catch (NoIDAvailableException ex) {
+                            try {
+                                PacketEncoder.createErrorMessagePacket(ex.getMessage()).send(out);
+                            } catch (IOException e) {
+                                System.err.println("Cannot send Create Channel Error Packet: " + e);
+                            }
                         }
                     }; break;
                     case USER_DELETE_CHANNEL: {
                         try {
-                            ServerDriver.getChannelManager().deleteChannel(Base64.getEncoder().encodeToString(packet.getBuff()));
-                        } catch (ChannelNotFoundException e) {
-                            // Send error to client requesting
+                            ServerDriver.getChannelManager().deleteChannel(packet.getArgs(0));
+                        } catch (ChannelNotFoundException ex) {
+                            try {
+                                PacketEncoder.createErrorMessagePacket(ex.getMessage()).send(out);
+                            } catch (IOException e) {
+                                System.err.println("Cannot send Delete Channel Error Packet: " + e);
+                            }
                         }
+                    }; break;
+                    case REQUEST_USERS_IN_CHANNEL: {
+                        ServerDriver.getChannelManager().sendUserData(out, packet.getArgs(0));
                     }; break;
                     case USER_JOIN_SERVER: {
                         //System.out.println("Buff: " + Arrays.toString(packet.getBuff()));

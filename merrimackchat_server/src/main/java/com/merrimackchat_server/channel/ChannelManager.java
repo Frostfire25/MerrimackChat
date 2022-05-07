@@ -1,8 +1,12 @@
 package com.merrimackchat_server.channel;
 
 import com.merrimackchat_packet.data.PacketEncoder;
+import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.exceptions.*;
 import com.merrimackchat_server.util.Pair;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -52,28 +56,30 @@ public class ChannelManager {
      * @throws NoIDAvailableException if there are no available IDs
      */
     public void createChannel(String name) throws NoIDAvailableException {
-        
-        
         byte id = getAvailableID();
-        if(id != -1)
+        if(id != -1) {
             channels.put(id, new Channel(name, id));
+            broadcastChannelChange(name, id, (byte) 0); // Broadcast change
+        }
         else throw new NoIDAvailableException("No available IDs to create the new channel. Reduce the number of channels.");
     }
     
     /**
-     * Deletes channel by name.
+     * Deletes channel by ID.
      * 
-     * @param name name of channel
+     * @param id ID of channel
      * @throws ChannelNotFoundException if no such channel exists
      */
-    public void deleteChannel(String name) throws ChannelNotFoundException {
-        byte id = findIDByName(name);
-        if(id != -1) {
+    public void deleteChannel(byte id) throws ChannelNotFoundException {
+        if(exists(id)) {
+            // Get channel
+            Channel c = channels.get(id);
             // Remove users
-            channels.get(id).clear();
+            c.clear();
             // Remove channel
             channels.remove(id);
-        } else throw new ChannelNotFoundException("Channel " + name + " is not found, so it cannot be deleted.");
+            broadcastChannelChange(c.getName(), id, (byte) 1); // Broadcast change
+        } else throw new ChannelNotFoundException("No such channel is not found, so it cannot be deleted.");
     }
     
     /**
@@ -81,9 +87,13 @@ public class ChannelManager {
      * 
      * @param channelID channel ID
      * @param userID client being added
+     * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
-    public void userJoinChannel(byte userID, byte channelID) {
-        channels.get(channelID).remove(userID);
+    public void userJoinChannel(byte userID, byte channelID) throws ChannelNotFoundException {
+        if(exists(channelID)) {
+            channels.get(channelID).add(userID);
+            playSound(new File("soundFile.mp3"));
+        } else throw new ChannelNotFoundException("No such channel could be joined");
     }
     /**
      * Removes a user from a channel by ID.
@@ -92,7 +102,8 @@ public class ChannelManager {
      * @param userID client being removed
      */
     public void userLeaveChannel(byte userID, byte channelID) {
-        channels.get(channelID).add(userID);
+        channels.get(channelID).remove(userID);
+        playSound(new File("soundFile.mp3"));
     }
     
     /**
@@ -106,6 +117,22 @@ public class ChannelManager {
      */
     public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2 ) {
         channels.get(channelID).broadcastAudio(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input));
+    }
+    
+    /**
+     * Sends packet information of the users to the OutputStream of the requested client one-by-one by channel ID.
+     * 
+     * @param out output stream of client
+     * @param channelID ID of specified channel
+     */
+    public void sendUserData(OutputStream out, byte channelID) {
+        channels.get(channelID).getClients().forEach(n -> {
+            try {
+                PacketEncoder.createSendChannelUserPacket(n.getName()).send(out);
+            } catch (IOException ex) {
+                System.err.println("Could not send data for user " + n.getName() + " for channel information.");
+            }
+        });
     }
     
     
@@ -131,20 +158,19 @@ public class ChannelManager {
     }
     
     /**
-     * Get the channel's ID by its name.
-     * 
-     * @param name name of channel
-     * @return ID of channel or -1 if not found
+     * Plays a sound when a channel event happens
      */
-    private byte findIDByName(String name) {
-        ArrayList<Channel> ch = new ArrayList<>(channels.values());
-        // Find the channel's id
-        for(int n = 0; n < ch.size(); n++) {
-            Channel c = ch.get(n);
-            if(c.getName().equals(name))
-                return c.getId();
-        }
+    private void playSound(File sound) {
         
-        return -1; // If the channel cannot be found
+    }
+    
+    private void broadcastChannelChange(String name, byte id, byte operation) {
+        ServerDriver.getClientManager().getClientMap().values().forEach(n -> {
+            try {
+                PacketEncoder.createChannelInfoPacket(name, id, operation).send(n.getOut());
+            } catch (IOException ex) {
+                System.err.println("Could not send channel info to client: " + n.getName());
+            }
+        });
     }
 }
