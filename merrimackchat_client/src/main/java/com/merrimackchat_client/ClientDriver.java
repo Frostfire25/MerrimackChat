@@ -30,8 +30,8 @@ public class ClientDriver {
         thread = new Thread(client);
         thread.start();
         
-        IdAndPasswords s = new IdAndPasswords();        
-        LoginPage L = new LoginPage(s.getInfo());
+        //IdAndPasswords s = new IdAndPasswords();        
+        //LoginPage L = new LoginPage(s.getInfo());
 
         /* Set the Nimbus look and feel 
         * @author Mark
