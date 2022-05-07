@@ -5,14 +5,18 @@
  */
 package com.merrimackchat_client.gui;
 
+import com.merrimackchat_client.Client;
 import com.merrimackchat_client.ClientDriver;
 import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Area;
+import java.awt.geom.RoundRectangle2D;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.AbstractBorder;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -31,6 +35,12 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     UndoManager um = new UndoManager();
     
+    
+        static final IdAndPasswords s = new IdAndPasswords(); 
+    static final LoginBrowser lb = new LoginBrowser(s.getInfo());
+        
+    // Name that needs to be set through the GUI
+    public static String name  = lb.getTest();
     /**
      * Creates new form myGUI
      */
@@ -166,6 +176,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jButton3.setText("Delete");
 
         jButton2.setText("Create");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(245, 240, 225));
@@ -521,6 +536,10 @@ System.out.println(System.getProperty("awt.toolkit"));
     
     }//GEN-LAST:event_chatTextKeyPressed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        System.out.println("I'm: " + name + " and am connected");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
 
 //    private void chatPanelUndoableEdit(javax.swing.event.UndoableEditEvent evt) {                                       
@@ -572,7 +591,7 @@ System.out.println(System.getProperty("awt.toolkit"));
         um.redo();
     }
 
-    
+   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JTextArea audioPanel;
