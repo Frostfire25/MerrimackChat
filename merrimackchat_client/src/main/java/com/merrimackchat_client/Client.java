@@ -1,12 +1,15 @@
 package com.merrimackchat_client;
 
+import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.gui.IdAndPasswords;
 import com.merrimackchat_client.gui.LoginBrowser;
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
 import com.merrimackchat_packet.data.PacketEncoder;
+import com.merrimackchat_packet.data.Util;
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +25,7 @@ public class Client extends PacketSender implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    private static final String IP = "10.0.118.2"/*"73.249.253.64"*/;
+    private static final String IP = "127.0.0.1";//"10.0.118.2"/*"73.249.253.64"*/;
     private static final int PORT = 5000;
 
     // ID refrence of this Client default is -128 which is min;
@@ -78,6 +81,18 @@ public class Client extends PacketSender implements Runnable {
                     
                     // Now we want to send the user join packet that contains the users name
                     sendPacket(PacketEncoder.createUserJoinPacket(ID, clientName));
+                }
+                ;
+                break;
+                case CHANNEL_INFO: {
+                    System.out.println("Final packet?: " + packet.getArgs(4));
+                    while(packet.getArgs(4) == (byte) 0) { // While this is not the last packet
+                        System.out.println("Adding new channel (from Client.java)");
+                        ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
+                    }
+                    // Add the final packet
+                    System.out.println("Adding new channel (from Client.java)");
+                    ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
                 }
                 ;
                 break;
