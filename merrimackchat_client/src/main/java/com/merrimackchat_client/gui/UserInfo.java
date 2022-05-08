@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.merrimackchat_client.gui;
 
 /**
@@ -12,10 +8,9 @@ public class UserInfo {
     
     public String username, password; 
 
-    public UserInfo(String[] parts)
-    {
-        username = parts[0];
-        password = parts[1];
+    public UserInfo(String[] parts) {
+        username = parts[0]; // username is position 0
+        password = parts[1]; // password is position 1
     }
     
 }

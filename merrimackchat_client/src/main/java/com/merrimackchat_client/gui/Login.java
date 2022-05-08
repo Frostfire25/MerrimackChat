@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.merrimackchat_client.gui;
 
 import java.awt.event.ActionListener;
@@ -15,40 +11,51 @@ import javax.swing.JTextField;
  */
 public class Login extends javax.swing.JPanel {
 
-     HashMap<String,String> loginInfo = new HashMap<String,String>();
+    // Accessing HashMap keys
+    HashMap<String,String> loginInfo = new HashMap<>();
              
     /**
      * Creates new form LoginBrowser
+     * Default Constructor
      * @param loginOG
      */
     public Login(HashMap<String,String> loginOG) {
 
         initComponents();
         this.loginInfo = loginOG;
-        
-        
- 
-    }
-    
-    
-    
-    public String test = "test";
-    
-    public void login() {
-        usernameText2.grabFocus();
-    }
 
+    }
+    
+    // Test variable for name
+    public String test;
+    
+    // Getter methods for password and username
     public JPasswordField getPasswordText() {
-        return passwordText;
+        return passwordLoginField;
     }
 
     public JTextField getUsernameText2() {
-        return usernameText2;
+        return usernameLoginField;
     }
-
+    
+    public void login() {
+        usernameLoginField.grabFocus();
+    }
+    
+    // Action listener for slide function
     public void addEventRegister(ActionListener event) {
-        hi.addActionListener(event);
+        signUpButton.addActionListener(event);
     }
+    
+    // Getter and Setter field for test variable name
+    public void setTest(String value) {
+        this.test = value;
+    }
+    
+    public String getTest() {
+        return test;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,78 +65,72 @@ public class Login extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelRound3 = new DesignPanels.PanelRound();
-        usernameLbl2 = new javax.swing.JLabel();
-        PasswordLbl2 = new javax.swing.JLabel();
-        usernameText2 = new javax.swing.JTextField();
-        passwordText = new javax.swing.JPasswordField();
-        jLabel3 = new javax.swing.JLabel();
-        hi = new javax.swing.JButton();
+        loginPanel = new DesignPanels.PanelRound();
+        usernameLoginLabel = new javax.swing.JLabel();
+        passwordLoginLabel = new javax.swing.JLabel();
+        usernameLoginField = new javax.swing.JTextField();
+        passwordLoginField = new javax.swing.JPasswordField();
+        loginLabel = new javax.swing.JLabel();
+        signUpButton = new javax.swing.JButton();
 
-        panelRound3.setBackground(new java.awt.Color(255, 255, 255));
-        panelRound3.setForeground(new java.awt.Color(255, 255, 255));
+        loginPanel.setBackground(new java.awt.Color(255, 255, 255));
+        loginPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        usernameLbl2.setText("Username:");
+        usernameLoginLabel.setText("Username:");
 
-        PasswordLbl2.setText("Password:");
+        passwordLoginLabel.setText("Password:");
 
-        usernameText2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameText2ActionPerformed(evt);
-            }
-        });
+        loginLabel.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        loginLabel.setForeground(new java.awt.Color(255, 194, 7));
+        loginLabel.setText("Login");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 215, 0));
-        jLabel3.setText("Login");
+        signUpButton.setBackground(new java.awt.Color(255, 255, 255));
+        signUpButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        signUpButton.setForeground(new java.awt.Color(255, 194, 7));
+        signUpButton.setText("No account? Sign up here");
+        signUpButton.setBorder(null);
+        signUpButton.setBorderPainted(false);
+        signUpButton.setContentAreaFilled(false);
 
-        hi.setBackground(new java.awt.Color(255, 255, 255));
-        hi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        hi.setForeground(new java.awt.Color(255, 215, 0));
-        hi.setText("No account? Sign up here");
-        hi.setBorder(null);
-
-        javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
-        panelRound3.setLayout(panelRound3Layout);
-        panelRound3Layout.setHorizontalGroup(
-            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound3Layout.createSequentialGroup()
+        javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
+        loginPanel.setLayout(loginPanelLayout);
+        loginPanelLayout.setHorizontalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addComponent(usernameLbl2)
-                        .addGap(18, 18, 18)
-                        .addComponent(usernameText2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addComponent(PasswordLbl2)
-                        .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelRound3Layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(jLabel3))
-                            .addGroup(panelRound3Layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(passwordText)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRound3Layout.createSequentialGroup()
-                .addContainerGap(51, Short.MAX_VALUE)
-                .addComponent(hi)
-                .addGap(46, 46, 46))
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(signUpButton)
+                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(loginPanelLayout.createSequentialGroup()
+                            .addComponent(usernameLoginLabel)
+                            .addGap(18, 18, 18)
+                            .addComponent(usernameLoginField, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(loginPanelLayout.createSequentialGroup()
+                            .addComponent(passwordLoginLabel)
+                            .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(loginPanelLayout.createSequentialGroup()
+                                    .addGap(28, 28, 28)
+                                    .addComponent(loginLabel))
+                                .addGroup(loginPanelLayout.createSequentialGroup()
+                                    .addGap(21, 21, 21)
+                                    .addComponent(passwordLoginField))))))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
-        panelRound3Layout.setVerticalGroup(
-            panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRound3Layout.createSequentialGroup()
+        loginPanelLayout.setVerticalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loginPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
+                .addComponent(loginLabel)
                 .addGap(18, 18, 18)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usernameLbl2))
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameLoginField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(usernameLoginLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PasswordLbl2))
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordLoginField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordLoginLabel))
                 .addGap(18, 18, 18)
-                .addComponent(hi)
+                .addComponent(signUpButton)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
@@ -137,32 +138,22 @@ public class Login extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelRound3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelRound3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameText2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameText2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameText2ActionPerformed
-
-    public void setTest(String value) {
-        this.test = value;
-    }
-    
-    public String getTest() {
-        return test;
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel PasswordLbl2;
-    private javax.swing.JButton hi;
-    private javax.swing.JLabel jLabel3;
-    private DesignPanels.PanelRound panelRound3;
-    private javax.swing.JPasswordField passwordText;
-    private javax.swing.JLabel usernameLbl2;
-    private javax.swing.JTextField usernameText2;
+    private javax.swing.JLabel loginLabel;
+    private DesignPanels.PanelRound loginPanel;
+    private javax.swing.JPasswordField passwordLoginField;
+    private javax.swing.JLabel passwordLoginLabel;
+    private javax.swing.JButton signUpButton;
+    private javax.swing.JTextField usernameLoginField;
+    private javax.swing.JLabel usernameLoginLabel;
     // End of variables declaration//GEN-END:variables
+
 }

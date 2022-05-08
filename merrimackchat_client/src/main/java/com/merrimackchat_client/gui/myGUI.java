@@ -47,11 +47,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         
     // Name that needs to be set through the GUI
     
-   // public static String name = loginBrowser.getTest();
-    
-//    public String getClientName() {
-//        return name;
-//    }
+// 
     /**
      * 3.
      * Creates new form myGUI
@@ -64,43 +60,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         addPlaceHolderStyle1(chatText);
         addPlaceHolderStyle2(IPText);
         
-                        /* Set the Nimbus look and feel 
-        * @author Mark
-        */
-        
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(myGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(myGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(myGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(myGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                myGUI myGUI = new myGUI(userIDNew);
-//                myGUI.setVisible(true);
-//                //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
-//                myGUI.setTitle("Chat App");
-//                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            }
-//        });
+   
+        // Set JFrame to be displayed in center of users screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
 
     }
@@ -123,31 +86,30 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
         menuPanel = new javax.swing.JPanel();
         menuLabel = new javax.swing.JLabel();
-        chooseCommLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        enterIPLabel = new javax.swing.JLabel();
+        screenShotButton = new javax.swing.JButton();
+        leaveButton = new javax.swing.JButton();
+        joinButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        createButton = new javax.swing.JButton();
+        functionsLabel = new javax.swing.JLabel();
+        channelsLabel = new javax.swing.JLabel();
+        usersLabel = new javax.swing.JLabel();
+        jScrollPaneChannels = new javax.swing.JScrollPane();
+        channelsJList = new javax.swing.JList<>();
+        jScrollPaneUsers = new javax.swing.JScrollPane();
+        usersTextArea = new javax.swing.JTextArea();
         IPText = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
-        headerPanel = new javax.swing.JPanel();
-        headerLabel = new javax.swing.JLabel();
+        connectToServerButton = new javax.swing.JButton();
         cardPanels = new javax.swing.JPanel();
         chatPanel = new javax.swing.JTextArea();
-        audioPanel = new javax.swing.JTextArea();
+        headerLabel = new javax.swing.JLabel();
         clockPanel = new javax.swing.JPanel();
         clockLabel = new javax.swing.JLabel();
         chatText = new javax.swing.JTextField();
         undo = new javax.swing.JButton();
         redo = new javax.swing.JButton();
+        kGradientPanel1 = new keeptoo.KGradientPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
@@ -164,58 +126,74 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         menuLabel.setForeground(new java.awt.Color(245, 240, 225));
         menuLabel.setText("Main Menu");
 
-        chooseCommLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        chooseCommLabel.setForeground(new java.awt.Color(245, 240, 225));
-        chooseCommLabel.setText("Enter IP:");
+        enterIPLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        enterIPLabel.setForeground(new java.awt.Color(245, 240, 225));
+        enterIPLabel.setText("Enter IP:");
 
-        jButton1.setText("Screenshot");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        screenShotButton.setText("Screenshot");
+        screenShotButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                screenShotButtonActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Leave");
+        leaveButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        leaveButton.setForeground(new java.awt.Color(245, 240, 225));
+        leaveButton.setText("Leave");
+        leaveButton.setBorderPainted(false);
+        leaveButton.setContentAreaFilled(false);
 
-        jButton4.setText("Join");
+        joinButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        joinButton.setForeground(new java.awt.Color(245, 240, 225));
+        joinButton.setText("Join");
+        joinButton.setBorderPainted(false);
+        joinButton.setContentAreaFilled(false);
 
-        jButton3.setText("Delete");
+        deleteButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(245, 240, 225));
+        deleteButton.setText("Delete");
+        deleteButton.setBorderPainted(false);
+        deleteButton.setContentAreaFilled(false);
 
-        jButton2.setText("Create");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        createButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        createButton.setForeground(new java.awt.Color(245, 240, 225));
+        createButton.setText("Create");
+        createButton.setBorderPainted(false);
+        createButton.setContentAreaFilled(false);
+        createButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                createButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(245, 240, 225));
-        jLabel1.setText("Functions:");
+        functionsLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        functionsLabel.setForeground(new java.awt.Color(245, 240, 225));
+        functionsLabel.setText("Functions:");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(245, 240, 225));
-        jLabel2.setText("Channels:");
+        channelsLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        channelsLabel.setForeground(new java.awt.Color(245, 240, 225));
+        channelsLabel.setText("Channels:");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(245, 240, 225));
-        jLabel3.setText("Users:");
+        usersLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        usersLabel.setForeground(new java.awt.Color(245, 240, 225));
+        usersLabel.setText("Users:");
 
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPaneChannels.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        channelsJList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Channel 1", "Channel 2", "Channel 3", "Channel 4", " " };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPaneChannels.setViewportView(channelsJList);
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPaneUsers.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPaneUsers.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        usersTextArea.setEditable(false);
+        usersTextArea.setColumns(20);
+        usersTextArea.setRows(5);
+        jScrollPaneUsers.setViewportView(usersTextArea);
 
         IPText.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -226,10 +204,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             }
         });
 
-        jButton6.setText("Connect!");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        connectToServerButton.setText("Connect!");
+        connectToServerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                connectToServerButtonActionPerformed(evt);
             }
         });
 
@@ -241,11 +219,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(chooseCommLabel)
+                        .addComponent(enterIPLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(IPText, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6))
+                        .addComponent(connectToServerButton))
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(menuLabel)))
@@ -253,26 +231,23 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(screenShotButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(functionsLabel)
+                            .addComponent(leaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(joinButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                            .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(channelsLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(menuPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(usersLabel)
+                            .addComponent(jScrollPaneUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         menuPanelLayout.setVerticalGroup(
@@ -282,67 +257,54 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addComponent(menuLabel)
                 .addGap(12, 12, 12)
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chooseCommLabel)
+                    .addComponent(enterIPLabel)
                     .addComponent(IPText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
+                    .addComponent(connectToServerButton))
                 .addGap(46, 46, 46)
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(functionsLabel)
+                    .addComponent(channelsLabel)
+                    .addComponent(usersLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(createButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
+                        .addComponent(deleteButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)
+                        .addComponent(leaveButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4))
-                    .addComponent(jScrollPane1))
+                        .addComponent(joinButton))
+                    .addComponent(jScrollPaneUsers))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(screenShotButton)
                 .addContainerGap())
         );
 
-        headerPanel.setBackground(new java.awt.Color(255, 110, 64));
-
-        headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        headerLabel.setForeground(new java.awt.Color(245, 240, 225));
-        headerLabel.setText("Chat App");
-
-        javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
-        headerPanel.setLayout(headerPanelLayout);
-        headerPanelLayout.setHorizontalGroup(
-            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(342, Short.MAX_VALUE)
-                .addComponent(headerLabel)
-                .addGap(319, 319, 319))
-        );
-        headerPanelLayout.setVerticalGroup(
-            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(headerLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         cardPanels.setBackground(new java.awt.Color(255, 255, 255));
-        cardPanels.setLayout(new java.awt.CardLayout());
 
         chatPanel.setEditable(false);
         chatPanel.setBackground(new java.awt.Color(245, 240, 225));
         chatPanel.setColumns(20);
         chatPanel.setRows(5);
-        cardPanels.add(chatPanel, "card5");
 
-        audioPanel.setBackground(new java.awt.Color(245, 240, 225));
-        audioPanel.setColumns(20);
-        audioPanel.setRows(5);
-        cardPanels.add(audioPanel, "card6");
+        headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        headerLabel.setForeground(new java.awt.Color(245, 240, 225));
+        headerLabel.setText("Chat App");
+
+        javax.swing.GroupLayout cardPanelsLayout = new javax.swing.GroupLayout(cardPanels);
+        cardPanels.setLayout(cardPanelsLayout);
+        cardPanelsLayout.setHorizontalGroup(
+            cardPanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 826, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 826, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        cardPanelsLayout.setVerticalGroup(
+            cardPanelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(chatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         clockPanel.setBackground(new java.awt.Color(30, 61, 89));
 
@@ -361,7 +323,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         );
         clockPanelLayout.setVerticalGroup(
             clockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(clockLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(clockLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
         );
 
         chatText.setText("Type your response here...");
@@ -410,6 +372,21 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             }
         });
 
+        kGradientPanel1.setkEndColor(new java.awt.Color(245, 240, 225));
+        kGradientPanel1.setkGradientFocus(700);
+        kGradientPanel1.setkStartColor(new java.awt.Color(30, 61, 89));
+
+        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
+        kGradientPanel1.setLayout(kGradientPanel1Layout);
+        kGradientPanel1Layout.setHorizontalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        kGradientPanel1Layout.setVerticalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -419,9 +396,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cardPanels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(cardPanels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(clockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -435,15 +412,18 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(clockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(clockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cardPanels, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cardPanels, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -513,12 +493,12 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         this.requestFocusInWindow();
     }//GEN-LAST:event_formWindowGainedFocus
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void screenShotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_screenShotButtonActionPerformed
         Screenshot screenshotBtn = new Screenshot();
         screenshotBtn.makePanelImage(chatPanel);
         
    
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_screenShotButtonActionPerformed
 
     
     private KeyListener keyListener = new KeyListener();
@@ -534,7 +514,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
         undo();
         System.out.println(System.getProperty("java.awt.Toolkit getDefaultToolkitd"));
-System.out.println(System.getProperty("awt.toolkit"));
+        System.out.println(System.getProperty("awt.toolkit"));
     }//GEN-LAST:event_undoActionPerformed
 
     private void redoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoActionPerformed
@@ -550,13 +530,13 @@ System.out.println(System.getProperty("awt.toolkit"));
     
     }//GEN-LAST:event_chatTextKeyPressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //System.out.println("I'm: " + name + " and am connected");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
+        
+    }//GEN-LAST:event_createButtonActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void connectToServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToServerButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_connectToServerButtonActionPerformed
 
     private void IPTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IPTextFocusGained
         IPText.setText("");
@@ -571,13 +551,7 @@ System.out.println(System.getProperty("awt.toolkit"));
         }
     }//GEN-LAST:event_IPTextFocusLost
 
-
-
-//    private void chatPanelUndoableEdit(javax.swing.event.UndoableEditEvent evt) {                                       
-//        JOptionPane.showMessageDialog(chatPanel, "Hi");
-//    } 
-
-      /*
+    /*
     Getter method for JOptionPane messages
     */
     public static JTextArea getChatPanel() {
@@ -587,8 +561,6 @@ System.out.println(System.getProperty("awt.toolkit"));
     public static JTextField getChatText() {
         return chatText;
     }
-    
-    
     
     /*
     Run method for 24h clock
@@ -622,15 +594,14 @@ System.out.println(System.getProperty("awt.toolkit"));
         um.redo();
     }
 
-   
-     public void refreshChannelList() {
-        jList2.setListData(channelNames.toArray(String[]::new));
+    public void refreshChannelList() {
+        channelsJList.setListData(channelNames.toArray(String[]::new));
         validate();
     }
     
     public void loadBeginningChannels() {
         System.out.println("Loading beginnging channels (size): " + channelManager.getChannelMap().size());
-        channelManager.getChannels().forEach(n -> {
+            channelManager.getChannels().forEach(n -> {
             channelNames.add(n.getName());
             System.out.println(n.getName());
         });
@@ -650,31 +621,30 @@ System.out.println(System.getProperty("awt.toolkit"));
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IPText;
-    private static javax.swing.JTextArea audioPanel;
     private javax.swing.JPanel cardPanels;
+    private javax.swing.JList<String> channelsJList;
+    private javax.swing.JLabel channelsLabel;
     private static javax.swing.JTextArea chatPanel;
     private static javax.swing.JTextField chatText;
-    private javax.swing.JLabel chooseCommLabel;
     private static javax.swing.JLabel clockLabel;
     private javax.swing.JPanel clockPanel;
+    private javax.swing.JButton connectToServerButton;
+    private javax.swing.JButton createButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JLabel enterIPLabel;
+    private javax.swing.JLabel functionsLabel;
     private javax.swing.JLabel headerLabel;
-    private javax.swing.JPanel headerPanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPaneChannels;
+    private javax.swing.JScrollPane jScrollPaneUsers;
+    private javax.swing.JButton joinButton;
+    private keeptoo.KGradientPanel kGradientPanel1;
+    private javax.swing.JButton leaveButton;
     private javax.swing.JLabel menuLabel;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JButton redo;
+    private javax.swing.JButton screenShotButton;
     private javax.swing.JButton undo;
+    private javax.swing.JLabel usersLabel;
+    private javax.swing.JTextArea usersTextArea;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.merrimackchat_client.gui;
 
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -24,13 +21,16 @@ public class Register extends javax.swing.JPanel {
     public Register() {
         initComponents();
     }
+    
     public void register() {
         registerUsername.grabFocus();
     }
-
-     public void addEventBackLogin(ActionListener event) {
+    
+    // Action listener for slide function
+    public void addEventBackLogin(ActionListener event) {
         backToLoginBtn.addActionListener(event);
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,26 +56,17 @@ public class Register extends javax.swing.JPanel {
 
         PasswordLbl2.setText("Password:");
 
-        registerUsername.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                registerUsernameActionPerformed(evt);
-            }
-        });
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 215, 0));
+        jLabel3.setForeground(new java.awt.Color(255, 194, 7));
         jLabel3.setText("Register");
 
         backToLoginBtn.setBackground(new java.awt.Color(255, 255, 255));
         backToLoginBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        backToLoginBtn.setForeground(new java.awt.Color(255, 215, 0));
+        backToLoginBtn.setForeground(new java.awt.Color(255, 194, 7));
         backToLoginBtn.setText("Back to Login");
         backToLoginBtn.setBorder(null);
-        backToLoginBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backToLoginBtnActionPerformed(evt);
-            }
-        });
+        backToLoginBtn.setBorderPainted(false);
+        backToLoginBtn.setContentAreaFilled(false);
 
         javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
         panelRound3.setLayout(panelRound3Layout);
@@ -94,10 +85,9 @@ public class Register extends javax.swing.JPanel {
                             .addComponent(registerPassword)))
                     .addGroup(panelRound3Layout.createSequentialGroup()
                         .addGap(84, 84, 84)
-                        .addComponent(jLabel3))
-                    .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(backToLoginBtn)))
+                        .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(backToLoginBtn)
+                            .addComponent(jLabel3))))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         panelRound3Layout.setVerticalGroup(
@@ -130,19 +120,10 @@ public class Register extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void registerUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerUsernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_registerUsernameActionPerformed
-
-    private void backToLoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToLoginBtnActionPerformed
-//           try{
-//            BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\Mark Case\\Documents\\NetBeansProjects\\elguezbal_case_costello_5\\credentials.txt"));
-//            bw.write(registerUsername.getText());
-//            bw.close();
-//        }catch(Exception ex){
-//            ex.printStackTrace();
-//        }
-    }//GEN-LAST:event_backToLoginBtnActionPerformed
+    // Getter and Setters for button and textfields
+    public JButton getBackToLoginBtn() {
+        return backToLoginBtn;
+    }
 
     public JTextField getRegisterUsername() {
         return registerUsername;

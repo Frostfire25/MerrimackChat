@@ -1,13 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.merrimackchat_client.gui;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 /**
  *
@@ -15,33 +9,32 @@ import java.util.Scanner;
  */
 public class IdAndPasswords {
     
-    public static HashMap<String, String> loginInfo = new HashMap<String,String>();
+    // HashMap data structure to store two strings statements: username, password
+    public static HashMap<String, String> loginInfo = new HashMap<>();
     
+    // Constructor
     public IdAndPasswords() {
         
-        try 
-        {
-            Scanner data_store = new Scanner(new File("C:\\Users\\Mark Case\\Documents\\NetBeansProjects\\elguezbal_case_costello_5\\credentials.txt"));           
+        try {
+            // File that holds strings
+            Scanner data_store = new Scanner(new File(System.getProperty("user.dir") + File.separator + "credentials.txt"));  // adds users directory so absolute path does not need to be changed         
 
-            while (data_store.hasNextLine())
-            {
-                String[] split_string = data_store.nextLine().split(",");
+            while (data_store.hasNextLine()) {
+                String[] split_string = data_store.nextLine().split(","); // split strings on comma
                 UserInfo u = new UserInfo(split_string);
-                loginInfo.put(u.username, u.password);
-            }                   
-        } 
-
-        catch (FileNotFoundException e) 
-        {
-            System.out.println(e.getMessage());
-        }
+                loginInfo.put(u.username, u.password); // username set to first half, paqssword to second half
+            } // End while                   
+        }  
         
-       
-        //loginInfo.put("burger", "fries");
+        catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } // End try-catch
+        
     }
     
+    // Getter
     public  HashMap getInfo() {
         return loginInfo;
     }
     
-}
+} // End Class

@@ -7,7 +7,7 @@ package com.merrimackchat_client;
 import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.gui.IdAndPasswords;
 import com.merrimackchat_client.gui.Login;
-import com.merrimackchat_client.gui.LoginBrowser;
+
 import com.merrimackchat_client.gui.Main;
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
