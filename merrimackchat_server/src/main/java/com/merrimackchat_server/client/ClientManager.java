@@ -49,20 +49,23 @@ public class ClientManager {
     /**
      * Joins the client to the specified channel.
      * 
-     * @param userID ID of the client
+     * @param clientID ID of the client
      * @param channelID ID of the channel being joined
      * @return true if the channel exists and the client was added, false otherwise
      * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
-    public boolean joinChannel(byte userID, byte channelID) throws ChannelNotFoundException {
+    public boolean joinChannel(byte clientID, byte channelID) throws ChannelNotFoundException {
         ChannelManager cm = ServerDriver.getChannelManager();
-        if(cm.exists(channelID)) {
+        
+        // Make sure the channel and the user exist.
+        if(cm.exists(channelID) && clientMap.containsKey(clientID)) {
             // Remove from old channel (if possible)
-            leaveChannel(userID, channelID);
+            leaveChannel(clientID, channelID);
             // Add to new channel
-            cm.userJoinChannel(userID, channelID);
+            cm.userJoinChannel(clientID, channelID);
             // Set the client's channel ID to the new one
-            clientMap.get(userID).setChannel(channelID);
+            clientMap.get(clientID).setChannel(channelID);
+            
             return true;
         }
         return false;

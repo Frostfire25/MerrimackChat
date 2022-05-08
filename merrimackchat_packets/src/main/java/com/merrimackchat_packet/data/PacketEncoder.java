@@ -4,11 +4,6 @@
  */
 package com.merrimackchat_packet.data;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Alex
@@ -77,4 +72,7 @@ public class PacketEncoder {
         return new Packet(PacketType.RESPONSE_USER_CONNECT_SERVER, new byte[]{}, 0, new byte[]{ID});
     }
     
+    public static Packet createServerAudioPakcet(byte[] audio) {
+        return new Packet(PacketType.SERVER_SENDING_AUDIO, audio, audio.length, new byte[]{});
+    }
 }

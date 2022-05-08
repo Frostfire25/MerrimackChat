@@ -87,9 +87,7 @@ public class Client extends PacketSender implements Runnable {
                     
                     // Now we want to send the user join packet that contains the users name
                     sendPacket(PacketEncoder.createUserJoinPacket(ID, clientName));
-                }
-                ;
-                break;
+                }; break;
                 
                 case CHANNEL_INFO: {
                     System.out.println("Final packet?: " + packet.getArgs(3));
@@ -110,6 +108,13 @@ public class Client extends PacketSender implements Runnable {
                         ClientDriver.getMyGUI().loadBeginningChannels();
                     
                 }; break;
+                
+                case SERVER_SENDING_AUDIO: {
+                    byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
+                    System.out.println("Server audio was received and played.");
+                    speaker.write(speakerBuffer, 0, speakerBuffer.length);
+                }; break;
+                
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -188,7 +193,7 @@ public class Client extends PacketSender implements Runnable {
             }
         }).start();
 
-        /**
+   /**
          * This thread is used for sending audio out.
          */
         new Thread(new Runnable() {
@@ -208,12 +213,6 @@ public class Client extends PacketSender implements Runnable {
                     Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                if(!socket.isConnected()) {
-                    System.out.println("Socket is not connected, closing down.");
-                    disconnect();
-                    return;
-                }
-                
                 // Determines if the user is talking
                 while (socket.isConnected()) { // While a connection is still established
                     if (mic.isSending()) {

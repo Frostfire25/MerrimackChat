@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.merrimackchat_server.channel;
 
 import com.merrimackchat_server.exceptions.NoIDAvailableException;
@@ -19,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author Alex
  */
-public class ChannelFileManager {
+public class FileManager {
 
     public ChannelManager channelManager;
 
@@ -28,7 +24,7 @@ public class ChannelFileManager {
      *
      * @param channelManager Channel manager for this file manager to manage
      */
-    public ChannelFileManager(ChannelManager channelManager) {
+    public FileManager(ChannelManager channelManager) {
         this.channelManager = channelManager;
 
         initDirectory();
@@ -39,6 +35,10 @@ public class ChannelFileManager {
 
     private final String FILE_CHANNEL_NAME = "channels.txt";
 
+    public File getFileInDirectory(String name) {
+        return new File(SERVER_DIRECTORY + "\\" + name);
+    }
+    
     /**
      * Initializes the directory for this project
      */
@@ -71,11 +71,15 @@ public class ChannelFileManager {
            
             
         } catch (IOException ex) {
-            Logger.getLogger(ChannelFileManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
+    /**
+     * Loads all channels
+     * @return If the operation worked.
+     */
     public boolean loadChannels() {
         initDirectory();
 
@@ -92,21 +96,25 @@ public class ChannelFileManager {
                 // There are no arguments in the file format yet
                 // Just the channel name, so no need to split arguments
                 channelManager.createChannel(line);
-                Logger.getLogger(ChannelFileManager.class.getName()).log(Level.INFO, String.format("Channel [%s] has been loaded in.", line));
+                Logger.getLogger(FileManager.class.getName()).log(Level.INFO, String.format("Channel [%s] has been loaded in.", line));
             }
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ChannelFileManager.class.getName()).log(Level.SEVERE, null, ex); return false;
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex); return false;
         } catch (IOException ex) {
-            Logger.getLogger(ChannelFileManager.class.getName()).log(Level.SEVERE, null, ex); return false;
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex); return false;
         } catch (NoIDAvailableException ex) {
             System.out.println("No more channels can be created, there are no Channel ID's left.");
-            Logger.getLogger(ChannelFileManager.class.getName()).log(Level.SEVERE, null, ex); return false;
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex); return false;
         }
         
         return true;
     }
 
+    /**
+     * Saves all channels
+     * @return If the operation worked.
+     */
     public boolean saveChannels() {
         initDirectory();
 
@@ -123,7 +131,7 @@ public class ChannelFileManager {
                 writer.newLine();
             }
         } catch (IOException ex) {
-            Logger.getLogger(ChannelFileManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
         return true;

@@ -123,7 +123,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         try {
                             ServerDriver.getChannelManager().createChannel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()));
                             // Saves the channels after they are updated.
-                            ServerDriver.getChannelFileManager().saveChannels();
+                            ServerDriver.getFileManager().saveChannels();
                         } catch (NoIDAvailableException e) {
                             // Send error to client requesting
                         }
@@ -132,7 +132,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         try {
                             ServerDriver.getChannelManager().deleteChannel(packet.getArgs(1));
                             // Saves the channels after they are updated.
-                            ServerDriver.getChannelFileManager().saveChannels();
+                            ServerDriver.getFileManager().saveChannels();
                         } catch (ChannelNotFoundException e) {
                             // Send error to client requesting
                         }
