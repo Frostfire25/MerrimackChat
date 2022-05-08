@@ -33,7 +33,6 @@ public class Client extends PacketSender implements Runnable {
     private byte ID;
      
     // Name that needs to be set through the GUI
-    public static String clientName;
 
     // Does not allow this client to send any packets until 
     //private boolean waitingForPacketResponse = false;
@@ -48,9 +47,6 @@ public class Client extends PacketSender implements Runnable {
         
         mic = new Microphone();
         speaker = new Speaker();
-
-        // Assigns the name
-        clientName = "Alex";
         
         // Sets the ID to the empty value
         ID = Byte.MIN_VALUE;
@@ -86,10 +82,8 @@ public class Client extends PacketSender implements Runnable {
                     System.out.println(this.ID);
                     
                     // Now we want to send the user join packet that contains the users name
-                    sendPacket(PacketEncoder.createUserJoinPacket(ID, clientName));
-                }
-                ;
-                break;
+                    sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
+                }; break;
                 
                 case CHANNEL_INFO: {
                     System.out.println("Final packet?: " + packet.getArgs(3));
@@ -104,14 +98,19 @@ public class Client extends PacketSender implements Runnable {
                     // Add the final packet
                     System.out.println("Adding new channel (from Client.java)");
                     ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                    
-                    System.out.println("Coppy of buffer" + Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
-                    
+                                        
                     // Final channel
                     if(packet.getArgs(3) == (byte) 1)
                         ClientDriver.getMyGUI().loadBeginningChannels();
                     
                 }; break;
+                
+                case SERVER_SENDING_AUDIO: {
+                    byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
+                    System.out.println("Server audio was received and played.");
+                    speaker.write(speakerBuffer, 0, speakerBuffer.length);
+                }; break;
+                
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -190,7 +189,7 @@ public class Client extends PacketSender implements Runnable {
             }
         }).start();
 
-        /**
+   /**
          * This thread is used for sending audio out.
          */
         new Thread(new Runnable() {
@@ -210,12 +209,6 @@ public class Client extends PacketSender implements Runnable {
                     Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                if(!socket.isConnected()) {
-                    System.out.println("Socket is not connected, closing down.");
-                    disconnect();
-                    return;
-                }
-                
                 // Determines if the user is talking
                 while (socket.isConnected()) { // While a connection is still established
                     if (mic.isSending()) {
