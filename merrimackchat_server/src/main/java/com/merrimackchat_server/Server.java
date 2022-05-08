@@ -109,7 +109,4 @@ public class Server extends Thread {
         // Play for every client
         clients.stream().forEach(n -> n.play(input, n.getID()));
     }
-    
-    
-    
 }

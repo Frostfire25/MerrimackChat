@@ -56,20 +56,21 @@ public class ChannelManager {
      * @param out Output stream of this client
      */
     public void getAllChannels(OutputStream out) {
-        int counter = 0;
-        channels.values().forEach(n -> {
+        int counter = 1;
+        
+        for(Channel c : channels.values()) {
             byte last = 0;
             if(counter == channels.size())
                 last = 1;
             try {
                 // (Name, ID, 0 (add channel Operation), First/Last Packet)
-                System.out.println("Sending channel: " + n.getName());
-                PacketEncoder.createChannelInfoPacket(n.getName(), (byte) n.getId(), (byte) 0, last).send(out);
+                System.out.println("Sending channel: " + c.getName());
+                PacketEncoder.createChannelInfoPacket(c.getName(), (byte) c.getId(), (byte) 0, last).send(out);
+                counter++;
             } catch (IOException ex) {
-                System.err.println("Could not print out channel: " + n.getName() + ".");
+                System.err.println("Could not print out channel: " + c.getName() + ".");
             }
-        });
-        ;
+        }
     }
     
     /**

@@ -122,6 +122,8 @@ public class Client extends PacketSender implements Runnable {
             System.err.println(e);
             System.exit(1);
         }
+        
+        System.out.println(socket);
 
         /**
          * Reads incoming packets and manages those correctly.
