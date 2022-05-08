@@ -16,10 +16,6 @@ public class ChannelManager {
     @Getter
     HashMap<String, Channel> channelMap = new HashMap<>();
     
-    public ChannelManager() {
-        
-    }
-    
     public void add(Channel c) {
         channelMap.put(c.getName(), c);
     }

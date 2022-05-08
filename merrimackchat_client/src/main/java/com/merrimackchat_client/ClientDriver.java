@@ -27,11 +27,11 @@ public class ClientDriver {
     @Getter
     private static Client client;
     
-    @Getter
+    @Getter @Setter
     private static myGUI myGUI;
     
     @Getter
-    private static ChannelManager channelManager = new ChannelManager();
+    private static ChannelManager channelManager;
     
     @Getter
     private static IdAndPasswords idAndPasswords;
@@ -40,17 +40,6 @@ public class ClientDriver {
     private static LoginBrowser loginBrowser;
     
     public static void main(String[] args) {
-        
-        // Login
-        idAndPasswords = new IdAndPasswords(); 
-        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());   
-    
-        //Assigns the client out
-        client = new Client();
-
-        thread = new Thread(client);
-        thread.start();
-        
 
         /*Commenting out by alex for simplicity *
         IdAndPasswords s = new IdAndPasswords();        
@@ -81,21 +70,40 @@ public class ClientDriver {
         }
         //</editor-fold>
 
-
-       java.awt.EventQueue.invokeLater(new Runnable() {
+        // Login
+        idAndPasswords = new IdAndPasswords(); 
+        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());    
+    
+        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                myGUI = new myGUI("Derek");
-                myGUI.setVisible(true);
-                myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
-                myGUI.setTitle("Chat App");
-                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//*/
-                //loginBrowser.setVisible(true);
+                //myGUI = new myGUI("Derek");
+                //myGUI.setVisible(true);
                 //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
-                //loginBrowser.setTitle("Chat App");
-                //loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //myGUI.setTitle("Chat App");
+                //myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//*/
+                loginBrowser.setVisible(true);
+                //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+                loginBrowser.setTitle("Chat App");
+                loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
-        });        
+        });      
+    }
+    
+    /**
+     * Establishes a connection with the server
+     */
+    public static void establishConnection(String adress, int port) {
+        
+        System.out.println("Connection being established.");
+        
+        channelManager = new ChannelManager();
+        
+        //Assigns the client out
+        client = new Client(adress, port);
+
+        thread = new Thread(client);
+        thread.start();       
     }
   
 }

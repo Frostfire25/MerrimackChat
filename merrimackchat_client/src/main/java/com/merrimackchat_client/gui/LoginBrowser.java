@@ -4,6 +4,7 @@
  */
 package com.merrimackchat_client.gui;
 
+import com.merrimackchat_client.ClientDriver;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -26,32 +27,26 @@ import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.LineBorder;
 
-
-
 /**
  *
  * @author Mark Case
  */
 public final class LoginBrowser extends javax.swing.JFrame {
- 
-     HashMap<String,String> loginInfo = new HashMap<String,String>();
-             
+
+    HashMap<String, String> loginInfo = new HashMap<String, String>();
+
     /**
      * Creates new form LoginBrowser
+     *
      * @param loginOG
      */
-    public LoginBrowser(HashMap<String,String> loginOG) {
+    public LoginBrowser(HashMap<String, String> loginOG) {
 
         initComponents();
         this.loginInfo = loginOG;
-        
-        
- 
-    }
- public static  String test;
-   
 
-         
+    }
+    public static String test;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -212,91 +207,99 @@ public final class LoginBrowser extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameTextActionPerformed
 
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
-        if(evt.getSource()==resetBtn) {
-           usernameText.setText("");
-           passwordText.setText("");
+        if (evt.getSource() == resetBtn) {
+            usernameText.setText("");
+            passwordText.setText("");
         }
     }//GEN-LAST:event_resetBtnActionPerformed
     /*
     If login button to perform actions
     when pressed
-    */
+     */
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
 //        test = usernameText.getText();
         test = usernameText.getText();
 //        System.out.println("hi:" + test);
-        
-        if(evt.getSource()==loginBtn) {
-           String userIDNew = usernameText.getText(); // get text of JTextfield
-           String passwordNew = String.valueOf(passwordText.getPassword()); // get text of JPasswordfield and convert
-           
-        if(loginInfo.containsKey(userIDNew)) { // key
-             // if entered characters in strings match up, 
-             // display message and get rid of login browser
-            if(loginInfo.get(userIDNew).equals(passwordNew)) {
-                JOptionPane.showMessageDialog(rootPane, "Login successful");
+
+        if (evt.getSource() == loginBtn) {
+            String userIDNew = usernameText.getText(); // get text of JTextfield
+            String passwordNew = String.valueOf(passwordText.getPassword()); // get text of JPasswordfield and convert
+
+            if (loginInfo.containsKey(userIDNew)) { // key
+                
+                
+                // if entered characters in strings match up, 
+                // display message and get rid of login browser
+                if (loginInfo.get(userIDNew).equals(passwordNew)) {
+                    JOptionPane.showMessageDialog(rootPane, "Login successful");
 //                IdAndPasswords s = new IdAndPasswords();         
 //                LoginBrowser lb = new LoginBrowser(s.getInfo());
-                this.dispose();
-        // Once old form is disposed, open main gui form
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                myGUI myGUI = new myGUI(userIDNew);
-                myGUI.setVisible(true);
-                //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
-                myGUI.setTitle("Chat App");
-                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            }
-        });
-            // tell user if info entered is incorrect
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Incorrect Password");
-               }
+                    // Login worked, starting the connection process.
+                    
+                    // Establishes a connection when a succesful login happens.
+                    ClientDriver.establishConnection("127.0.0.1", 5000);
+                    
+                    this.dispose();
+                    // Once old form is disposed, open main gui form
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            myGUI myGUI = new myGUI(userIDNew);
+                            myGUI.setVisible(true);
+                            //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+                            myGUI.setTitle("Chat App");
+                            myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        }
+                    });
+                    
+                    
+                    
+                    // tell user if info entered is incorrect
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Incorrect Password");
+                }
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Incorrect Username");
-           }        
-       }
+            }
+        }
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosed
 
-    public  String getTest() {
+    public String getTest() {
         return test;
     }
 
+    class RoundedPanel extends JPanel {
 
-
-   
-
-    
-   
-    
-class RoundedPanel extends JPanel
-    {
         private Color backgroundColor;
         private int cornerRadius = 15;
+
         public RoundedPanel(LayoutManager layout, int radius) {
             super(layout);
             cornerRadius = radius;
         }
+
         public RoundedPanel(LayoutManager layout, int radius, Color bgColor) {
             super(layout);
             cornerRadius = radius;
             backgroundColor = bgColor;
         }
+
         public RoundedPanel(int radius) {
             super();
             cornerRadius = radius;
-            
+
         }
+
         public RoundedPanel(int radius, Color bgColor) {
             super();
             cornerRadius = radius;
             backgroundColor = bgColor;
         }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -311,14 +314,13 @@ class RoundedPanel extends JPanel
             } else {
                 graphics.setColor(getBackground());
             }
-            graphics.fillRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint background
+            graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height); //paint background
             graphics.setColor(getForeground());
 //            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
 //             
         }
     }
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel PasswordLbl;
