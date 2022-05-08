@@ -2,6 +2,7 @@ package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.Client;
 import com.merrimackchat_client.ClientDriver;
+import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -32,21 +33,27 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     
     
     static final IdAndPasswords s = new IdAndPasswords(); 
-    //static final LoginBrowser lb = new LoginBrowser(s.getInfo());
+    static final LoginBrowser lb = new LoginBrowser(s.getInfo());
         
     // Name that needs to be set through the GUI
     
-    public static String name = ClientDriver.getLoginBrowser().getTest();
+    public static String name  = lb.getTest();
     
     public String getClientName() {
         return name;
     }
+    
     /**
      * 3.
      * Creates new form myGUI
      */
     public myGUI(String userIDNew) {
+        
+        // Assigning myGUI to client
+        ClientDriver.setMyGUI(this);
+
         initComponents();
+                
         Thread t = new Thread(this);
         t.start(); // start thread for run method
         
@@ -122,7 +129,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         IPText = new javax.swing.JTextField();
@@ -189,15 +195,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jLabel3.setForeground(new java.awt.Color(245, 240, 225));
         jLabel3.setText("Users:");
 
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Channel 1", "Channel 2", "Channel 3", "Channel 4", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
-
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
@@ -252,16 +249,14 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(menuPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(0, 107, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         menuPanelLayout.setVerticalGroup(
@@ -307,6 +302,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(342, Short.MAX_VALUE)
                 .addComponent(headerLabel)
                 .addGap(319, 319, 319))
@@ -406,7 +402,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cardPanels, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -610,10 +606,9 @@ System.out.println(System.getProperty("awt.toolkit"));
     public void redo() {
         um.redo();
     }
-
-   
-     public void refreshChannelList() {
-        jList2.setListData(channelNames.toArray(String[]::new));
+    
+    public void refreshChannelList() {
+        JListChannel.setListData(channelNames.toArray(String[]::new));
         validate();
     }
     
@@ -635,9 +630,10 @@ System.out.println(System.getProperty("awt.toolkit"));
         channelNames.remove(channelName);
         refreshChannelList();
     }
+
+   
     
-    
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+
     private javax.swing.JTextField IPText;
     private static javax.swing.JTextArea audioPanel;
     private javax.swing.JPanel cardPanels;
