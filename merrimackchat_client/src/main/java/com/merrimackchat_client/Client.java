@@ -25,8 +25,9 @@ public class Client extends PacketSender implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    private static final String IP = "127.0.0.1";//"10.0.118.2"/*"73.249.253.64"*/;
-    private static final int PORT = 5000;
+    
+    private static String IP /*"73.249.253.64"*/;
+    private static int PORT;
 
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
@@ -39,7 +40,12 @@ public class Client extends PacketSender implements Runnable {
     /**
      * Constructor initializing the mic and speaker for the client's audio I/O.
      */
-    public Client() {
+    public Client(String IP, int port) {
+        
+        // Assigns the IP and port of this client
+        this.IP = IP;
+        this.PORT = port;
+        
         mic = new Microphone();
         speaker = new Speaker();
 
@@ -84,18 +90,28 @@ public class Client extends PacketSender implements Runnable {
                 }
                 ;
                 break;
+                
                 case CHANNEL_INFO: {
-                    System.out.println("Final packet?: " + packet.getArgs(4));
-                    while(packet.getArgs(4) == (byte) 0) { // While this is not the last packet
+                    System.out.println("Final packet?: " + packet.getArgs(3));
+                    
+                    /*
+                    while(packet.getArgs(3) == (byte) 0) { // While this is not the last packet
                         System.out.println("Adding new channel (from Client.java)");
                         ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                    }
+                    } 
+                    */
+ 
                     // Add the final packet
                     System.out.println("Adding new channel (from Client.java)");
                     ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                }
-                ;
-                break;
+                    
+                    System.out.println("Coppy of buffer" + Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
+                    
+                    // Final channel
+                    if(packet.getArgs(3) == (byte) 1)
+                        ClientDriver.getMyGUI().loadBeginningChannels();
+                    
+                }; break;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,6 +138,8 @@ public class Client extends PacketSender implements Runnable {
             System.err.println(e);
             System.exit(1);
         }
+        
+        System.out.println(socket);
 
         /**
          * Reads incoming packets and manages those correctly.

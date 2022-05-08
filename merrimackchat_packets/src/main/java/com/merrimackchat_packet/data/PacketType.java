@@ -79,6 +79,7 @@ public enum PacketType {
      */
     CHANNEL_INFO((byte) 11, 3, false),
     
+    // 0:ID 1:CHANEL_ID 2:OPERATION 3:LAST_PACKET
     
 // DATA TYPES:    
     /**
