@@ -33,7 +33,6 @@ public class Client extends PacketSender implements Runnable {
     private byte ID;
      
     // Name that needs to be set through the GUI
-    public static String clientName;
 
     // Does not allow this client to send any packets until 
     //private boolean waitingForPacketResponse = false;
@@ -48,9 +47,6 @@ public class Client extends PacketSender implements Runnable {
         
         mic = new Microphone();
         speaker = new Speaker();
-
-        // Assigns the name
-        clientName = "Alex";
         
         // Sets the ID to the empty value
         ID = Byte.MIN_VALUE;
@@ -86,7 +82,7 @@ public class Client extends PacketSender implements Runnable {
                     System.out.println(this.ID);
                     
                     // Now we want to send the user join packet that contains the users name
-                    sendPacket(PacketEncoder.createUserJoinPacket(ID, clientName));
+                    sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
                 }; break;
                 
                 case CHANNEL_INFO: {

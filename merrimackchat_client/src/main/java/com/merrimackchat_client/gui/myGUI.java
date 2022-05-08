@@ -36,7 +36,13 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     static final LoginBrowser lb = new LoginBrowser(s.getInfo());
         
     // Name that needs to be set through the GUI
+    
     public static String name  = lb.getTest();
+    
+    public String getClientName() {
+        return name;
+    }
+    
     /**
      * 3.
      * Creates new form myGUI
