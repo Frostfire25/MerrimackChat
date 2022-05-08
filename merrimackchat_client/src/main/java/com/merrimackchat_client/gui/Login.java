@@ -30,7 +30,9 @@ public class Login extends javax.swing.JPanel {
  
     }
     
-    public static  String test;
+    
+    
+    public String test = "test";
     
     public void login() {
         usernameText2.grabFocus();
@@ -147,7 +149,13 @@ public class Login extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameText2ActionPerformed
 
-
+    public void setTest(String value) {
+        this.test = value;
+    }
+    
+    public String getTest() {
+        return test;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel PasswordLbl2;
     private javax.swing.JButton hi;

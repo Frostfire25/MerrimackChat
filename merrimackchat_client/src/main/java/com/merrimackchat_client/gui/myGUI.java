@@ -2,6 +2,7 @@ package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.Client;
 import com.merrimackchat_client.ClientDriver;
+import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -16,6 +17,7 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.undo.UndoManager;
+import lombok.Getter;
 
 
 
@@ -24,6 +26,15 @@ import javax.swing.undo.UndoManager;
  * @author Mark Case
  */
 public class myGUI extends javax.swing.JFrame  implements Runnable {
+    
+        @Getter
+    private static ChannelManager channelManager;
+    
+    @Getter
+    private static IdAndPasswords idAndPasswords;
+    
+    @Getter
+    private static Login loginBrowser;
 
     private int second, minute, hour;
     private ArrayList<String> channelNames = new ArrayList<>();
@@ -36,11 +47,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         
     // Name that needs to be set through the GUI
     
-    public static String name = ClientDriver.getLoginBrowser().getTest();
+   // public static String name = loginBrowser.getTest();
     
-    public String getClientName() {
-        return name;
-    }
+//    public String getClientName() {
+//        return name;
+//    }
     /**
      * 3.
      * Creates new form myGUI
@@ -540,7 +551,7 @@ System.out.println(System.getProperty("awt.toolkit"));
     }//GEN-LAST:event_chatTextKeyPressed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        System.out.println("I'm: " + name + " and am connected");
+        //System.out.println("I'm: " + name + " and am connected");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -618,8 +629,8 @@ System.out.println(System.getProperty("awt.toolkit"));
     }
     
     public void loadBeginningChannels() {
-        System.out.println("Loading beginnging channels (size): " + ClientDriver.getChannelManager().getChannelMap().size());
-        ClientDriver.getChannelManager().getChannels().forEach(n -> {
+        System.out.println("Loading beginnging channels (size): " + channelManager.getChannelMap().size());
+        channelManager.getChannels().forEach(n -> {
             channelNames.add(n.getName());
             System.out.println(n.getName());
         });

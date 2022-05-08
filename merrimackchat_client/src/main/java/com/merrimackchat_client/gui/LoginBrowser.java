@@ -47,7 +47,7 @@ public final class LoginBrowser extends javax.swing.JFrame {
         this.loginInfo = loginOG;
 
     }
-    public String test = "empty";
+    public String test2 = "test2";
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -251,11 +251,11 @@ public final class LoginBrowser extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     public void setTest(String value) {
-        this.test = value;
+        this.test2 = value;
     }
     
     public String getTest() {
-        return test;
+        return test2;
     }
 
     class RoundedPanel extends JPanel {

@@ -9,6 +9,12 @@ import static com.merrimackchat_client.gui.IdAndPasswords.loginInfo;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintStream;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -26,8 +32,10 @@ public class Main extends javax.swing.JFrame {
     @Getter
     private static Login login;
     
+    @Getter
+    private static Register register;
     
-
+File file = new File("C:\\Users\\Mark Case\\Documents\\NetBeansProjects\\elguezbal_case_costello_5\\credentials.txt");
     /**
      * Creates new form Main
      */
@@ -39,7 +47,7 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         
         
-        Register register = new Register();
+         register = new Register();
         panelSlide1.setAnimate(5);
         panelSlide1.init(login,register);
         login.addEventRegister(new ActionListener() {
@@ -137,7 +145,12 @@ public class Main extends javax.swing.JFrame {
         panelGradient1.add(loginBtn);
         loginBtn.setBounds(100, 270, 80, 22);
 
-        resetBtn.setText("Reset");
+        resetBtn.setText("Register");
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
+            }
+        });
         panelGradient1.add(resetBtn);
         resetBtn.setBounds(200, 270, 72, 22);
 
@@ -156,14 +169,19 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        // Sets the username
-        ClientDriver.getLoginBrowser().setTest(login.getUsernameText2().getText());
-        //        System.out.println("hi:" + test);
+                    
 
+// Sets the username
+        ClientDriver.getLoginBrowser().setTest(login.getUsernameText2().getText());
+                
+        System.out.println(loginInfo);
         if(evt.getSource()==loginBtn) {
             String userIDNew = login.getUsernameText2().getText(); // get text of JTextfield
             String passwordNew = String.valueOf(login.getPasswordText().getPassword()); // get text of JPasswordfield and convert
 
+
+          
+            
             if(loginInfo.containsKey(userIDNew)) { // key
                 // if entered characters in strings match up,
                 // display message and get rid of login browser
@@ -174,7 +192,7 @@ public class Main extends javax.swing.JFrame {
                     this.dispose();
 
                     // Establishes a connection when a succesful login happens.
-                    ClientDriver.establishConnection("127.0.0.1", 5000);
+                    ClientDriver.establishConnection("localhost", 5000);
                     
                     // Once old form is disposed, open main gui form
                     java.awt.EventQueue.invokeLater(new Runnable() {
@@ -186,9 +204,22 @@ public class Main extends javax.swing.JFrame {
                             myGUI.setTitle("Chat App");
                             myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             
-                            ClientDriver.setMyGUI(myGUI);
+                            //ClientDriver.setMyGUI(myGUI);
                         }
                     });
+                    
+//                                
+//            String registerID = register.getRegisterUsername().getText();
+//            String registerPass = String.valueOf(register.getRegisterPassword().getPassword());
+//            System.out.println(registerID);
+//            try{
+//                
+//      
+//            PrintStream bw = new PrintStream(new FileOutputStream(file, true));
+//            bw.append("\n" + registerID +  registerPass);
+//            bw.close();
+//        }catch(FileNotFoundException ex){
+//        }
                     // tell user if info entered is incorrect
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Incorrect Password");
@@ -198,6 +229,43 @@ public class Main extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_loginBtnActionPerformed
+
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+                                       
+            String registerID = register.getRegisterUsername().getText();
+            String registerPass = String.valueOf(register.getRegisterPassword().getPassword());
+            System.out.println(registerID);
+            try{
+                
+      
+            PrintStream bw = new PrintStream(new FileOutputStream(file, true));
+            bw.append("\n" + registerID + "," + registerPass);
+            bw.close();
+        }catch(FileNotFoundException ex){
+        }
+            
+            JOptionPane.showMessageDialog(rootPane, "Register successful");
+                    //                IdAndPasswords s = new IdAndPasswords();
+                    //                LoginBrowser lb = new LoginBrowser(s.getInfo());
+                    this.dispose();
+
+                    // Establishes a connection when a succesful login happens.
+                    ClientDriver.establishConnection("localhost", 5000);
+                    
+                    // Once old form is disposed, open main gui form
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            myGUI myGUI = new myGUI(registerID);
+                            myGUI.setVisible(true);
+                            //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+                            myGUI.setTitle("Chat App");
+                            myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            
+                            //ClientDriver.setMyGUI(myGUI);
+                        }
+                    });
+    }//GEN-LAST:event_resetBtnActionPerformed
 
 // public void addEventBackLogin(ActionListener event) {
 //        backToLoginBtn.addActionListener(event);
