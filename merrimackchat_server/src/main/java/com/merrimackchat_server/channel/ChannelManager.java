@@ -30,6 +30,7 @@ public class ChannelManager {
             ids.add(new Pair(true, b));
         }
 
+        /*
         // TEST
         try {
             // Creates a test chanel for this purpose
@@ -40,6 +41,7 @@ public class ChannelManager {
         } catch (NoIDAvailableException ex) {
             Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
 
     /**

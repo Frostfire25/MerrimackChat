@@ -104,9 +104,7 @@ public class Client extends PacketSender implements Runnable {
                     // Add the final packet
                     System.out.println("Adding new channel (from Client.java)");
                     ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                    
-                    System.out.println("Coppy of buffer" + Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
-                    
+                                        
                     // Final channel
                     if(packet.getArgs(3) == (byte) 1)
                         ClientDriver.getMyGUI().loadBeginningChannels();

@@ -1,5 +1,6 @@
 package com.merrimackchat_server;
 
+import com.merrimackchat_server.channel.ChannelFileManager;
 import com.merrimackchat_server.terminal.Console;
 import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.client.ClientManager;
@@ -27,6 +28,9 @@ public class ServerDriver {
     @Getter  
     private static ChannelManager channelManager;
     
+    @Getter
+    private static ChannelFileManager channelFileManager;
+    
     @Getter 
     private static Server server;
     
@@ -35,10 +39,11 @@ public class ServerDriver {
     
     public static void main(String[] args) {
                
-        // Initilizes the channel manager and client manager
+        // Initilizes the channel manager and client manager and channelFileManager
         clientManager = new ClientManager();
         channelManager = new ChannelManager();
-      
+        channelFileManager = new ChannelFileManager(channelManager);
+        
         // Starts the server
         server = new Server(PORT, ADDR);
         server.start();
@@ -54,7 +59,12 @@ public class ServerDriver {
         }
         System.out.println("Awating the connection of clients.");
                
+        // Loads in All channels
+        channelFileManager.loadChannels();
+        
+        // Opens the terminal
         System.out.println("Opening Command Terminal:");
         console = new Console();
+        
     }
 }
