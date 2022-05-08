@@ -17,18 +17,20 @@ import lombok.Getter;
 public class ServerDriver {
     
     public static final int PORT = 5000;
-    public static final String ADDR = "127.0.0.1";
-    
+
     @Getter
+    public static final String ADDR = "127.0.0.1";//"10.0.118.2";
+    
+    @Getter      
     private static ClientManager clientManager;
     
-    @Getter
+    @Getter  
     private static ChannelManager channelManager;
     
-    @Getter
+    @Getter 
     private static Server server;
     
-    @Getter
+    @Getter 
     private static Console console;
     
     public static void main(String[] args) {

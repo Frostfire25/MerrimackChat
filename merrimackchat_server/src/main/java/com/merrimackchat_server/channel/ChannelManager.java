@@ -50,6 +50,29 @@ public class ChannelManager {
     }
     
     /**
+     * Returns all the channels to the client.
+     * Meant for first logon
+     * 
+     * @param out Output stream of this client
+     */
+    public void getAllChannels(OutputStream out) {
+        int counter = 0;
+        channels.values().forEach(n -> {
+            byte last = 0;
+            if(counter == channels.size())
+                last = 1;
+            try {
+                // (Name, ID, 0 (add channel Operation), First/Last Packet)
+                System.out.println("Sending channel: " + n.getName());
+                PacketEncoder.createChannelInfoPacket(n.getName(), (byte) n.getId(), (byte) 0, last).send(out);
+            } catch (IOException ex) {
+                System.err.println("Could not print out channel: " + n.getName() + ".");
+            }
+        });
+        ;
+    }
+    
+    /**
      * Creates channel by channel name.
      * 
      * @param name channel name
@@ -167,7 +190,7 @@ public class ChannelManager {
     private void broadcastChannelChange(String name, byte id, byte operation) {
         ServerDriver.getClientManager().getClientMap().values().forEach(n -> {
             try {
-                PacketEncoder.createChannelInfoPacket(name, id, operation).send(n.getOut());
+                PacketEncoder.createChannelInfoPacket(name, id, operation, (byte) 1).send(n.getOut()); // last package
             } catch (IOException ex) {
                 System.err.println("Could not send channel info to client: " + n.getName());
             }

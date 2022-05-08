@@ -37,6 +37,8 @@ public abstract class ClientThread extends Thread implements Identifiable {
             in = ServerDriver.getServer().getConnection().getInputStream();
             // Get audio output from the client (mic)
             out = ServerDriver.getServer().getConnection().getOutputStream();
+            // For test, included in the test channel
+            //ServerDriver.getChannelManager().getAllChannels(out);
 
             System.out.println("New client thread has been established " + address + " : " + port);
 

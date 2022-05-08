@@ -2,6 +2,7 @@ package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.Client;
 import com.merrimackchat_client.ClientDriver;
+import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.listeners.KeyListener;
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -26,12 +27,12 @@ import javax.swing.undo.UndoManager;
 public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     private int second, minute, hour;
-    
+    private ArrayList<String> channelNames = new ArrayList<>();
 
     UndoManager um = new UndoManager();
     
     
-        static final IdAndPasswords s = new IdAndPasswords(); 
+    static final IdAndPasswords s = new IdAndPasswords(); 
     static final LoginBrowser lb = new LoginBrowser(s.getInfo());
         
     // Name that needs to be set through the GUI
@@ -42,6 +43,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
      */
     public myGUI(String userIDNew) {
         initComponents();
+                
         Thread t = new Thread(this);
         t.start(); // start thread for run method
         
@@ -117,7 +119,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        JListChannel = new javax.swing.JList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         headerPanel = new javax.swing.JPanel();
@@ -191,13 +193,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jLabel3.setText("Users:");
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Channel 1", "Channel 2", "Channel 3", "Channel 4", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(JListChannel);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -586,10 +582,35 @@ System.out.println(System.getProperty("awt.toolkit"));
     public void redo() {
         um.redo();
     }
+    
+    public void refreshChannelList() {
+        JListChannel.setListData(channelNames.toArray(String[]::new));
+        validate();
+    }
+    
+    public void loadBeginningChannels() {
+        System.out.println("Loading beginnging channels (size): " + ClientDriver.getChannelManager().getChannelMap().size());
+        ClientDriver.getChannelManager().getChannels().forEach(n -> {
+            channelNames.add(n.getName());
+            System.out.println(n.getName());
+        });
+        refreshChannelList();
+    }
+    
+    public void addChannel(String channelName) {
+        channelNames.add(channelName);
+        refreshChannelList();
+    }
+    
+    public void removeChannel(String channelName) {
+        channelNames.remove(channelName);
+        refreshChannelList();
+    }
 
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> JListChannel;
     private static javax.swing.JTextArea audioPanel;
     private javax.swing.JPanel cardPanels;
     private static javax.swing.JTextArea chatPanel;
@@ -608,7 +629,6 @@ System.out.println(System.getProperty("awt.toolkit"));
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;

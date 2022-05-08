@@ -1,12 +1,15 @@
 package com.merrimackchat_client;
 
+import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.gui.IdAndPasswords;
 import com.merrimackchat_client.gui.LoginBrowser;
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
 import com.merrimackchat_packet.data.PacketEncoder;
+import com.merrimackchat_packet.data.Util;
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +25,7 @@ public class Client extends PacketSender implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
+    
     private static String IP /*"73.249.253.64"*/;
     private static int PORT;
 
@@ -86,6 +90,28 @@ public class Client extends PacketSender implements Runnable {
                 }
                 ;
                 break;
+                
+                case CHANNEL_INFO: {
+                    System.out.println("Final packet?: " + packet.getArgs(3));
+                    
+                    /*
+                    while(packet.getArgs(3) == (byte) 0) { // While this is not the last packet
+                        System.out.println("Adding new channel (from Client.java)");
+                        ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
+                    } 
+                    */
+ 
+                    // Add the final packet
+                    System.out.println("Adding new channel (from Client.java)");
+                    ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
+                    
+                    System.out.println("Coppy of buffer" + Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
+                    
+                    // Final channel
+                    if(packet.getArgs(3) == (byte) 1)
+                        ClientDriver.getMyGUI().loadBeginningChannels();
+                    
+                }; break;
             }
         } catch (IOException e) {
             e.printStackTrace();
