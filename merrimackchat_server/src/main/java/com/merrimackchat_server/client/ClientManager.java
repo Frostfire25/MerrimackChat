@@ -58,7 +58,7 @@ public class ClientManager {
         ChannelManager cm = ServerDriver.getChannelManager();
         if(cm.exists(channelID)) {
             // Remove from old channel (if possible)
-            leaveChannel(userID, channelID);
+            leaveChannel(userID);
             // Add to new channel
             cm.userJoinChannel(userID, channelID);
             // Set the client's channel ID to the new one
@@ -75,10 +75,10 @@ public class ClientManager {
      * @param channelID ID of channel we're removing the user from
      * @return true if the channel exists and the client was removed, false otherwise
      */
-    public boolean leaveChannel(byte userID, byte channelID) {
+    public boolean leaveChannel(byte userID) {
         ChannelManager cm = ServerDriver.getChannelManager();
         byte currChannelID = clientMap.get(userID).getChannel();
-        if(cm.exists(channelID) && currChannelID == channelID) {
+        if(cm.exists(currChannelID)) {
             // Remove from current channel
             cm.userLeaveChannel(currChannelID, userID);
             return true;
@@ -106,7 +106,7 @@ public class ClientManager {
             Client client = clientMap.remove(ID);
             
             // Leaves channel
-            leaveChannel(client.getID(), client.getChannel());
+            leaveChannel(client.getID());
             
             // Stop thread (UNSAFE MAY HAVE TO REMOVE)
             client.stop();

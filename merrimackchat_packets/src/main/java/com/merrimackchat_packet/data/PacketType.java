@@ -35,18 +35,17 @@ public enum PacketType {
     
     /**
      * Used for when a user leaves a channel
-     * Has 2 arguments
+     * Has 1 argument
      *  - User Sending ID
-     *  - Destination Channel ID
      */
-    USER_LEAVE_CHANNEL((byte) 3, 2, false),
+    USER_LEAVE_CHANNEL((byte) 3, 1, false),
     
     /**
      * Used for when a user creates a channel
-     * Has 1 argument
-     *  - Created Channel ID
+     * Has 0 arguments
+     *  - Created Channel ID (buff not arg)
      */
-    USER_CREATE_CHANNEL((byte) 4, 1, false),
+    USER_CREATE_CHANNEL((byte) 4, 0, false),
     
     /**
      * Used for when a user deletes a channel

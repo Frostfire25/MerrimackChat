@@ -117,7 +117,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     }
                     }; break;
                     case USER_LEAVE_CHANNEL: {
-                        ServerDriver.getClientManager().leaveChannel(packet.getArgs(1), packet.getArgs(2));
+                        ServerDriver.getClientManager().leaveChannel(packet.getArgs(1));
                     }; break;
                     case USER_CREATE_CHANNEL: {
                         try {

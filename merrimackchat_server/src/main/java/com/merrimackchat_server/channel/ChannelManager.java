@@ -121,8 +121,11 @@ public class ChannelManager {
      */
     public void userJoinChannel(byte userID, byte channelID) throws ChannelNotFoundException {
         if (exists(channelID)) {
-            channels.get(channelID).add(userID);
-            playSound(new File("soundFile.mp3"));
+            Channel c = channels.get(channelID);
+            c.add(userID);
+            // Update list for participants of the channel
+            updateForParticipantsOfChannel(c);
+//            playSound(new File("soundFile.mp3"));
         } else {
             throw new ChannelNotFoundException("No such channel could be joined");
         }
@@ -135,8 +138,11 @@ public class ChannelManager {
      * @param userID client being removed
      */
     public void userLeaveChannel(byte userID, byte channelID) {
-        channels.get(channelID).remove(userID);
-        playSound(new File("soundFile.mp3"));
+        Channel c = channels.get(channelID);
+        c.remove(userID);
+        // Update list of users for users
+        updateForParticipantsOfChannel(c);
+//        playSound(new File("soundFile.mp3"));
     }
 
     /**
@@ -159,7 +165,7 @@ public class ChannelManager {
      * @param out output stream of client
      * @param channelID ID of specified channel
      */
-    public void sendUserData(OutputStream out, byte channelID) {
+    public void sendUserListOfUsers(OutputStream out, byte channelID) {
         channels.get(channelID).getClients().forEach(n -> {
             try {
                 PacketEncoder.createSendChannelUserPacket(n.getName()).send(out);
@@ -203,6 +209,12 @@ public class ChannelManager {
             } catch (IOException ex) {
                 System.err.println("Could not send channel info to client: " + n.getName());
             }
+        });
+    }
+    
+    private void updateForParticipantsOfChannel(Channel c) {
+        c.getClients().forEach(n -> {
+            sendUserListOfUsers(n.getOut(), c.getId());
         });
     }
 }

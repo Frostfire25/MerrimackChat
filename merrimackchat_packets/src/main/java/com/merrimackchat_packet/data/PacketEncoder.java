@@ -32,8 +32,8 @@ public class PacketEncoder {
         return new Packet(PacketType.USER_JOIN_CHANNEL, new byte[]{}, 0, new byte[]{clientID, channelID});
     }
     
-    public static Packet createChannelLeavePacket(byte clientID, byte channelID) {
-        return new Packet(PacketType.USER_LEAVE_CHANNEL, new byte[]{}, 0, new byte[]{clientID, channelID});
+    public static Packet createChannelLeavePacket(byte clientID) {
+        return new Packet(PacketType.USER_LEAVE_CHANNEL, new byte[]{}, 0, new byte[]{clientID});
     }
     
     public static Packet createChannelCreatePacket(String channelName) {

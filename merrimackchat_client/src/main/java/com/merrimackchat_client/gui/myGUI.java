@@ -4,6 +4,7 @@ import com.merrimackchat_client.Client;
 import com.merrimackchat_client.ClientDriver;
 import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.listeners.KeyListener;
+import com.merrimackchat_packet.data.PacketEncoder;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -115,10 +116,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         chooseCommComboBox = new javax.swing.JComboBox<>();
         chooseCommLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        leaveBtn = new javax.swing.JButton();
+        joinBtn = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
+        createBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -171,16 +172,31 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             }
         });
 
-        jButton5.setText("Leave");
-
-        jButton4.setText("Join");
-
-        jButton3.setText("Delete");
-
-        jButton2.setText("Create");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        leaveBtn.setText("Leave");
+        leaveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                leaveBtnActionPerformed(evt);
+            }
+        });
+
+        joinBtn.setText("Join");
+        joinBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                joinBtnActionPerformed(evt);
+            }
+        });
+
+        deleteBtn.setText("Delete");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
+
+        createBtn.setText("Create");
+        createBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createBtnActionPerformed(evt);
             }
         });
 
@@ -230,10 +246,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
-                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(leaveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(joinBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(createBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -264,13 +280,13 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(createBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
+                        .addComponent(deleteBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)
+                        .addComponent(leaveBtn)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4))
+                        .addComponent(joinBtn))
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
@@ -530,9 +546,24 @@ System.out.println(System.getProperty("awt.toolkit"));
     
     }//GEN-LAST:event_chatTextKeyPressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        System.out.println("I'm: " + name + " and am connected");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void createBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
+        String name = JOptionPane.showInputDialog(null, "Please enter a name (under 15 characters preferably) for the new channel:");
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelCreatePacket("x"+name));
+    }//GEN-LAST:event_createBtnActionPerformed
+
+    private void joinBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBtnActionPerformed
+        Channel c = ClientDriver.getChannelManager().get(channelNames.get(JListChannel.getSelectedIndex()));
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelJoinPacket(ClientDriver.getClient().getID(), c.getId()));
+    }//GEN-LAST:event_joinBtnActionPerformed
+
+    private void leaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveBtnActionPerformed
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelLeavePacket(ClientDriver.getClient().getID()));
+    }//GEN-LAST:event_leaveBtnActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        Channel c = ClientDriver.getChannelManager().get(channelNames.get(JListChannel.getSelectedIndex()));
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelDeletePacket(c.getId()));
+    }//GEN-LAST:event_deleteBtnActionPerformed
 
 
 
@@ -590,7 +621,7 @@ System.out.println(System.getProperty("awt.toolkit"));
         validate();
     }
     
-    public void loadBeginningChannels() {
+    public void loadChannels() {
         System.out.println("Loading beginnging channels (size): " + ClientDriver.getChannelManager().getChannelMap().size());
         ClientDriver.getChannelManager().getChannels().forEach(n -> {
             channelNames.add(n.getName());
@@ -621,19 +652,19 @@ System.out.println(System.getProperty("awt.toolkit"));
     private javax.swing.JLabel chooseCommLabel;
     private static javax.swing.JLabel clockLabel;
     private javax.swing.JPanel clockPanel;
+    private javax.swing.JButton createBtn;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel headerLabel;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton joinBtn;
+    private javax.swing.JButton leaveBtn;
     private javax.swing.JLabel menuLabel;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JButton redo;
