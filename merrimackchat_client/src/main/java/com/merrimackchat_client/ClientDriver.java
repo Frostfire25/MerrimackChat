@@ -36,17 +36,6 @@ public class ClientDriver {
     private static LoginBrowser loginBrowser;
     
     public static void main(String[] args) {
-        
-        // Login
-        idAndPasswords = new IdAndPasswords(); 
-        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());    
-    
-        //Assigns the client out
-        client = new Client();
-
-        thread = new Thread(client);
-        thread.start();
-        
 
         /*Commenting out by alex for simplicity *
         IdAndPasswords s = new IdAndPasswords();        
@@ -77,8 +66,11 @@ public class ClientDriver {
         }
         //</editor-fold>
 
-
-       java.awt.EventQueue.invokeLater(new Runnable() {
+        // Login
+        idAndPasswords = new IdAndPasswords(); 
+        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());    
+    
+        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 /*myGUI = new myGUI();
@@ -91,7 +83,21 @@ public class ClientDriver {
                 loginBrowser.setTitle("Chat App");
                 loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
-        });        
+        });      
+    }
+    
+    /**
+     * Establishes a connection with the server
+     */
+    public static void establishConnection(String adress, int port) {
+        
+        System.out.println("Connection being established.");
+        
+        //Assigns the client out
+        client = new Client(adress, port);
+
+        thread = new Thread(client);
+        thread.start();
     }
   
 }

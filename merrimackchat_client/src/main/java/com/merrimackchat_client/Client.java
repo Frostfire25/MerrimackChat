@@ -22,8 +22,8 @@ public class Client extends PacketSender implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    private static final String IP = "10.0.118.2"/*"73.249.253.64"*/;
-    private static final int PORT = 5000;
+    private static String IP /*"73.249.253.64"*/;
+    private static int PORT;
 
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
@@ -36,7 +36,12 @@ public class Client extends PacketSender implements Runnable {
     /**
      * Constructor initializing the mic and speaker for the client's audio I/O.
      */
-    public Client() {
+    public Client(String IP, int port) {
+        
+        // Assigns the IP and port of this client
+        this.IP = IP;
+        this.PORT = port;
+        
         mic = new Microphone();
         speaker = new Speaker();
 
@@ -107,6 +112,8 @@ public class Client extends PacketSender implements Runnable {
             System.err.println(e);
             System.exit(1);
         }
+        
+        System.out.println(socket);
 
         /**
          * Reads incoming packets and manages those correctly.
