@@ -89,24 +89,14 @@ public class Client implements Runnable {
                     sendPacket(PacketEncoder.createUserJoinPacket(ID, clientName));
                 }; break;
                 case CHANNEL_INFO: {
-                    System.out.println("Final packet?: " + packet.getArgs(3));
-                    
-                    /*
-                    while(packet.getArgs(3) == (byte) 0) { // While this is not the last packet
-                        System.out.println("Adding new channel (from Client.java)");
-                        ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                    } 
-                    */
- 
-                    // Add the final packet
-                    System.out.println("Adding new channel (from Client.java)");
-                    ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                    
-                    System.out.println("Coppy of buffer" + Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
-                    
-                    // Final channel
-                    if(packet.getArgs(3) == (byte) 1)
-                        ClientDriver.getMyGUI().loadChannels();
+                    String channelName = Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers());
+                    if(packet.getArgs(2) == (byte) 0) {
+                        ClientDriver.getChannelManager().add(new Channel(channelName, packet.getArgs(1))); // Add to ChannelManger
+                        ClientDriver.getMyGUI().addChannel(channelName); // Add to GUI
+                    } else {
+                        ClientDriver.getChannelManager().remove(channelName); // Remove from ChannelManger
+                        ClientDriver.getMyGUI().removeChannel(channelName); // Remove from GUI
+                    }
                     
                 }; break;
                 case USER_JOIN_CHANNEL: {

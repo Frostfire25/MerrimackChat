@@ -548,7 +548,8 @@ System.out.println(System.getProperty("awt.toolkit"));
 
     private void createBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
         String name = JOptionPane.showInputDialog(null, "Please enter a name (under 15 characters preferably) for the new channel:");
-        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelCreatePacket("x"+name));
+        System.out.println("Name: " + name);
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelCreatePacket(name));
     }//GEN-LAST:event_createBtnActionPerformed
 
     private void joinBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBtnActionPerformed
@@ -619,15 +620,6 @@ System.out.println(System.getProperty("awt.toolkit"));
     public void refreshChannelList() {
         JListChannel.setListData(channelNames.toArray(String[]::new));
         validate();
-    }
-    
-    public void loadChannels() {
-        System.out.println("Loading beginnging channels (size): " + ClientDriver.getChannelManager().getChannelMap().size());
-        ClientDriver.getChannelManager().getChannels().forEach(n -> {
-            channelNames.add(n.getName());
-            System.out.println(n.getName());
-        });
-        refreshChannelList();
     }
     
     public void addChannel(String channelName) {

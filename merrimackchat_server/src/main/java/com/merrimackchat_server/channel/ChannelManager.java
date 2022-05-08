@@ -2,6 +2,7 @@ package com.merrimackchat_server.channel;
 
 import com.merrimackchat_packet.data.PacketEncoder;
 import com.merrimackchat_server.ServerDriver;
+import com.merrimackchat_server.client.Client;
 import com.merrimackchat_server.exceptions.*;
 import com.merrimackchat_server.util.Pair;
 import java.io.File;
@@ -68,7 +69,7 @@ public class ChannelManager {
             try {
                 // (Name, ID, 0 (add channel Operation), First/Last Packet)
                 System.out.println("Sending channel: " + c.getName());
-                PacketEncoder.createChannelInfoPacket(c.getName(), (byte) c.getId(), (byte) 0, last).send(out);
+                PacketEncoder.createChannelInfoPacket(c.getName(), (byte) c.getId(), (byte) 0).send(out);
                 counter++;
             } catch (IOException ex) {
                 System.err.println("Could not print out channel: " + c.getName() + ".");
@@ -103,7 +104,9 @@ public class ChannelManager {
             // Get channel
             Channel c = channels.get(id);
             // Remove users
-            c.clear();
+            for(Client client : c.getClients()) {
+                userLeaveChannel(client.getID(), id);
+            }
             // Remove channel
             channels.remove(id);
             broadcastChannelChange(c.getName(), id, (byte) 1); // Broadcast change
@@ -136,13 +139,20 @@ public class ChannelManager {
      *
      * @param channelID channel ID
      * @param userID client being removed
+     * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
-    public void userLeaveChannel(byte userID, byte channelID) {
-        Channel c = channels.get(channelID);
-        c.remove(userID);
-        // Update list of users for users
-        updateForParticipantsOfChannel(c);
-//        playSound(new File("soundFile.mp3"));
+    public void userLeaveChannel(byte userID, byte channelID) throws ChannelNotFoundException {
+        
+        if (exists(channelID)) {
+            Channel c = channels.get(channelID);
+            c.remove(userID);
+            // Update list of users for users
+            updateForParticipantsOfChannel(c);
+//          playSound(new File("soundFile.mp3"));
+        } else {
+            throw new ChannelNotFoundException("No such channel could be joined");
+        }
+        
     }
 
     /**
@@ -205,7 +215,7 @@ public class ChannelManager {
     private void broadcastChannelChange(String name, byte id, byte operation) {
         ServerDriver.getClientManager().getClientMap().values().forEach(n -> {
             try {
-                PacketEncoder.createChannelInfoPacket(name, id, operation, (byte) 1).send(n.getOut()); // last package
+                PacketEncoder.createChannelInfoPacket(name, id, operation).send(n.getOut());
             } catch (IOException ex) {
                 System.err.println("Could not send channel info to client: " + n.getName());
             }

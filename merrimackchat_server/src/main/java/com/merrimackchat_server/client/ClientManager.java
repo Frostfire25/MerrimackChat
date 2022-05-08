@@ -5,6 +5,8 @@ import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.exceptions.ChannelNotFoundException;
 import com.merrimackchat_server.util.Pair;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
 
 /**
@@ -72,10 +74,10 @@ public class ClientManager {
      * Removes the client from the specified channel.
      * 
      * @param userID ID of the client
-     * @param channelID ID of channel we're removing the user from
      * @return true if the channel exists and the client was removed, false otherwise
+     * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
-    public boolean leaveChannel(byte userID) {
+    public boolean leaveChannel(byte userID) throws ChannelNotFoundException {
         ChannelManager cm = ServerDriver.getChannelManager();
         byte currChannelID = clientMap.get(userID).getChannel();
         if(cm.exists(currChannelID)) {
@@ -105,8 +107,12 @@ public class ClientManager {
         if(clientMap.containsKey(ID)) {
             Client client = clientMap.remove(ID);
             
-            // Leaves channel
-            leaveChannel(client.getID());
+            try {
+                // Leaves channel
+                leaveChannel(client.getID());
+            } catch (ChannelNotFoundException ex) {
+                System.out.println("Could not find channel to leave when removing client.");
+            }
             
             // Stop thread (UNSAFE MAY HAVE TO REMOVE)
             client.stop();

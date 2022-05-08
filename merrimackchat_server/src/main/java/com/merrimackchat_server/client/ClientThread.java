@@ -110,27 +110,39 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         
                     }; break;
                     case USER_JOIN_CHANNEL: {
-                    try {
-                        ServerDriver.getClientManager().joinChannel(packet.getArgs(1), packet.getArgs(2));
-                    } catch (ChannelNotFoundException ex) {
-                        Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                        try {
+                            ServerDriver.getClientManager().joinChannel(packet.getArgs(1), packet.getArgs(2));
+                        } catch (ChannelNotFoundException ex) {
+                            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }; break;
                     case USER_LEAVE_CHANNEL: {
-                        ServerDriver.getClientManager().leaveChannel(packet.getArgs(1));
+                        try {
+                            ServerDriver.getClientManager().leaveChannel(packet.getArgs(1));
+                        } catch (ChannelNotFoundException ex) {
+                            System.out.println("No channel found for user to leave.");
+                        }
                     }; break;
                     case USER_CREATE_CHANNEL: {
                         try {
                             ServerDriver.getChannelManager().createChannel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()));
                         } catch (NoIDAvailableException e) {
-                            // Send error to client requesting
+                            try {
+                                PacketEncoder.createErrorMessagePacket(e.getMessage()).send(out);
+                            } catch (IOException ex) {
+                                System.out.println("Could not send NoIDAvailableError");
+                            }
                         }
                     }; break;
                     case USER_DELETE_CHANNEL: {
                         try {
                             ServerDriver.getChannelManager().deleteChannel(packet.getArgs(1));
                         } catch (ChannelNotFoundException e) {
-                            // Send error to client requesting
+                            try {
+                                PacketEncoder.createErrorMessagePacket(e.getMessage()).send(out);
+                            } catch (IOException ex) {
+                                System.out.println("Could not send NoIDAvailableError");
+                            }
                         }
                     }; break;
                     case USER_JOIN_SERVER: {

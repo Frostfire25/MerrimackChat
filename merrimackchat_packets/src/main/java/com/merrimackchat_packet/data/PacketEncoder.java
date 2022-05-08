@@ -66,11 +66,11 @@ public class PacketEncoder {
         return new Packet(PacketType.ERROR_MESSAGE, array);
     }
     
-    public static Packet createChannelInfoPacket(String name, byte id, byte operation, byte lastPacket) {
+    public static Packet createChannelInfoPacket(String name, byte id, byte operation) {
         byte[] array = Util.getByteArrayFromString(name);
         if(array == null) return null;
         
-        return new Packet(PacketType.CHANNEL_INFO, array, 0, new byte[]{id, operation, lastPacket});
+        return new Packet(PacketType.CHANNEL_INFO, array, 0, new byte[]{id, operation});
     }
         
     public static Packet createResponseToUserConnectToServerAPakcet(byte ID) {

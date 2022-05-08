@@ -74,9 +74,8 @@ public enum PacketType {
      *  - Channel name (buff not arg)
      *  - Channel ID
      *  - Operation on channel (0 = create, 1 = remove)
-     *  - Last packet sent (0 = no, 1 = yes)
      */
-    CHANNEL_INFO((byte) 11, 3, false),
+    CHANNEL_INFO((byte) 11, 2, false),
     
     // 0:ID 1:CHANEL_ID 2:OPERATION 3:LAST_PACKET
     
