@@ -122,6 +122,8 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case USER_CREATE_CHANNEL: {
                         try {
                             ServerDriver.getChannelManager().createChannel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()));
+                            // Saves the channels after they are updated.
+                            ServerDriver.getChannelFileManager().saveChannels();
                         } catch (NoIDAvailableException e) {
                             // Send error to client requesting
                         }
@@ -129,6 +131,8 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case USER_DELETE_CHANNEL: {
                         try {
                             ServerDriver.getChannelManager().deleteChannel(packet.getArgs(1));
+                            // Saves the channels after they are updated.
+                            ServerDriver.getChannelFileManager().saveChannels();
                         } catch (ChannelNotFoundException e) {
                             // Send error to client requesting
                         }

@@ -122,10 +122,9 @@ public class ChannelFileManager {
                 writer.append(n.getName());
                 writer.newLine();
             }
-            
         } catch (IOException ex) {
             Logger.getLogger(ChannelFileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         
         return true;
     }
