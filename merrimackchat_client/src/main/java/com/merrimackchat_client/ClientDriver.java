@@ -27,7 +27,7 @@ public class ClientDriver {
     @Getter
     private static Client client;
     
-    @Getter
+    @Getter @Setter
     private static myGUI myGUI;
     
     @Getter
