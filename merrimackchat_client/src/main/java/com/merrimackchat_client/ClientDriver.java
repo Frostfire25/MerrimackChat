@@ -4,6 +4,7 @@
  */
 package com.merrimackchat_client;
 
+import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.gui.IdAndPasswords;
 import com.merrimackchat_client.gui.LoginBrowser;
 
@@ -30,6 +31,9 @@ public class ClientDriver {
     private static myGUI myGUI;
     
     @Getter
+    private static ChannelManager channelManager = new ChannelManager();
+    
+    @Getter
     private static IdAndPasswords idAndPasswords;
     
     @Getter
@@ -39,7 +43,7 @@ public class ClientDriver {
         
         // Login
         idAndPasswords = new IdAndPasswords(); 
-        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());    
+        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());   
     
         //Assigns the client out
         client = new Client();
@@ -81,15 +85,15 @@ public class ClientDriver {
        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                /*myGUI = new myGUI();
+                myGUI = new myGUI("Derek");
                 myGUI.setVisible(true);
                 myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 myGUI.setTitle("Chat App");
-                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
-                loginBrowser.setVisible(true);
+                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//*/
+                //loginBrowser.setVisible(true);
                 //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
-                loginBrowser.setTitle("Chat App");
-                loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //loginBrowser.setTitle("Chat App");
+                //loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });        
     }

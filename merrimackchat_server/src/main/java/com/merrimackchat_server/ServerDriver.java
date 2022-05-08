@@ -17,7 +17,7 @@ import lombok.Getter;
 public class ServerDriver {
     
     public static final int PORT = 5000;
-    public static final String ADDR = "10.0.118.2";
+    public static final String ADDR = "127.0.0.1";//"10.0.118.2";
     
     @Getter
     private static ClientManager clientManager;
