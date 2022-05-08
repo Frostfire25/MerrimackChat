@@ -45,7 +45,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         Thread t = new Thread(this);
         t.start(); // start thread for run method
         
-        addPlaceHolderStyle(chatText);
+        addPlaceHolderStyle1(chatText);
+        addPlaceHolderStyle2(IPText);
         
                         /* Set the Nimbus look and feel 
         * @author Mark
@@ -106,7 +107,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
         menuPanel = new javax.swing.JPanel();
         menuLabel = new javax.swing.JLabel();
-        chooseCommComboBox = new javax.swing.JComboBox<>();
         chooseCommLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -120,6 +120,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jList2 = new javax.swing.JList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        IPText = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
         headerPanel = new javax.swing.JPanel();
         headerLabel = new javax.swing.JLabel();
         cardPanels = new javax.swing.JPanel();
@@ -146,17 +148,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         menuLabel.setForeground(new java.awt.Color(245, 240, 225));
         menuLabel.setText("Main Menu");
 
-        chooseCommComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chat Function", "Audio Function" }));
-        chooseCommComboBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        chooseCommComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chooseCommComboBoxActionPerformed(evt);
-            }
-        });
-
         chooseCommLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         chooseCommLabel.setForeground(new java.awt.Color(245, 240, 225));
-        chooseCommLabel.setText("Communication Type:");
+        chooseCommLabel.setText("Enter IP:");
 
         jButton1.setText("Screenshot");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -207,6 +201,22 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        IPText.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                IPTextFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                IPTextFocusLost(evt);
+            }
+        });
+
+        jButton6.setText("Connect!");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
@@ -215,14 +225,15 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(chooseCommLabel))
+                        .addComponent(chooseCommLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(IPText, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton6))
                     .addGroup(menuPanelLayout.createSequentialGroup()
                         .addGap(87, 87, 87)
-                        .addComponent(menuLabel))
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(chooseCommComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(menuLabel)))
+                .addGap(0, 12, Short.MAX_VALUE))
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,10 +265,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addContainerGap()
                 .addComponent(menuLabel)
                 .addGap(12, 12, 12)
-                .addComponent(chooseCommLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chooseCommComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chooseCommLabel)
+                    .addComponent(IPText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
+                .addGap(46, 46, 46)
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
@@ -290,7 +302,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(343, Short.MAX_VALUE)
+                .addContainerGap(342, Short.MAX_VALUE)
                 .addComponent(headerLabel)
                 .addGap(319, 319, 319))
         );
@@ -433,12 +445,20 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     These methods set font of jTextField to light gray or black depending 
     on if focus is gained or lost
     */
-    public void addPlaceHolderStyle(JTextField textField) {
+    public void addPlaceHolderStyle1(JTextField textField) {
         Font font = textField.getFont();
         font = font.deriveFont(Font.ITALIC);
         textField.setFont(font);
         textField.setForeground(Color.LIGHT_GRAY);
         textField.setText("Type your response here...");
+    }
+    
+        public void addPlaceHolderStyle2(JTextField textField) {
+        Font font = textField.getFont();
+        font = font.deriveFont(Font.ITALIC);
+        textField.setFont(font);
+        textField.setForeground(Color.LIGHT_GRAY);
+        textField.setText("xxx.xx.xx.xx");
     }
     
     public void removePlaceHolderStyle(JTextField textField) {
@@ -450,24 +470,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     
     
     
-    /*
-    Switches panels using cardlayout by identifying item selected with string.
-    Clicks switch audio and chat panels
-    */
-    private void chooseCommComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseCommComboBoxActionPerformed
-        if(chooseCommComboBox.getSelectedItem() == "Chat Function") {
-            cardPanels.removeAll();
-            cardPanels.add(chatPanel);
-            cardPanels.repaint();
-            cardPanels.revalidate();
-        } else {
-           cardPanels.removeAll();
-            cardPanels.add(audioPanel);
-            cardPanels.repaint();
-            cardPanels.revalidate();
-        }
-    }//GEN-LAST:event_chooseCommComboBoxActionPerformed
-
     
     
     /*
@@ -486,7 +488,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     private void chatTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatTextFocusLost
         if(chatText.getText().equals("")) {
-            addPlaceHolderStyle(chatText);
+            addPlaceHolderStyle1(chatText);
             //chatText.setText("Type your response here...");
         }
     }//GEN-LAST:event_chatTextFocusLost
@@ -535,6 +537,23 @@ System.out.println(System.getProperty("awt.toolkit"));
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         System.out.println("I'm: " + name + " and am connected");
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void IPTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IPTextFocusGained
+        IPText.setText("");
+            IPText.requestFocus();
+            
+            removePlaceHolderStyle(IPText);
+    }//GEN-LAST:event_IPTextFocusGained
+
+    private void IPTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IPTextFocusLost
+        if(IPText.getText().equals("")) {
+            addPlaceHolderStyle2(IPText);
+        }
+    }//GEN-LAST:event_IPTextFocusLost
 
 
 
@@ -590,11 +609,11 @@ System.out.println(System.getProperty("awt.toolkit"));
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField IPText;
     private static javax.swing.JTextArea audioPanel;
     private javax.swing.JPanel cardPanels;
     private static javax.swing.JTextArea chatPanel;
     private static javax.swing.JTextField chatText;
-    private javax.swing.JComboBox<String> chooseCommComboBox;
     private javax.swing.JLabel chooseCommLabel;
     private static javax.swing.JLabel clockLabel;
     private javax.swing.JPanel clockPanel;
@@ -605,6 +624,7 @@ System.out.println(System.getProperty("awt.toolkit"));
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

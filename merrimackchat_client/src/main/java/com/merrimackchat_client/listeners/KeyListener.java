@@ -37,6 +37,9 @@ public class KeyListener {
             System.out.println("Push to talk key released");
             ClientDriver.getClient().sendAudio(false);
             isPressed = false;
+        } else if  (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("Enter for connect btn pressed");
+            
         }
 
     }

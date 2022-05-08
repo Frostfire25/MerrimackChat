@@ -6,6 +6,7 @@ package com.merrimackchat_client;
 
 import com.merrimackchat_client.gui.IdAndPasswords;
 import com.merrimackchat_client.gui.LoginBrowser;
+import com.merrimackchat_client.gui.Main;
 
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
@@ -40,12 +41,14 @@ public class ClientDriver {
         // Login
         idAndPasswords = new IdAndPasswords(); 
         loginBrowser = new LoginBrowser(idAndPasswords.getInfo());    
+        
+        Main main = new Main();
     
         //Assigns the client out
-        client = new Client();
-
-        thread = new Thread(client);
-        thread.start();
+//        client = new Client();
+//
+//        thread = new Thread(client);
+//        thread.start();
         
 
         /*Commenting out by alex for simplicity *
@@ -81,15 +84,17 @@ public class ClientDriver {
        java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+                main.setVisible(true);
+                main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 /*myGUI = new myGUI();
                 myGUI.setVisible(true);
                 myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 myGUI.setTitle("Chat App");
                 myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
-                loginBrowser.setVisible(true);
-                //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
-                loginBrowser.setTitle("Chat App");
-                loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//                loginBrowser.setVisible(true);
+//                //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+//                loginBrowser.setTitle("Chat App");
+//                loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });        
     }
