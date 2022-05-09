@@ -6,15 +6,20 @@ package com.merrimackchat_client.listeners;
 
 import com.merrimackchat_client.ClientChat;
 import com.merrimackchat_client.ClientDriver;
+import com.merrimackchat_client.gui.Login;
 import com.merrimackchat_client.gui.myGUI;
 import java.awt.event.KeyEvent;
 import java.lang.*;
+import javax.swing.JOptionPane;
+import lombok.Getter;
 
 /**
  *
  * @author Mark
  */
 public class KeyListener {
+     @Getter
+    private static myGUI myGUI;
 
     // Default Push to talk key is F1. 
     private static int PUSH_TO_TALK_KEY = KeyEvent.VK_F1;
@@ -26,20 +31,13 @@ public class KeyListener {
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             System.out.println(ClientChat.getPrintWriter());
-            // JOptionPane.showMessageDialog(get.getChatPanel(), "Enter has been hit");
+            JOptionPane.showMessageDialog(myGUI.getChatPanel(), "Enter has been hit");
             ClientChat.getPrintWriter().println(ClientChat.name + ": " + myGUI.getChatText().getText());
             // NECESSARY:
             ClientChat.getPrintWriter().flush();
             // Clear the text in the text field
         } // Person is releasing their press to talk key
-        else if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY && isPressed) {
-            System.out.println("Push to talk key released");
-            ClientDriver.getClient().sendAudio(false);
-            isPressed = false;
-        } else if  (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            System.out.println("Enter for connect btn pressed");
-            
-        }
+        
     }
 
     public void keyPressed(KeyEvent e) {
