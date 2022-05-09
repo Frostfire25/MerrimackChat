@@ -33,6 +33,8 @@ public class Client implements Runnable {
     @Getter
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
+    @Getter
+    private byte channel;
      
     // Name that needs to be set through the GUI
     public static String clientName;
@@ -102,8 +104,8 @@ public class Client implements Runnable {
                 case SEND_USERS_IN_CHANNEL: {
                     // TODO
                 }; break;
-                case USER_JOIN_CHANNEL: {
-                    
+                case UPDATE_USER_CHANNEL_INFO: {
+                    channel = packet.getArgs(1);
                 }
             }
         } catch (IOException e) {
@@ -214,33 +216,34 @@ public class Client implements Runnable {
                     if (mic.isSending()) {
                         System.out.println("Sending audio");
                         try { // Try writing mic data to the server's data stream
+                            if(channel != -1) { // If the user is in a channel
+                                // Test for sending a packet
+                                //Packet packet = PacketEncoder.createUserJoinPacket("Alex");
+                                //packet.send(socket.getOutputStream());
+                                //System.out.println(Arrays.toString(packet.getBuff()));                                
+                                // End of Test.
+                                byte value1 = 40;
+                                byte value2 = 100;
+                                byte[] buffer = new byte[(int) value1 * (int) value2 /* mic.getBufferSize() / 5 */]; // Commented dividing the buffer by 5 so I can take in as much audio as possible.
+                                mic.read(buffer, 0, buffer.length);
 
-                            // Test for sending a packet
-                            //Packet packet = PacketEncoder.createUserJoinPacket("Alex");
-                            //packet.send(socket.getOutputStream());
-                            //System.out.println(Arrays.toString(packet.getBuff()));                                
-                            // End of Test.
-                            byte value1 = 40;
-                            byte value2 = 100;
-                            byte[] buffer = new byte[(int) value1 * (int) value2 /* mic.getBufferSize() / 5 */]; // Commented dividing the buffer by 5 so I can take in as much audio as possible.
-                            mic.read(buffer, 0, buffer.length);
+                                //System.out.println(Arrays.toString(buffer));
+                                //if(System.currentTimeMillis() >= nextTimeToRun) {
+                                //System.out.println("Buffer length : " + buffer.length + "   Read Length: " + read);
+                                System.out.println(String.format("SENDING: First in buffer : [%s]  Last in Buffer : [%s]", buffer[0], buffer[buffer.length - 1]));
 
-                            //System.out.println(Arrays.toString(buffer));
-                            //if(System.currentTimeMillis() >= nextTimeToRun) {
-                            //System.out.println("Buffer length : " + buffer.length + "   Read Length: " + read);
-                            System.out.println(String.format("SENDING: First in buffer : [%s]  Last in Buffer : [%s]", buffer[0], buffer[buffer.length - 1]));
+                                Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) -128, channel, value1, value2, buffer);
+                                audioPacket.send(socket.getOutputStream());
+                                System.out.println("Audio sent");
 
-                            Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) -128, (byte) 0, value1, value2, buffer);
-                            audioPacket.send(socket.getOutputStream());
-                            System.out.println("Audio sent");
-
-                            // Update the send time
-                            // nextTimeToRun += 5000;
-                            //}
-                            //System.out.println(Arrays.toString(buffer));
-                            // UNCOMMENT TO SEND AUDIO!!! socket.getOutputStream().write(buffer);
-                            //socket.getOutputStream().
-                            //socket.getOutputStream().write(buffer, 0, read);
+                                // Update the send time
+                                // nextTimeToRun += 5000;
+                                //}
+                                //System.out.println(Arrays.toString(buffer));
+                                // UNCOMMENT TO SEND AUDIO!!! socket.getOutputStream().write(buffer);
+                                //socket.getOutputStream().
+                                //socket.getOutputStream().write(buffer, 0, read);
+                            }
                         } catch (IOException e) {
                             System.err.println("Could not write an audio packet microphone audio data to server: " + e.getMessage());
                         }

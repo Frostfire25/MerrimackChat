@@ -70,14 +70,20 @@ public enum PacketType {
     
     /**
      * Used to send channel information once one is created / when a user connects to the server
-     * Has 3 arguments
+     * Has 2 arguments
      *  - Channel name (buff not arg)
      *  - Channel ID
      *  - Operation on channel (0 = create, 1 = remove)
      */
     CHANNEL_INFO((byte) 11, 2, false),
     
-    // 0:ID 1:CHANEL_ID 2:OPERATION 3:LAST_PACKET
+    /**
+     * Used to update the channel info on the client's side of things
+     * Has 1 argument
+     *  - Channel ID
+     */
+    UPDATE_USER_CHANNEL_INFO((byte) 14, 1, false),
+    
     
 // DATA TYPES:    
     /**

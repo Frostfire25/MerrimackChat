@@ -77,4 +77,8 @@ public class PacketEncoder {
         return new Packet(PacketType.RESPONSE_USER_CONNECT_SERVER, new byte[]{}, 0, new byte[]{ID});
     }
     
+    public static Packet createUpdateUserChannelInfoPacket(byte channelID) {
+        return new Packet(PacketType.UPDATE_USER_CHANNEL_INFO, new byte[]{}, 0, new byte[]{channelID});
+    }
+    
 }

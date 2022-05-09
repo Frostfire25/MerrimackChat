@@ -1,9 +1,11 @@
 package com.merrimackchat_server.client;
 
+import com.merrimackchat_packet.data.PacketEncoder;
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.exceptions.ChannelNotFoundException;
 import com.merrimackchat_server.util.Pair;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,7 +66,13 @@ public class ClientManager {
             // Add to new channel
             cm.userJoinChannel(userID, channelID);
             // Set the client's channel ID to the new one
-            clientMap.get(userID).setChannel(channelID);
+            Client client = clientMap.get(userID);
+            client.setChannel(channelID);
+            try {
+                PacketEncoder.createUpdateUserChannelInfoPacket(channelID).send(client.getOut());
+            } catch (IOException ex) {
+                System.out.println("Could not retrieve Output stream for client " + client.getID());
+            }
             return true;
         }
         return false;
@@ -85,7 +93,13 @@ public class ClientManager {
                 // Remove from current channel
                 System.out.println("Removing user: " + userID + " from channel: " + currChannelID + " (ClientManager.java).");
                 cm.userLeaveChannel(userID, currChannelID);
-                clientMap.get(userID).setChannel((byte) -1);
+                Client client = clientMap.get(userID);
+                client.setChannel((byte) -1);
+                try {
+                    PacketEncoder.createUpdateUserChannelInfoPacket((byte) -1).send(client.getOut());
+                } catch (IOException ex) {
+                    System.out.println("Could not retrieve Output stream for client " + client.getID());
+                }
             } catch (ChannelNotFoundException ex) {
                 System.out.println("Channel not found to leave (ClientManager.java).");
             }
