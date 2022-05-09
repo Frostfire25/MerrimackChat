@@ -18,11 +18,6 @@ import lombok.Getter;
  */
 public class ServerDriver {
     
-    public static final int PORT = 5000;
-
-    @Getter
-    public static final String ADDR = "127.0.0.1";//"10.0.118.2";
-    
     @Getter     
     private static ClientManager clientManager;
     
@@ -52,15 +47,15 @@ public class ServerDriver {
         serverProperties = new ServerProperties(fileManager);
         
         // Starts the server
-        server = new Server(serverProperties.PORT, serverProperties.ADRESS);
+        server = new Server(serverProperties.PORT, serverProperties.ADDRESS);
         server.start();
         // Server has been sarted
-        System.out.println(String.format("\n[Server Launched]: The Server has been launched on, IP: %s (%s)", server.getServer().getInetAddress().getHostAddress(), server.getServer().getLocalPort()));
+        System.out.println(String.format("\n[Server Launched]: The Server has been launched on, IP: %s (%s)", serverProperties.ADDRESS, server.getServer().getLocalPort()));
         System.out.println("[Server Socket] " + server.getServer());
         
         try {
             // Message displaying the server has been started correctly.
-            System.out.println("Server has been opened on " + InetAddress.getLocalHost() + ":"+PORT);
+            System.out.println("Server has been opened on " + InetAddress.getLocalHost() + ":"+server.getServer().getLocalPort());
         } catch (UnknownHostException ex) {
             System.out.println("Unknown host");
         }

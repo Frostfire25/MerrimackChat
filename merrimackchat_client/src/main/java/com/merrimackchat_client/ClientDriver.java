@@ -118,7 +118,7 @@ public class ClientDriver {
     /**
      * Establishes a connection with the server
      */
-    public static void establishConnection(String adress, int port) {
+    public static void establishConnection(String address, int port) {
         
         System.out.println("Connection being established.");
         
@@ -126,7 +126,7 @@ public class ClientDriver {
         channelManager = new ChannelManager();
         
         //Assigns the client out
-        client = new Client(adress, port);
+        client = new Client(address, port);
 
         thread = new Thread(client);
         thread.start();       

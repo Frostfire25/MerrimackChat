@@ -24,7 +24,7 @@ public class ServerProperties {
 
     private FileManager fileManager;
     
-    public String ADRESS = "";
+    public String ADDRESS = "";
     public int PORT = 0;
     public String SERVER_NAME = ""; 
 
@@ -104,8 +104,8 @@ public class ServerProperties {
                 
                 switch (split[0]) {
                     case "address": {
-                        ADRESS = split[1];
-                    }; break;
+                        ADDRESS = split[1];
+                    }break;
                     case "port": {
                         PORT = Integer.parseInt(split[1]);
                     }; break;
