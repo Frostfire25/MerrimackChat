@@ -13,7 +13,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Screenshot {
     
-myGUI get = new myGUI();
+    myGUI get = new myGUI();
  
     // Prints contents of a panel to file locatiion of users choice    
     public void makePanelImage(Component panel) {

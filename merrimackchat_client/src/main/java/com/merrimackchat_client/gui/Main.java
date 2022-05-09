@@ -195,7 +195,8 @@ public class Main extends javax.swing.JFrame {
 
                     this.dispose(); // close login frame
 
-                    // Establishes a connection when a succesful login happens.
+                    // ToDo Establishes a connection when a succesful login happens.
+                    // TESTING WILL BE REMOVED
                     ClientDriver.establishConnection("localhost", 5000);
                     
                     // Once old form is disposed, open main gui form
@@ -208,7 +209,7 @@ public class Main extends javax.swing.JFrame {
                             myGUI.setTitle("Chat App");
                             myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             
-                            //ClientDriver.setMyGUI(myGUI);
+                            ClientDriver.setMyGUI(myGUI);
                         }
                     });
                 // tell user if info entered is incorrect
