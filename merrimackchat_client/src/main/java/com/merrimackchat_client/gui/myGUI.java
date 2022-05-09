@@ -5,6 +5,7 @@ import com.merrimackchat_client.ClientDriver;
 import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.listeners.KeyListener;
+import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketEncoder;
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -122,6 +123,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 formWindowGainedFocus(evt);
             }
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                frameClosing(evt);
             }
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -578,6 +584,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         ClientDriver.getClient().sendPacket(PacketEncoder.createChannelLeavePacket(ClientDriver.getClient().getID()));
         // Clears text when a client leaves a channel
     }//GEN-LAST:event_leaveBtnActionPerformed
+
+    private void frameClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_frameClosing
+        // Called when the frame is closing to disconect the client properly
+        ClientDriver.getClient().disconnect();
+    }//GEN-LAST:event_frameClosing
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
         Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
