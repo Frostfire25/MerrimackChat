@@ -1,5 +1,6 @@
 package com.merrimackchat_server.channel;
 
+import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketEncoder;
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.client.Client;
@@ -170,6 +171,16 @@ public class ChannelManager {
      */
     public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2) {
         channels.get(channelID).broadcastAudio(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input), senderID);
+    }
+    
+    /**
+     * Broadcasts a text packout out to a channel
+     * 
+     * @param channelID ID of the channel to be sent too
+     * @param packet Packet to be sent out to the channel
+     */
+    public void broadcastText(byte channelID, Packet packet) {
+        channels.get(channelID).broadcastText(packet);
     }
 
     /**

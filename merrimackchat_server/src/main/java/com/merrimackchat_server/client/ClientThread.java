@@ -189,6 +189,17 @@ public abstract class ClientThread extends Thread implements Identifiable {
                             ServerDriver.getClientManager().removeClient(ID);
                         }
                     }break;
+                    case USER_SEND_TEXT: {
+                        // Gets the client
+                        Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));
+                        
+                        // Assures the client exists
+                        if(client == null) return;
+                        
+                        // Formatted text line
+                        String formattedText = PacketDecoder.getFormattedTextFromATextPacket(packet, client.getName());
+                        ServerDriver.getChannelManager().broadcastText(packet.getArgs(2), PacketEncoder.createUserSendText(packet.getArgs(1), packet.getArgs(2), formattedText));
+                    }; break;
                 }
                 
                 packet = null; // And set readData container to our default number

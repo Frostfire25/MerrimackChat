@@ -84,6 +84,36 @@ public class Channel {
             ServerDriver.getClientManager().removeClient(n.getID());
         });
     }
+    
+    /**
+     * Broadcasts a text packout out to all the clients 
+     * inside this channel.
+     * 
+     * @param packet Packet to be sent
+     */
+    public void broadcastText(Packet packet) {
+        // A set of clients that can possibly be removed if there was an error.
+        Set<Client> toRemove = new HashSet<>();
+        
+        getClients().stream().forEach(n -> {
+            
+            // Assert that the client is still connected
+            try {
+                packet.send(n.getOut());
+            } catch (IOException ex) {
+                if(ex.getMessage().contains("Connection reset by peer")) {
+                    toRemove.add(n);
+                }
+                
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        // Removes all the clients that aren't connected
+        toRemove.forEach(n -> {
+            ServerDriver.getClientManager().removeClient(n.getID());
+        });
+    }
 
     /**
      * @return the name

@@ -309,10 +309,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
         cardPanels.setBackground(new java.awt.Color(255, 255, 255));
 
-        chatPanel.setEditable(false);
         chatPanel.setBackground(new java.awt.Color(245, 240, 225));
         chatPanel.setColumns(20);
-        chatPanel.setRows(5);
+        chatPanel.setRows(100);
 
         headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         headerLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -544,7 +543,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     }//GEN-LAST:event_chatTextKeyPressed
 
     private void connectToServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToServerButtonActionPerformed
-        // TODO add your handling code here:
+       keyListener.connectPressed(evt);
     }//GEN-LAST:event_connectToServerButtonActionPerformed
 
     private void IPTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IPTextFocusGained
@@ -577,6 +576,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     private void leaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveBtnActionPerformed
         ClientDriver.getClient().sendPacket(PacketEncoder.createChannelLeavePacket(ClientDriver.getClient().getID()));
+        clearText();
     }//GEN-LAST:event_leaveBtnActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
@@ -642,6 +642,22 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         refreshChannelList();
     }
         
+    /**
+     * Clears the user text area
+     */
+    public void clearText() {
+        chatPanel.setText("");
+    }    
+    
+    /**
+     * Adds {@code text} to the current text area
+     * @param text Text to be added
+     */
+    public void addTextToTextBox(String text) {
+        String currentText = text + "\n" + chatPanel.getText(); 
+        chatPanel.setText(currentText);
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IPText;

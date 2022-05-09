@@ -103,8 +103,16 @@ public class Client implements Runnable {
                     // TODO
                 }; break;
                 case UPDATE_USER_CHANNEL_INFO: {
-                    channel = packet.getArgs(1);                
+                    channel = packet.getArgs(1);    
+                    // Clears the text box when the channel is updated.
+                    ClientDriver.getMyGUI().clearText();
+
                     //sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
+                }; break;
+                case USER_SEND_TEXT: {
+                    // Adds the text to the box
+                    String line = Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers());
+                    ClientDriver.getMyGUI().addTextToTextBox(line);
                 }; break;
                 
                 /*

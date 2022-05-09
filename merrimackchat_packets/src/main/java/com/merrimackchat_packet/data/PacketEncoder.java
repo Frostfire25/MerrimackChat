@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.merrimackchat_packet.data;
 
 /**
- *
+ * Used for constructing packets
+ * Uses the Builder Design Pattern
  * @author Alex
  */
 public class PacketEncoder {
@@ -82,6 +79,13 @@ public class PacketEncoder {
     
     public static Packet createServerAudioPakcet(byte[] audio) {
         return new Packet(PacketType.SERVER_SENDING_AUDIO, audio, audio.length, new byte[]{});
+    }
+    
+    public static Packet createUserSendText(byte userID, byte channelID, String text) {
+        byte[] array = Util.getByteArrayFromString(text);
+        if(array == null) return null;
+        
+        return new Packet(PacketType.USER_SEND_TEXT, array, array.length, new byte[]{userID, channelID});
     }
     
 }
