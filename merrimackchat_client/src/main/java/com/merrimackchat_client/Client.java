@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lombok.Getter;
 
 /**
  * Class used to handle Client I/O to the server. Inspired by :
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author Derek Costello, Suraj Kumar (original author)
  */
-public class Client extends PacketSender implements Runnable {
+public class Client implements Runnable {
 
     private Microphone mic;
     private Speaker speaker;
@@ -29,9 +30,11 @@ public class Client extends PacketSender implements Runnable {
     private static String IP /*"73.249.253.64"*/;
     private static int PORT;
 
-
+    @Getter
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
+    @Getter
+    private byte channel;
      
     // Name that needs to be set through the GUI
 
@@ -66,9 +69,9 @@ public class Client extends PacketSender implements Runnable {
                     //System.out.println(audioPacket.getBuff()[10] + " " + audioPacket.getBuff()[audioPacket.getBuff().length-1]);
                     System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
                     speaker.write(speakerBuffer, 0, speakerBuffer.length);
-                }
-                ;
-                break;
+                
+                };break;
+                
                 case RESPONSE_USER_CONNECT_SERVER: {
                     byte serverID = packet.getArgs(1);
                     this.ID = serverID;
@@ -83,18 +86,45 @@ public class Client extends PacketSender implements Runnable {
                     System.out.println(this.ID);
                     
                     // Now we want to send the user join packet that contains the users name
+                    sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
+                }; break;
+                case CHANNEL_INFO: {
+                    String channelName = Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers());
+                    if(packet.getArgs(2) == (byte) 0) {
+                        ClientDriver.getChannelManager().add(new Channel(channelName, packet.getArgs(1))); // Add to ChannelManger
+                        ClientDriver.getMyGUI().addChannel(channelName); // Add to GUI
+                    } else {
+                        ClientDriver.getChannelManager().remove(channelName); // Remove from ChannelManger
+                        ClientDriver.getMyGUI().removeChannel(channelName); // Remove from GUI
+                    }
+                    
+                }; break;
+                case SEND_USERS_IN_CHANNEL: {
+                    // TODO
+                }; break;
+                case UPDATE_USER_CHANNEL_INFO: {
+                    channel = packet.getArgs(1);    
+                    // Clears the text box when the channel is updated.
+                    ClientDriver.getMyGUI().clearText();
+
                     //sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
                 }; break;
+                case USER_SEND_TEXT: {
+                    // Adds the text to the box
+                    String line = Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers());
+                    ClientDriver.getMyGUI().addTextToTextBox(line);
+                }; break;
                 
+                /*
                 case CHANNEL_INFO: {
                     System.out.println("Final packet?: " + packet.getArgs(3));
                     
-                    /*
-                    while(packet.getArgs(3) == (byte) 0) { // While this is not the last packet
-                        System.out.println("Adding new channel (from Client.java)");
-                        ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                    } 
-                    */
+                    
+                    //while(packet.getArgs(3) == (byte) 0) { // While this is not the last packet
+                    //    System.out.println("Adding new channel (from Client.java)");
+                    //    ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
+                    //} 
+                    
  
                     // Add the final packet
                     System.out.println("Adding new channel (from Client.java)");
@@ -105,7 +135,10 @@ public class Client extends PacketSender implements Runnable {
                         ClientDriver.getMyGUI().loadBeginningChannels();
                     
                 }; break;
-                
+                */
+                case USER_JOIN_CHANNEL: {
+                   
+                }; break;
                 case SERVER_SENDING_AUDIO: {
                     byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
                     System.out.println("Server audio was received and played.");
@@ -232,33 +265,34 @@ public class Client extends PacketSender implements Runnable {
                     if (mic.isSending()) {
                         System.out.println("Sending audio");
                         try { // Try writing mic data to the server's data stream
+                            if(channel != -1) { // If the user is in a channel
+                                // Test for sending a packet
+                                //Packet packet = PacketEncoder.createUserJoinPacket("Alex");
+                                //packet.send(socket.getOutputStream());
+                                //System.out.println(Arrays.toString(packet.getBuff()));                                
+                                // End of Test.
+                                byte value1 = 40;
+                                byte value2 = 100;
+                                byte[] buffer = new byte[(int) value1 * (int) value2 /* mic.getBufferSize() / 5 */]; // Commented dividing the buffer by 5 so I can take in as much audio as possible.
+                                mic.read(buffer, 0, buffer.length);
 
-                            // Test for sending a packet
-                            //Packet packet = PacketEncoder.createUserJoinPacket("Alex");
-                            //packet.send(socket.getOutputStream());
-                            //System.out.println(Arrays.toString(packet.getBuff()));                                
-                            // End of Test.
-                            byte value1 = 40;
-                            byte value2 = 100;
-                            byte[] buffer = new byte[(int) value1 * (int) value2 /* mic.getBufferSize() / 5 */]; // Commented dividing the buffer by 5 so I can take in as much audio as possible.
-                            mic.read(buffer, 0, buffer.length);
+                                //System.out.println(Arrays.toString(buffer));
+                                //if(System.currentTimeMillis() >= nextTimeToRun) {
+                                //System.out.println("Buffer length : " + buffer.length + "   Read Length: " + read);
+                                System.out.println(String.format("SENDING: First in buffer : [%s]  Last in Buffer : [%s]", buffer[0], buffer[buffer.length - 1]));
 
-                            //System.out.println(Arrays.toString(buffer));
-                            //if(System.currentTimeMillis() >= nextTimeToRun) {
-                            //System.out.println("Buffer length : " + buffer.length + "   Read Length: " + read);
-                            System.out.println(String.format("SENDING: First in buffer : [%s]  Last in Buffer : [%s]", buffer[0], buffer[buffer.length - 1]));
+                                Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) -128, channel, value1, value2, buffer);
+                                audioPacket.send(socket.getOutputStream());
+                                System.out.println("Audio sent");
 
-                            Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) -128, (byte) 0, value1, value2, buffer);
-                            audioPacket.send(socket.getOutputStream());
-                            System.out.println("Audio sent");
-
-                            // Update the send time
-                            // nextTimeToRun += 5000;
-                            //}
-                            //System.out.println(Arrays.toString(buffer));
-                            // UNCOMMENT TO SEND AUDIO!!! socket.getOutputStream().write(buffer);
-                            //socket.getOutputStream().
-                            //socket.getOutputStream().write(buffer, 0, read);
+                                // Update the send time
+                                // nextTimeToRun += 5000;
+                                //}
+                                //System.out.println(Arrays.toString(buffer));
+                                // UNCOMMENT TO SEND AUDIO!!! socket.getOutputStream().write(buffer);
+                                //socket.getOutputStream().
+                                //socket.getOutputStream().write(buffer, 0, read);
+                            }
                         } catch (IOException e) {
                             System.err.println("Could not write an audio packet microphone audio data to server: " + e.getMessage());
                         }
@@ -289,7 +323,6 @@ public class Client extends PacketSender implements Runnable {
      *
      * @param packet Packet to be sent out
      */
-    @Override
     public boolean sendPacket(Packet packet) {
         try {
             if (socket.isConnected()) {

@@ -22,7 +22,7 @@ import lombok.Setter;
 
 public class ClientDriver {
 
-    @Generated
+    @Getter
     private static Thread thread;
     
     @Getter
@@ -122,6 +122,7 @@ public class ClientDriver {
         
         System.out.println("Connection being established.");
         
+        // Inits the channel manager
         channelManager = new ChannelManager();
         
         //Assigns the client out

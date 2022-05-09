@@ -52,7 +52,7 @@ public class Server extends Thread {
 
                 // Adds the new client to the client manager
                 // Has empty as the default name until the client sends their join packet allocating their name.
-                Pair<Boolean, Client> value = ServerDriver.getClientManager().clientJoined("empty", connection.getInetAddress().getHostAddress(), connection.getLocalPort());
+                Pair<Boolean, Client> value = ServerDriver.getClientManager().clientJoined("empty", connection.getInetAddress().getHostAddress(), connection.getLocalPort(), connection);
 
                 // If the client could not join, ex. server is full
                 if (!value.getValue1() || value.getValue2() == null) {
@@ -117,5 +117,4 @@ public class Server extends Thread {
         // Play for every client
         clients.stream().forEach(n -> n.play(input, n.getID()));
     }
-
 }

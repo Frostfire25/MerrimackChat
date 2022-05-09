@@ -42,10 +42,31 @@ public class PacketDecoder {
     }
     
     
+    /**
+     * Creates an audio line from a audio packet
+     * 
+     * @param packet Packet
+     * @return a byte[] that can be read by the Speaker.class on a client
+     */
     public static byte[] getAudioStreamFromAnAudioPacket(Packet packet) {
         if(packet == null || packet.getPacketType() == null || (packet.getPacketType() != PacketType.AUDIO_BEING_SENT && packet.getPacketType() != PacketType.SERVER_SENDING_AUDIO)) return null;
         
         return packet.getBuffWithoutArgsAndTrailingFillers() /*Arrays.copyOfRange(packet.getBuff(), 15, ((int) packet.getArgs(3) * (int) packet.getArgs(4)) + 1)*/;
         
+    }
+    
+    // First paramater is the user name, second is the text
+    private static final String textFormat = "[%s] : %s";
+    
+    /**
+     * Creates a formatted string with the user name to text
+     * Should be called from the server instance, not the client
+     * 
+     * @param packet Packet
+     * @param userName Name of the sending client
+     * @return String formatted with {@code textFormat}
+     */
+    public static String getFormattedTextFromATextPacket(Packet packet, String userName) {
+        return String.format(textFormat, userName, Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()));
     }
 }

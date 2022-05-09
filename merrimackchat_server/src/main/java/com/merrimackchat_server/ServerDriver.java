@@ -22,19 +22,19 @@ public class ServerDriver {
     @Getter
     public static final String ADDR = "127.0.0.1";//"10.0.118.2";
     
-    @Getter      
+    @Getter     
     private static ClientManager clientManager;
     
-    @Getter  
+    @Getter 
     private static ChannelManager channelManager;
     
     @Getter
     private static FileManager fileManager;
     
-    @Getter 
+    @Getter
     private static Server server;
     
-    @Getter 
+    @Getter
     private static Console console;
     
     public static void main(String[] args) {
@@ -62,8 +62,8 @@ public class ServerDriver {
         // Loads in All channels
         fileManager.loadChannels();
         
-        // Loads the sounds for channels
-        channelManager.assignJoinAndLeaveSoundBuffer();
+        // Loads the sounds for channels, temporarily disabaling.
+        //channelManager.assignJoinAndLeaveSoundBuffer();
         
         // Opens the terminal
         System.out.println("Opening Command Terminal:");

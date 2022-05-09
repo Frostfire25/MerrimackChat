@@ -35,18 +35,17 @@ public enum PacketType {
     
     /**
      * Used for when a user leaves a channel
-     * Has 2 arguments
+     * Has 1 argument
      *  - User Sending ID
-     *  - Destination Channel ID
      */
-    USER_LEAVE_CHANNEL((byte) 3, 2, false),
+    USER_LEAVE_CHANNEL((byte) 3, 1, false),
     
     /**
      * Used for when a user creates a channel
-     * Has 1 argument
-     *  - Created Channel ID
+     * Has 0 arguments
+     *  - Created Channel ID (buff not arg)
      */
-    USER_CREATE_CHANNEL((byte) 4, 1, false),
+    USER_CREATE_CHANNEL((byte) 4, 0, false),
     
     /**
      * Used for when a user deletes a channel
@@ -65,21 +64,26 @@ public enum PacketType {
     /**
      * Used to send user information to client for when channel info is requested
      * Has 1 argument
-     *  - Channel's user name (singular -- sent one at a time)
+     *  - Channel's user name (singular -- sent one at a time; buff not arg)
      */
-    SEND_USERS_IN_CHANNEL((byte) 7, 1, false),
+    SEND_USERS_IN_CHANNEL((byte) 7, 0, false),
     
     /**
      * Used to send channel information once one is created / when a user connects to the server
-     * Has 3 arguments
+     * Has 2 arguments
      *  - Channel name (buff not arg)
      *  - Channel ID
      *  - Operation on channel (0 = create, 1 = remove)
-     *  - Last packet sent (0 = no, 1 = yes)
      */
-    CHANNEL_INFO((byte) 11, 3, false),
+    CHANNEL_INFO((byte) 11, 2, false),
     
-    // 0:ID 1:CHANEL_ID 2:OPERATION 3:LAST_PACKET
+    /**
+     * Used to update the channel info on the client's side of things
+     * Has 1 argument
+     *  - Channel ID
+     */
+    UPDATE_USER_CHANNEL_INFO((byte) 14, 1, false),
+    
     
 // DATA TYPES:    
     /**
@@ -117,9 +121,20 @@ public enum PacketType {
      * Has no arguments
      * Rest of the packet is the buff.
      */
-    SERVER_SENDING_AUDIO((byte) 13, 0, false)
+    SERVER_SENDING_AUDIO((byte) 13, 0, false),
     
+    /**
+     * Packet to distribute a user sending text to a channel
+     * Has two arguments
+     *  - User ID sending the text
+     *  - Channel ID that the user is in
+     */    
+    USER_SEND_TEXT((byte) 9, 2, false)
     ;
+
+    public static PacketType getUSER_JOIN_SERVER() {
+        return USER_JOIN_SERVER;
+    }
 
     private byte ID;
     private int numOfArgs;

@@ -74,7 +74,7 @@ public class Packet implements Sendable {
     public byte[] getBuffWithoutArgsAndTrailingFillers() {
         // Returns everything with the ID removed
         if (packetType.getNumOfArgs() <= 0) {
-            return removeTrailingFillers(Arrays.copyOfRange(buff, 1, buff.length));
+            return removeTrailingFillers(Arrays.copyOfRange(buff, 2, buff.length));
         }
         // Returns everything with the ID and arguments removed
         return removeTrailingFillers(Arrays.copyOfRange(buff, (packetType.getNumOfArgs() * 2) + 2, buff.length));

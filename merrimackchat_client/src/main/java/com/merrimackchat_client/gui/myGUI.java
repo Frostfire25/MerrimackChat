@@ -2,8 +2,10 @@ package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.Client;
 import com.merrimackchat_client.ClientDriver;
+import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.listeners.KeyListener;
+import com.merrimackchat_packet.data.PacketEncoder;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -26,21 +28,23 @@ import lombok.Getter;
  * @author Mark Case
  */
 public class myGUI extends javax.swing.JFrame  implements Runnable {
-    
-        @Getter
-    private static ChannelManager channelManager;
-    
+       
     @Getter
     private static IdAndPasswords idAndPasswords;
     
     @Getter
     private static Login loginBrowser;
+    
+    @Getter
+    private static KeyListener keyListener = new KeyListener(); 
 
     private int second, minute, hour;
     private ArrayList<String> channelNames = new ArrayList<>();
 
     UndoManager um = new UndoManager();
     
+    @Getter
+    private String clientName;
     
     static final IdAndPasswords s = new IdAndPasswords(); 
     //static final LoginBrowser lb = new LoginBrowser(s.getInfo());
@@ -65,7 +69,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
-
+        // Assigns the name the new name.
+        this.clientName = userIDNew;
     }
 
     public myGUI() {
@@ -119,6 +124,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
             }
         });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         menuPanel.setBackground(new java.awt.Color(30, 61, 89));
 
@@ -142,18 +152,33 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         leaveButton.setText("Leave");
         leaveButton.setBorderPainted(false);
         leaveButton.setContentAreaFilled(false);
+        leaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                leaveButtonActionPerformed(evt);
+            }
+        });
 
         joinButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         joinButton.setForeground(new java.awt.Color(245, 240, 225));
         joinButton.setText("Join");
         joinButton.setBorderPainted(false);
         joinButton.setContentAreaFilled(false);
+        joinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                joinButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(245, 240, 225));
         deleteButton.setText("Delete");
         deleteButton.setBorderPainted(false);
         deleteButton.setContentAreaFilled(false);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         createButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         createButton.setForeground(new java.awt.Color(245, 240, 225));
@@ -242,12 +267,12 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(channelsLabel)
-                            .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(usersLabel)
-                            .addComponent(jScrollPaneUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 17, Short.MAX_VALUE)))
+                            .addComponent(jScrollPaneUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 11, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         menuPanelLayout.setVerticalGroup(
@@ -284,10 +309,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
         cardPanels.setBackground(new java.awt.Color(255, 255, 255));
 
-        chatPanel.setEditable(false);
         chatPanel.setBackground(new java.awt.Color(245, 240, 225));
         chatPanel.setColumns(20);
-        chatPanel.setRows(5);
+        chatPanel.setRows(100);
 
         headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         headerLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -338,11 +362,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 chatTextFocusLost(evt);
-            }
-        });
-        chatText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatTextActionPerformed(evt);
             }
         });
         chatText.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -500,9 +519,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
    
     }//GEN-LAST:event_screenShotButtonActionPerformed
 
-    
-    private KeyListener keyListener = new KeyListener();
-    
     /*
     Calls key event in KeyListener class
     */
@@ -521,21 +537,13 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         redo();
     }//GEN-LAST:event_redoActionPerformed
 
-    private void chatTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatTextActionPerformed
-
     private void chatTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatTextKeyPressed
         keyListener.keyPressed(evt);
     
     }//GEN-LAST:event_chatTextKeyPressed
 
-    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-        
-    }//GEN-LAST:event_createButtonActionPerformed
-
     private void connectToServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToServerButtonActionPerformed
-        // TODO add your handling code here:
+       keyListener.connectPressed(evt);
     }//GEN-LAST:event_connectToServerButtonActionPerformed
 
     private void IPTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IPTextFocusGained
@@ -550,6 +558,31 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             addPlaceHolderStyle2(IPText);
         }
     }//GEN-LAST:event_IPTextFocusLost
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+      keyListener.keyPressed(evt);
+    }//GEN-LAST:event_formKeyPressed
+
+    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
+        String name = JOptionPane.showInputDialog(null, "Please enter a name (under 15 characters preferably) for the new channel:");
+        System.out.println("Name: " + name);
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelCreatePacket(name));
+    }//GEN-LAST:event_createBtnActionPerformed
+
+    private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBtnActionPerformed
+        Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelJoinPacket(ClientDriver.getClient().getID(), c.getId()));
+    }//GEN-LAST:event_joinBtnActionPerformed
+
+    private void leaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveBtnActionPerformed
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelLeavePacket(ClientDriver.getClient().getID()));
+        // Clears text when a client leaves a channel
+    }//GEN-LAST:event_leaveBtnActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
+        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelDeletePacket(c.getId()));
+    }
 
     /*
     Getter method for JOptionPane messages
@@ -594,18 +627,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         um.redo();
     }
 
-    public void refreshChannelList() {
+     public void refreshChannelList() {
         channelsJList.setListData(channelNames.toArray(String[]::new));
         validate();
-    }
-    
-    public void loadBeginningChannels() {
-        System.out.println("Loading beginnging channels (size): " + channelManager.getChannelMap().size());
-            channelManager.getChannels().forEach(n -> {
-            channelNames.add(n.getName());
-            System.out.println(n.getName());
-        });
-        refreshChannelList();
     }
     
     public void addChannel(String channelName) {
@@ -616,6 +640,22 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     public void removeChannel(String channelName) {
         channelNames.remove(channelName);
         refreshChannelList();
+    }
+        
+    /**
+     * Clears the user text area
+     */
+    public void clearText() {
+        chatPanel.setText("");
+    }    
+    
+    /**
+     * Adds {@code text} to the current text area
+     * @param text Text to be added
+     */
+    public void addTextToTextBox(String text) {
+        String currentText = text + "\n" + chatPanel.getText(); 
+        chatPanel.setText(currentText);
     }
     
     

@@ -10,6 +10,7 @@
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowGainedFocus" listener="java.awt.event.WindowFocusListener" parameters="java.awt.event.WindowEvent" handler="formWindowGainedFocus"/>
+    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="formKeyPressed"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -29,7 +30,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="menuPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="cardPanels" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
@@ -106,7 +107,7 @@
                           <Component id="menuLabel" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="0" pref="12" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
@@ -114,23 +115,31 @@
                       <Component id="screenShotButton" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
+<<<<<<< HEAD
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <Component id="leaveBtn" alignment="0" max="32767" attributes="0"/>
+                              <Component id="joinBtn" max="32767" attributes="0"/>
+                              <Component id="deleteBtn" alignment="0" max="32767" attributes="0"/>
+                              <Component id="createBtn" alignment="0" max="32767" attributes="0"/>
+=======
                               <Component id="functionsLabel" min="-2" max="-2" attributes="0"/>
                               <Component id="leaveButton" alignment="0" max="32767" attributes="0"/>
                               <Component id="joinButton" max="32767" attributes="0"/>
                               <Component id="deleteButton" alignment="0" max="32767" attributes="0"/>
                               <Component id="createButton" alignment="0" max="32767" attributes="0"/>
+>>>>>>> master
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPaneChannels" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
-                              <Component id="channelsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="channelsLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="jScrollPaneChannels" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="usersLabel" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPaneUsers" min="-2" pref="83" max="-2" attributes="0"/>
+                              <Component id="jScrollPaneUsers" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="17" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -158,6 +167,15 @@
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jScrollPaneChannels" alignment="1" pref="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
+<<<<<<< HEAD
+                          <Component id="createBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="deleteBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="leaveBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="joinBtn" min="-2" max="-2" attributes="0"/>
+=======
                           <Component id="createButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="deleteButton" min="-2" max="-2" attributes="0"/>
@@ -165,6 +183,7 @@
                           <Component id="leaveButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="joinButton" min="-2" max="-2" attributes="0"/>
+>>>>>>> master
                       </Group>
                       <Component id="jScrollPaneUsers" alignment="1" max="32767" attributes="0"/>
                   </Group>
@@ -206,7 +225,43 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="screenShotButtonActionPerformed"/>
           </Events>
         </Component>
+<<<<<<< HEAD
+        <Component class="javax.swing.JButton" name="leaveBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Leave"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="leaveBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="joinBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Join"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="joinBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="deleteBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Delete"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="createBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Create"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+=======
         <Component class="javax.swing.JButton" name="leaveButton">
+>>>>>>> master
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="2"/>
@@ -218,6 +273,9 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="leaveButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="joinButton">
           <Properties>
@@ -231,6 +289,9 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="joinButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="deleteButton">
           <Properties>
@@ -244,6 +305,9 @@
             <Property name="borderPainted" type="boolean" value="false"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="createButton">
           <Properties>
@@ -455,7 +519,6 @@
       <Events>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="chatTextFocusGained"/>
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="chatTextFocusLost"/>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chatTextActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="chatTextKeyPressed"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="chatTextKeyReleased"/>
       </Events>

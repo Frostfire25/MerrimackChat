@@ -6,18 +6,13 @@ import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.client.Client;
 import com.merrimackchat_server.exceptions.*;
 import com.merrimackchat_server.util.Pair;
-import com.sun.source.tree.ArrayAccessTree;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import lombok.Getter;
 
 /**
@@ -30,20 +25,13 @@ public class ChannelManager {
     private HashMap<Byte, Channel> channels = new HashMap<>();
     private ArrayList<Pair<Boolean, Byte>> ids; // True = available; False = unavailable
 
-    private byte[] clientJoinSoundBuffer = new byte[2999];
-    private byte[] clientLeaveSoundBuffer = null;
-
-            
     public ChannelManager() {
         ids = new ArrayList<>();
         // Add all possible IDs for channels and set "true" for availability
         for (byte b = 0; b < 127; b++) {
             ids.add(new Pair(true, b));
         }
-        
-        
 
-        /*
         // TEST
         try {
             // Creates a test chanel for this purpose
@@ -54,29 +42,6 @@ public class ChannelManager {
         } catch (NoIDAvailableException ex) {
             Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
-    }
-    
-    public void assignJoinAndLeaveSoundBuffer() {
-        
-        File joinSoundFile = ServerDriver.getFileManager().getFileInDirectory("join_ping.wav");
-        
-        if(joinSoundFile == null || !joinSoundFile.exists()) return;  
-        
-        // Allocates the join and leave .wav files to their appropriete byte buffers.
-        /*
-        try {
-            
-            AudioSystem.getAudioInputStream(new AudioFormat(8000.0f, 16, 1, true, false), AudioSystem.getAudioInputStream(joinSoundFile)).read(clientJoinSoundBuffer);
-            //AudioSystem.getAudioInputStream(joinSoundFile).read(clientJoinSoundBuffer);
-            //System.out.println(Arrays.toString(clientJoinSoundBuffer) + " \n\n\n" + clientJoinSoundBuffer.length);
-            Logger.getLogger(ChannelManager.class.getName()).log(Level.INFO, "The Join ping buffer has been added successfully.");
-        } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
     }
 
     /**
@@ -97,8 +62,7 @@ public class ChannelManager {
      */
     public void getAllChannels(OutputStream out) {
         int counter = 1;
-
-        for (Channel c : channels.values()) {
+        for(Channel c : channels.values()) {
             byte last = 0;
             if (counter == channels.size()) {
                 last = 1;
@@ -106,7 +70,7 @@ public class ChannelManager {
             try {
                 // (Name, ID, 0 (add channel Operation), First/Last Packet)
                 System.out.println("Sending channel: " + c.getName());
-                PacketEncoder.createChannelInfoPacket(c.getName(), (byte) c.getId(), (byte) 0, last).send(out);
+                PacketEncoder.createChannelInfoPacket(c.getName(), (byte) c.getId(), (byte) 0).send(out);
                 counter++;
             } catch (IOException ex) {
                 System.err.println("Could not print out channel: " + c.getName() + ".");
@@ -141,7 +105,12 @@ public class ChannelManager {
             // Get channel
             Channel c = channels.get(id);
             // Remove users
-            c.clear();
+            ArrayList<Client> clients = c.getClients();
+            System.out.println("Clients to remove from channel b4 delete: " + clients.toString());
+            for(int i = 0; i < clients.size(); i++) {
+                System.out.println("Because of channel " + id + " deletion, user " + clients.get(i).getID() + " is being removed from the list of users in this channel.");
+                ServerDriver.getClientManager().leaveChannel(clients.get(i).getID());
+            }
             // Remove channel
             channels.remove(id);
             broadcastChannelChange(c.getName(), id, (byte) 1); // Broadcast change
@@ -149,7 +118,7 @@ public class ChannelManager {
             throw new ChannelNotFoundException("No such channel is not found, so it cannot be deleted.");
         }
     }
-    
+
     /**
      * Adds a user to a channel by ID.
      *
@@ -159,12 +128,13 @@ public class ChannelManager {
      */
     public void userJoinChannel(byte userID, byte channelID) throws ChannelNotFoundException {
         if (exists(channelID)) {
-            channels.get(channelID).add(userID);
-            
-            // ToDo Alex!
-            //playSound(channelID, userID, clientJoinSoundBuffer);
+            Channel c = channels.get(channelID);
+            c.add(userID);
+            // Update list for participants of the channel
+            updateForParticipantsOfChannel(c);
+//            playSound(new File("soundFile.mp3"));
         } else {
-            throw new ChannelNotFoundException("No such channel could be joined");
+            throw new ChannelNotFoundException("Could not locate channel with ID " + channelID + " for user: " + userID);
         }
     }
 
@@ -173,10 +143,21 @@ public class ChannelManager {
      *
      * @param channelID channel ID
      * @param userID client being removed
+     * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
-    public void userLeaveChannel(byte userID, byte channelID) {
-        channels.get(channelID).remove(userID);
-        //playSound(new File("soundFile.mp3"));
+    public void userLeaveChannel(byte userID, byte channelID) throws ChannelNotFoundException {
+        System.out.println("Testing to see if channel " + channelID + " exists (ChannelManager.java).");
+        if (exists(channelID)) {
+            Channel c = channels.get(channelID);
+            System.out.println("Current channel (to remove): " + c.getId() + " (ChannelManager.java).");
+            c.remove(userID);
+            // Update list of users for users
+            updateForParticipantsOfChannel(c);
+//          playSound(new File("soundFile.mp3"));
+        } else {
+            throw new ChannelNotFoundException("No such channel could be joined");
+        }
+        
     }
 
     /**
@@ -189,7 +170,17 @@ public class ChannelManager {
      * @param len2 Length of the audio stream * {@code len1}
      */
     public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2) {
-        channels.get(channelID).broadcastAudio(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input));
+        channels.get(channelID).broadcastAudio(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input), senderID);
+    }
+    
+    /**
+     * Broadcasts a text packout out to a channel
+     * 
+     * @param channelID ID of the channel to be sent too
+     * @param packet Packet to be sent out to the channel
+     */
+    public void broadcastText(byte channelID, Packet packet) {
+        channels.get(channelID).broadcastText(packet);
     }
 
     /**
@@ -199,7 +190,7 @@ public class ChannelManager {
      * @param out output stream of client
      * @param channelID ID of specified channel
      */
-    public void sendUserData(OutputStream out, byte channelID) {
+    public void sendUserListOfUsers(OutputStream out, byte channelID) {
         channels.get(channelID).getClients().forEach(n -> {
             try {
                 PacketEncoder.createSendChannelUserPacket(n.getName()).send(out);
@@ -232,30 +223,23 @@ public class ChannelManager {
     /**
      * Plays a sound when a channel event happens
      */
-    private void playSound(byte channelID, byte userID, byte[] buff) {
-        
-        Packet packet = PacketEncoder.createServerAudioPakcet(buff);
-        Channel channel = channels.get(channelID);
-        
-        // We want to make sure the channel exists.
-        if(channel == null) return;
-        
-        for(Client n : channel.getClients()) {
-            try {
-                packet.send(n.getOut());
-            } catch (IOException ex) {
-                Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }        
+    private void playSound(File sound) {
+
     }
 
     private void broadcastChannelChange(String name, byte id, byte operation) {
         ServerDriver.getClientManager().getClientMap().values().forEach(n -> {
             try {
-                PacketEncoder.createChannelInfoPacket(name, id, operation, (byte) 1).send(n.getOut()); // last package
+                PacketEncoder.createChannelInfoPacket(name, id, operation).send(n.getOut());
             } catch (IOException ex) {
                 System.err.println("Could not send channel info to client: " + n.getName());
             }
+        });
+    }
+    
+    private void updateForParticipantsOfChannel(Channel c) {
+        c.getClients().forEach(n -> {
+            sendUserListOfUsers(n.getOut(), c.getId());
         });
     }
 }

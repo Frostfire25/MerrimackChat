@@ -191,13 +191,9 @@ public class Main extends javax.swing.JFrame {
                 // if entered characters in strings match up,
                 // display message and get rid of login browser
                 if(loginInfo.get(userIDNew).equals(passwordNew)) {
-                    JOptionPane.showMessageDialog(rootPane, "Login successful");
-
-                    this.dispose(); // close login frame
-
-                    // Establishes a connection when a succesful login happens.
-                    ClientDriver.establishConnection("localhost", 5000);
                     
+
+                    this.dispose(); // close login frame                    
                     // Once old form is disposed, open main gui form
                     java.awt.EventQueue.invokeLater(new Runnable() {
                         @Override
@@ -208,9 +204,14 @@ public class Main extends javax.swing.JFrame {
                             myGUI.setTitle("Chat App");
                             myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             
-                            //ClientDriver.setMyGUI(myGUI);
+                            ClientDriver.setMyGUI(myGUI);
                         }
                     });
+                    
+                    // ToDo Establishes a connection when a succesful login happens.
+                    // TESTING WILL BE REMOVED
+                    ClientDriver.establishConnection("localhost", 5000);
+                    
                 // tell user if info entered is incorrect
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Incorrect Password");
