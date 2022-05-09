@@ -1,6 +1,7 @@
 package com.merrimackchat_server.channel;
 
 import com.merrimackchat_server.exceptions.NoIDAvailableException;
+import com.merrimackchat_server.server_properties.ServerProperties;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -136,5 +137,26 @@ public class FileManager {
         
         return true;
     }
-
+    
+    public File createServerPropertiesFile(ServerProperties serverProperties) {
+        File file = getFileInDirectory("serverproperties.txt");
+        
+        // Creates the file if it doesn't exist.
+        if(!file.exists()) {
+            try {
+                file.createNewFile();
+                // Initizile Default file 
+                serverProperties.initServerPropertiesFile(file);
+                throw new FileNotFoundException("The file serverproperties.txt was not created, it must be filled out and created for the server to run.\n Path : " + file.getAbsolutePath());
+            } catch (IOException ex) {
+                Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
+                
+                // Closes the program as the file is essential
+                System.exit(-1);
+            }
+        }
+        
+        return file;
+    }
+               
 }

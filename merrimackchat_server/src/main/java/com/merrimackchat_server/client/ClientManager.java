@@ -127,7 +127,7 @@ public class ClientManager {
 
     public void removeClient(byte ID) {
         if(clientMap.containsKey(ID)) {
-            Client client = clientMap.remove(ID);
+            Client client = clientMap.get(ID);
             
             // Leaves channel
             leaveChannel(client.getID());
@@ -137,6 +137,9 @@ public class ClientManager {
             
             // Stop thread (UNSAFE MAY HAVE TO REMOVE)
             client.stop();
+            
+            // Removes the client
+            clientMap.remove(ID);
         }
     }
     

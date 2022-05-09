@@ -38,6 +38,9 @@ public abstract class ClientThread extends Thread implements Identifiable {
         // Assigns this clien to this thread.
         this.client = client;
         try {
+            // Assigns the connection over
+            this.connection = connection;
+            
             // Get audio input from the client (speaker) // UPDATED ON MONDAY BY ALEX
             in = connection.getInputStream();
             // Get audio output from the client (mic)
@@ -56,7 +59,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
      * Closes the clients connection
      */
     public void closeSocket() {
-        if(!connection.isClosed()) {
+        if(connection != null && !connection.isClosed()) {
             try {
                 connection.close();
             } catch (IOException ex) {
