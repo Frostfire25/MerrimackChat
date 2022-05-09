@@ -2,7 +2,7 @@ package com.merrimackchat_client;
 
 import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.gui.IdAndPasswords;
-import com.merrimackchat_client.gui.LoginBrowser;
+
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
 import com.merrimackchat_packet.data.PacketEncoder;
@@ -83,7 +83,7 @@ public class Client extends PacketSender implements Runnable {
                     System.out.println(this.ID);
                     
                     // Now we want to send the user join packet that contains the users name
-                    sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
+                    //sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
                 }; break;
                 
                 case CHANNEL_INFO: {

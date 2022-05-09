@@ -31,7 +31,6 @@ public class KeyListener {
             // NECESSARY:
             ClientChat.getPrintWriter().flush();
             // Clear the text in the text field
-            //get.getChatText().setText("");
         } // Person is releasing their press to talk key
         else if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY && isPressed) {
             System.out.println("Push to talk key released");
@@ -41,7 +40,6 @@ public class KeyListener {
             System.out.println("Enter for connect btn pressed");
             
         }
-
     }
 
     public void keyPressed(KeyEvent e) {
@@ -52,18 +50,7 @@ public class KeyListener {
             isPressed = true;
 
         }
-        //get.getChatText().setText("");
-    }  // Person is releasing their press to talk key
-//             else if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY) {
-//                  ClientDriver.getClient().sendAudio(false);
-//             
-//             }
+    }
 }
 
-//        public void keyPressed(KeyEvent e) {
-//            // Person is pressing their push to talk key
-//            if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY) {
-//               ClientDriver.getClient().sendAudio(true);
-//            }
-//        }
 

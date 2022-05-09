@@ -1,18 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.ClientDriver;
 import static com.merrimackchat_client.gui.IdAndPasswords.loginInfo;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import lombok.Getter;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.swing.*;
+import lombok.*;
 
 /**
  *
@@ -26,41 +20,59 @@ public class Main extends javax.swing.JFrame {
     @Getter
     private static Login login;
     
+    @Getter
+    private static Register register;
     
-
+    File file = new File(System.getProperty("user.dir") + File.separator + "credentials.txt"); // File holding credentials
+    
     /**
      * Creates new form Main
+     * Default Constructor
      */
     public Main() {
-        // Login
+        // Login information
         idAndPasswords = new IdAndPasswords(); 
         login = new Login(idAndPasswords.getInfo());  
         
         initComponents();
         
+        // Set JFrame to be displayed in center of users screen
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
-        Register register = new Register();
-        panelSlide1.setAnimate(5);
-        panelSlide1.init(login,register);
+        // Gray out/set active buttons on start up
+        resetBtn.setEnabled(false);
+        loginBtn.setEnabled(true);
+        
+        register = new Register(); // class instantiation 
+        panelSlide1.setAnimate(5); 
+        panelSlide1.init(login,register); // the two forms switched by animation
         login.addEventRegister(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 //  Show register form
-                panelSlide1.show(1);
+                panelSlide1.show(1); // Sign up page displated
                 register.register();
+                resetBtn.setEnabled(true);
+                loginBtn.setEnabled(false);
             }
         });
         register.addEventBackLogin(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                panelSlide1.show(0);
+                panelSlide1.show(0); // Login page displayed
                 login.login();
+                resetBtn.setEnabled(false);
+                loginBtn.setEnabled(true);
             }
         });
+        
+    } // End contructor
+
+    // Getter
+    public JButton getResetBtn() {
+        return resetBtn;
     }
-
-
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,6 +90,7 @@ public class Main extends javax.swing.JFrame {
         resetBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(0, 0));
         setMaximizedBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setMaximumSize(new java.awt.Dimension(400, 400));
 
@@ -105,7 +118,7 @@ public class Main extends javax.swing.JFrame {
         );
         panelSlide1Layout.setVerticalGroup(
             panelSlide1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 140, Short.MAX_VALUE)
+            .addGap(0, 158, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout panelRound1Layout = new javax.swing.GroupLayout(panelRound1);
@@ -121,14 +134,15 @@ public class Main extends javax.swing.JFrame {
             panelRound1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRound1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(panelSlide1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(panelSlide1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         panelGradient1.add(panelRound1);
-        panelRound1.setBounds(70, 70, 250, 170);
+        panelRound1.setBounds(70, 70, 250, 190);
 
         loginBtn.setText("Login");
+        loginBtn.setContentAreaFilled(false);
         loginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBtnActionPerformed(evt);
@@ -137,9 +151,17 @@ public class Main extends javax.swing.JFrame {
         panelGradient1.add(loginBtn);
         loginBtn.setBounds(100, 270, 80, 22);
 
-        resetBtn.setText("Reset");
+        resetBtn.setBackground(new java.awt.Color(116, 212, 232));
+        resetBtn.setText("Register");
+        resetBtn.setBorderPainted(false);
+        resetBtn.setContentAreaFilled(false);
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
+            }
+        });
         panelGradient1.add(resetBtn);
-        resetBtn.setBounds(200, 270, 72, 22);
+        resetBtn.setBounds(200, 270, 80, 22);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,10 +178,11 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
+                       
         // Sets the username
-        ClientDriver.getLoginBrowser().setTest(login.getUsernameText2().getText());
-        //        System.out.println("hi:" + test);
-
+        //ClientDriver.getLoginBrowser().setTest(login.getUsernameText2().getText());
+                
+        System.out.println(loginInfo);
         if(evt.getSource()==loginBtn) {
             String userIDNew = login.getUsernameText2().getText(); // get text of JTextfield
             String passwordNew = String.valueOf(login.getPasswordText().getPassword()); // get text of JPasswordfield and convert
@@ -169,12 +192,11 @@ public class Main extends javax.swing.JFrame {
                 // display message and get rid of login browser
                 if(loginInfo.get(userIDNew).equals(passwordNew)) {
                     JOptionPane.showMessageDialog(rootPane, "Login successful");
-                    //                IdAndPasswords s = new IdAndPasswords();
-                    //                LoginBrowser lb = new LoginBrowser(s.getInfo());
-                    this.dispose();
+
+                    this.dispose(); // close login frame
 
                     // Establishes a connection when a succesful login happens.
-                    ClientDriver.establishConnection("127.0.0.1", 5000);
+                    ClientDriver.establishConnection("localhost", 5000);
                     
                     // Once old form is disposed, open main gui form
                     java.awt.EventQueue.invokeLater(new Runnable() {
@@ -182,26 +204,60 @@ public class Main extends javax.swing.JFrame {
                         public void run() {
                             myGUI myGUI = new myGUI(userIDNew);
                             myGUI.setVisible(true);
-                            //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+                            myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                             myGUI.setTitle("Chat App");
                             myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             
-                            ClientDriver.setMyGUI(myGUI);
+                            //ClientDriver.setMyGUI(myGUI);
                         }
                     });
-                    // tell user if info entered is incorrect
+                // tell user if info entered is incorrect
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Incorrect Password");
                 }
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Incorrect Username");
+                JOptionPane.showMessageDialog(rootPane, "Incorrect Login", "Alert", JOptionPane.WARNING_MESSAGE);
             }
-        }
+        } // end if
     }//GEN-LAST:event_loginBtnActionPerformed
 
-// public void addEventBackLogin(ActionListener event) {
-//        backToLoginBtn.addActionListener(event);
-//    }
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+                
+            String registerID = register.getRegisterUsername().getText(); // get username from sign up page
+            String registerPass = String.valueOf(register.getRegisterPassword().getPassword()); // get password from sign up page
+            
+            if(registerID.isEmpty() || registerPass.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "No username or password detected", "Alert", JOptionPane.WARNING_MESSAGE);
+            } else {
+                
+            try {
+                PrintStream bw = new PrintStream(new FileOutputStream(file, true));
+                bw.append("\n" + registerID + "," + registerPass);
+                bw.close();
+        } catch(FileNotFoundException ex) {
+            System.err.println(ex);
+        }
+            
+                    this.dispose(); // dispose login JFrame
+
+                    // Establishes a connection when a succesful login happens.
+                    ClientDriver.establishConnection("localhost", 5000);
+                    
+                    // Once old form is disposed, open main gui form
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            myGUI myGUI = new myGUI(registerID);
+                            myGUI.setVisible(true);
+                            //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+                            myGUI.setTitle("Chat App");
+                            myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            
+                            //ClientDriver.setMyGUI(myGUI);
+                        }
+                    });
+            }
+    }//GEN-LAST:event_resetBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton loginBtn;

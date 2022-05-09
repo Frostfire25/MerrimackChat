@@ -1,10 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.merrimackchat_client.gui;
 
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import javax.swing.JButton;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 
 /**
@@ -20,13 +21,16 @@ public class Register extends javax.swing.JPanel {
     public Register() {
         initComponents();
     }
+    
     public void register() {
-        usernameText2.grabFocus();
+        registerUsername.grabFocus();
     }
-
-     public void addEventBackLogin(ActionListener event) {
+    
+    // Action listener for slide function
+    public void addEventBackLogin(ActionListener event) {
         backToLoginBtn.addActionListener(event);
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,8 +43,8 @@ public class Register extends javax.swing.JPanel {
         panelRound3 = new DesignPanels.PanelRound();
         usernameLbl2 = new javax.swing.JLabel();
         PasswordLbl2 = new javax.swing.JLabel();
-        usernameText2 = new javax.swing.JTextField();
-        passwordText = new javax.swing.JPasswordField();
+        registerUsername = new javax.swing.JTextField();
+        registerPassword = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         backToLoginBtn = new javax.swing.JButton();
 
@@ -52,21 +56,17 @@ public class Register extends javax.swing.JPanel {
 
         PasswordLbl2.setText("Password:");
 
-        usernameText2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameText2ActionPerformed(evt);
-            }
-        });
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 215, 0));
+        jLabel3.setForeground(new java.awt.Color(255, 194, 7));
         jLabel3.setText("Register");
 
         backToLoginBtn.setBackground(new java.awt.Color(255, 255, 255));
         backToLoginBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        backToLoginBtn.setForeground(new java.awt.Color(255, 215, 0));
+        backToLoginBtn.setForeground(new java.awt.Color(255, 194, 7));
         backToLoginBtn.setText("Back to Login");
         backToLoginBtn.setBorder(null);
+        backToLoginBtn.setBorderPainted(false);
+        backToLoginBtn.setContentAreaFilled(false);
 
         javax.swing.GroupLayout panelRound3Layout = new javax.swing.GroupLayout(panelRound3);
         panelRound3.setLayout(panelRound3Layout);
@@ -81,14 +81,13 @@ public class Register extends javax.swing.JPanel {
                             .addComponent(PasswordLbl2))
                         .addGap(18, 18, 18)
                         .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usernameText2, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-                            .addComponent(passwordText)))
+                            .addComponent(registerUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
+                            .addComponent(registerPassword)))
                     .addGroup(panelRound3Layout.createSequentialGroup()
                         .addGap(84, 84, 84)
-                        .addComponent(jLabel3))
-                    .addGroup(panelRound3Layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(backToLoginBtn)))
+                        .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(backToLoginBtn)
+                            .addComponent(jLabel3))))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         panelRound3Layout.setVerticalGroup(
@@ -98,11 +97,11 @@ public class Register extends javax.swing.JPanel {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(registerUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usernameLbl2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelRound3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(registerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PasswordLbl2))
                 .addGap(18, 18, 18)
                 .addComponent(backToLoginBtn)
@@ -121,9 +120,18 @@ public class Register extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameText2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameText2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameText2ActionPerformed
+    // Getter and Setters for button and textfields
+    public JButton getBackToLoginBtn() {
+        return backToLoginBtn;
+    }
+
+    public JTextField getRegisterUsername() {
+        return registerUsername;
+    }
+
+    public JPasswordField getRegisterPassword() {
+        return registerPassword;
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -131,8 +139,8 @@ public class Register extends javax.swing.JPanel {
     private javax.swing.JButton backToLoginBtn;
     private javax.swing.JLabel jLabel3;
     private DesignPanels.PanelRound panelRound3;
-    private javax.swing.JPasswordField passwordText;
+    private javax.swing.JPasswordField registerPassword;
+    private javax.swing.JTextField registerUsername;
     private javax.swing.JLabel usernameLbl2;
-    private javax.swing.JTextField usernameText2;
     // End of variables declaration//GEN-END:variables
 }

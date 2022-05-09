@@ -6,7 +6,8 @@ package com.merrimackchat_client;
 
 import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.gui.IdAndPasswords;
-import com.merrimackchat_client.gui.LoginBrowser;
+import com.merrimackchat_client.gui.Login;
+
 import com.merrimackchat_client.gui.Main;
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
@@ -37,7 +38,7 @@ public class ClientDriver {
     private static IdAndPasswords idAndPasswords;
     
     @Getter
-    private static LoginBrowser loginBrowser;
+    private static Login loginBrowser;
     
     @Getter
     private static Main main;
@@ -84,7 +85,7 @@ public class ClientDriver {
         // Login
         
         idAndPasswords = new IdAndPasswords(); 
-        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());  
+        loginBrowser = new Login(idAndPasswords.getInfo());  
         main = new Main();
     
         java.awt.EventQueue.invokeLater(new Runnable() {
