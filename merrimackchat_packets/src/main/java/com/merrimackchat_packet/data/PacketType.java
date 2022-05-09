@@ -63,7 +63,7 @@ public enum PacketType {
     
     /**
      * Used to send user information to client for when channel info is requested
-     * Has 1 argument
+     * Has 0 arguments
      *  - Channel's user name (singular -- sent one at a time; buff not arg)
      */
     SEND_USERS_IN_CHANNEL((byte) 7, 0, false),
@@ -83,6 +83,19 @@ public enum PacketType {
      *  - Channel ID
      */
     UPDATE_USER_CHANNEL_INFO((byte) 14, 1, false),
+    
+    /**
+     * Used for when a user is trying to preview a new channel (updates the previewing channel on the server-side
+     * Has 1 argument
+     *  - Channel ID
+     */
+    USER_PREVIEW_CHANNEL((byte)15, 1, false),
+    
+    /**
+     * Used to update preview info in real-time
+     * Has 0 arguments
+     */
+    CLEAR_USER_LIST((byte) 16, 0, false),
     
     
 // DATA TYPES:    

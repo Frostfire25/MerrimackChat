@@ -48,7 +48,7 @@ public class PacketEncoder {
         return new Packet(PacketType.REQUEST_USERS_IN_CHANNEL, new byte[]{}, 0, new byte[]{channelID});
     }
     
-    public static Packet createSendChannelUserPacket(String name) {
+    public static Packet createSendUsersInChannelPacket(String name) {
         byte[] array = Util.getByteArrayFromString(name);
         if(array == null) return null;
         
@@ -79,6 +79,13 @@ public class PacketEncoder {
     
     public static Packet createServerAudioPakcet(byte[] audio) {
         return new Packet(PacketType.SERVER_SENDING_AUDIO, audio, audio.length, new byte[]{});
+    }
+    public static Packet createUserPreviewPacket(byte channelID) {
+        return new Packet(PacketType.USER_PREVIEW_CHANNEL, new byte[]{}, 0, new byte[]{channelID});
+    }
+    
+    public static Packet createClearUserListPacket() {
+        return new Packet(PacketType.CLEAR_USER_LIST, new byte[]{}, 0, new byte[]{});
     }
     
     public static Packet createUserSendText(byte userID, byte channelID, String text) {

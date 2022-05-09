@@ -93,14 +93,13 @@ public class ClientManager {
         if(cm.exists(currChannelID)) {
             try {
                 // Remove from current channel
-                System.out.println("Removing user: " + userID + " from channel: " + currChannelID + " (ClientManager.java).");
                 cm.userLeaveChannel(userID, currChannelID);
                 Client client = clientMap.get(userID);
                 client.setChannel((byte) -1);
                 try {
                     PacketEncoder.createUpdateUserChannelInfoPacket((byte) -1).send(client.getOut());
                 } catch (IOException ex) {
-                    System.out.println("Could not retrieve Output stream for client " + client.getID());
+                    
                 }
             } catch (ChannelNotFoundException ex) {
                 System.out.println("Channel not found to leave (ClientManager.java).");
@@ -130,7 +129,9 @@ public class ClientManager {
             Client client = clientMap.get(ID);
             
             // Leaves channel
+            ServerDriver.getChannelManager().userUnpreviewChannel(client.getID());
             leaveChannel(client.getID());
+            
             
             // Closes the clients connection.
             client.closeSocket();

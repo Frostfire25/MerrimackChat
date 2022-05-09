@@ -7,6 +7,7 @@ import com.merrimackchat_packet.data.PacketType;
 import com.merrimackchat_packet.data.Util;
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.channel.Channel;
+import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.exceptions.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -113,20 +114,6 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case AUDIO_BEING_SENT: {
                         
                         byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
-                        //System.out.println("Broadcasting out to channel " + packet.getArgs(2) + " by user " + packet.getArgs(1) + ": " + Arrays.toString(toBroadCast));
-                        // Gets the client
-                        //Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));
-                        
-                        // Makes sure the client exists.
-                        //if (client == null) { System.out.println("Null Client! In Client Thread, ID: " + packet.getArgs(1)); break; }
-                        
-                        // Gets the channel
-                        //Channel channel = ServerDriver.getChannelManager().getChannels().get(client.getChannel());
-                        
-                        // Makes sure the channel exists.
-                        //if (channel == null) { System.out.println("Null Client! In Client Thread, ID: " + client.getChannel()); break; }
-                               
-                        //channel.broadcastAudio(packet);
                         ServerDriver.getChannelManager().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2), packet.getArgs(3), packet.getArgs(4));
                         
                     }; break;
@@ -184,14 +171,24 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     }; break;
                     case USER_LEFT_SERVER: {
                         byte ID = packet.getArgs(1);
-                        Client clinet = ServerDriver.getClientManager().getClientMap().get(ID);
+                        Client leaveClient = ServerDriver.getClientManager().getClientMap().get(ID);
+                        
+                        System.out.println("Attempting to disconnect " + leaveClient.getName() + ".");
 
                         // Removes the client if he exists
-                        if(getClient() != null) {
-                            System.out.println("[Disconected] "+clinet.getName()+" has disconected from the server.");
+                        if(leaveClient != null) {
+                            System.out.println("[Disconected] "+leaveClient.getName()+" has disconected from the server.");
                             ServerDriver.getClientManager().removeClient(ID);
                         }
-                    }break;
+                    }; break;
+                    case USER_PREVIEW_CHANNEL:  {
+                        try {
+                            ChannelManager cm = ServerDriver.getChannelManager();
+                            cm.userPreviewChannel(client.getID(), packet.getArgs(1));
+                        } catch (ChannelNotFoundException ex) {
+                            System.out.println("Could not locate channel of ID " + packet.getArgs(1));
+                        }
+                    }; break;
                     case USER_SEND_TEXT: {
                         // Gets the client
                         Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));

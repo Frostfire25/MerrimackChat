@@ -78,14 +78,9 @@ public class Server extends Thread {
                 //client.setChannel((byte)0);
                 // Test to add the cline to the default channel
                 //ServerDriver.getChannelManager().getChannels().get((byte) 0).add(clientID);
-                
-                try {
-                    ServerDriver.getClientManager().joinChannel(clientID, (byte) 0);
-                } catch (ChannelNotFoundException ex) {
-                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
-                System.out.println("Users ID: " + clientID);
+
+                System.out.println("User's ID: " + clientID);
                 ServerDriver.getChannelManager().getAllChannels(client.getOut());
 
             } catch (IOException ex) {
