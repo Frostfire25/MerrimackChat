@@ -130,7 +130,7 @@ public class ChannelManager {
             updateForParticipantsOfChannel(c);
 //            playSound(new File("soundFile.mp3"));
         } else {
-            throw new ChannelNotFoundException("No such channel could be joined");
+            throw new ChannelNotFoundException("Could not locate channel with ID " + channelID + " for user: " + userID);
         }
     }
 
@@ -142,9 +142,10 @@ public class ChannelManager {
      * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
     public void userLeaveChannel(byte userID, byte channelID) throws ChannelNotFoundException {
-        
+        System.out.println("Testing to see if channel " + channelID + " exists (ChannelManager.java).");
         if (exists(channelID)) {
             Channel c = channels.get(channelID);
+            System.out.println("Current channel (to remove): " + c.getId() + " (ChannelManager.java).");
             c.remove(userID);
             // Update list of users for users
             updateForParticipantsOfChannel(c);
@@ -165,7 +166,7 @@ public class ChannelManager {
      * @param len2 Length of the audio stream * {@code len1}
      */
     public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2) {
-        channels.get(channelID).broadcastAudio(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input));
+        channels.get(channelID).broadcastAudio(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input), senderID);
     }
 
     /**

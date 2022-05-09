@@ -77,12 +77,18 @@ public class ClientManager {
      * @return true if the channel exists and the client was removed, false otherwise
      * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
-    public boolean leaveChannel(byte userID) throws ChannelNotFoundException {
+    public boolean leaveChannel(byte userID){
         ChannelManager cm = ServerDriver.getChannelManager();
         byte currChannelID = clientMap.get(userID).getChannel();
         if(cm.exists(currChannelID)) {
-            // Remove from current channel
-            cm.userLeaveChannel(currChannelID, userID);
+            try {
+                // Remove from current channel
+                System.out.println("Removing user: " + userID + " from channel: " + currChannelID + " (ClientManager.java).");
+                cm.userLeaveChannel(userID, currChannelID);
+                clientMap.get(userID).setChannel((byte) -1);
+            } catch (ChannelNotFoundException ex) {
+                System.out.println("Channel not found to leave (ClientManager.java).");
+            }
             return true;
         }
         return false;
@@ -107,12 +113,8 @@ public class ClientManager {
         if(clientMap.containsKey(ID)) {
             Client client = clientMap.remove(ID);
             
-            try {
-                // Leaves channel
-                leaveChannel(client.getID());
-            } catch (ChannelNotFoundException ex) {
-                System.out.println("Could not find channel to leave when removing client.");
-            }
+            // Leaves channel
+            leaveChannel(client.getID());
             
             // Stop thread (UNSAFE MAY HAVE TO REMOVE)
             client.stop();

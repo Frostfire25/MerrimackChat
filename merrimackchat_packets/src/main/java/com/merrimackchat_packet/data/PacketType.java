@@ -64,9 +64,9 @@ public enum PacketType {
     /**
      * Used to send user information to client for when channel info is requested
      * Has 1 argument
-     *  - Channel's user name (singular -- sent one at a time)
+     *  - Channel's user name (singular -- sent one at a time; buff not arg)
      */
-    SEND_USERS_IN_CHANNEL((byte) 7, 1, false),
+    SEND_USERS_IN_CHANNEL((byte) 7, 0, false),
     
     /**
      * Used to send channel information once one is created / when a user connects to the server

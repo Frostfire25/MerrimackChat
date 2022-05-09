@@ -33,6 +33,7 @@ public class Channel {
      * @param clientID client's ID.
      */
     public void remove(byte clientID) {
+        System.out.println("Removing user: " + clientID + " from channel: " + id);
         clients.remove(ServerDriver.getClientManager().getClientMap().get(clientID));
     }
     
@@ -42,6 +43,7 @@ public class Channel {
      * @param clientID client's ID.
      */
     public void add(byte clientID) {
+        System.out.println("Adding user: " + clientID + " to channel: " + id);
         clients.add(ServerDriver.getClientManager().getClientMap().get(clientID));
     }
     
@@ -56,12 +58,13 @@ public class Channel {
      * Broadcasts an audio packet to all clients in this channel.
      * 
      * @param packet audio packet
+     * @param senderID sender's ID
      */
-    public void broadcastAudio(Packet packet) {       
+    public void broadcastAudio(Packet packet, byte senderID) {       
         
         Set<Client> toRemove = new HashSet<>();
         
-        clients.stream()/*.filter(n -> n.getID() != senderID && n.getChannel() == channelID)*/.forEach(n -> {
+        clients.stream()/*.filter(n -> n.getID() != senderID)*/.forEach(n -> {
             
             // Assert that the client is still connected
             try {

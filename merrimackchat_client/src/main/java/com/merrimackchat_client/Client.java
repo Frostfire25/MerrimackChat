@@ -99,6 +99,9 @@ public class Client implements Runnable {
                     }
                     
                 }; break;
+                case SEND_USERS_IN_CHANNEL: {
+                    // TODO
+                }; break;
                 case USER_JOIN_CHANNEL: {
                     
                 }

@@ -111,17 +111,14 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     }; break;
                     case USER_JOIN_CHANNEL: {
                         try {
+                            // Client ID, Channel ID
                             ServerDriver.getClientManager().joinChannel(packet.getArgs(1), packet.getArgs(2));
                         } catch (ChannelNotFoundException ex) {
-                            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+                            System.out.println("No channel found for user to join.");
                         }
                     }; break;
-                    case USER_LEAVE_CHANNEL: {
-                        try {
-                            ServerDriver.getClientManager().leaveChannel(packet.getArgs(1));
-                        } catch (ChannelNotFoundException ex) {
-                            System.out.println("No channel found for user to leave.");
-                        }
+                    case USER_LEAVE_CHANNEL:  {
+                        ServerDriver.getClientManager().leaveChannel(packet.getArgs(1));
                     }; break;
                     case USER_CREATE_CHANNEL: {
                         try {
