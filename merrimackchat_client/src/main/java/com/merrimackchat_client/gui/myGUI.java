@@ -576,7 +576,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     private void leaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveBtnActionPerformed
         ClientDriver.getClient().sendPacket(PacketEncoder.createChannelLeavePacket(ClientDriver.getClient().getID()));
-        clearText();
+        // Clears text when a client leaves a channel
     }//GEN-LAST:event_leaveBtnActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
