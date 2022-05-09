@@ -64,7 +64,7 @@ public class Channel {
         
         Set<Client> toRemove = new HashSet<>();
         
-        clients.stream()/*.filter(n -> n.getID() != senderID)*/.forEach(n -> {
+        clients.stream().filter(n -> n.getID() != senderID).forEach(n -> {
             
             // Assert that the client is still connected
             try {

@@ -105,7 +105,9 @@ public class ChannelManager {
             Channel c = channels.get(id);
             // Remove users
             ArrayList<Client> clients = c.getClients();
+            System.out.println("Clients to remove from channel b4 delete: " + clients.toString());
             for(int i = 0; i < clients.size(); i++) {
+                System.out.println("Because of channel " + id + " deletion, user " + clients.get(i).getID() + " is being removed from the list of users in this channel.");
                 ServerDriver.getClientManager().leaveChannel(clients.get(i).getID());
             }
             // Remove channel
