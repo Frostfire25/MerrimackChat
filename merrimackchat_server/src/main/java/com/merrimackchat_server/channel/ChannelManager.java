@@ -104,8 +104,9 @@ public class ChannelManager {
             // Get channel
             Channel c = channels.get(id);
             // Remove users
-            for(Client client : c.getClients()) {
-                userLeaveChannel(client.getID(), id);
+            ArrayList<Client> clients = c.getClients();
+            for(int i = 0; i < clients.size(); i++) {
+                ServerDriver.getClientManager().leaveChannel(clients.get(i).getID());
             }
             // Remove channel
             channels.remove(id);
