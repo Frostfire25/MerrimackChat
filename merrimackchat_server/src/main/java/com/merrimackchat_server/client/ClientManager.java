@@ -93,7 +93,6 @@ public class ClientManager {
         if(cm.exists(currChannelID)) {
             try {
                 // Remove from current channel
-                System.out.println("Removing user: " + userID + " from channel: " + currChannelID + " (ClientManager.java).");
                 cm.userLeaveChannel(userID, currChannelID);
                 Client client = clientMap.get(userID);
                 client.setChannel((byte) -1);

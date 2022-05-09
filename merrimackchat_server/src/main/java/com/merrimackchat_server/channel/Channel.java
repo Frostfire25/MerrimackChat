@@ -34,7 +34,6 @@ public class Channel {
      * @param clientID client's ID.
      */
     public void remove(byte clientID) {
-        System.out.println("Removing user: " + clientID + " from channel: " + getId());
         getClients().remove(ServerDriver.getClientManager().getClientMap().get(clientID));
     }
     
@@ -44,7 +43,6 @@ public class Channel {
      * @param clientID client's ID.
      */
     public void add(byte clientID) {
-        System.out.println("Adding user: " + clientID + " to channel: " + getId());
         getClients().add(ServerDriver.getClientManager().getClientMap().get(clientID));
     }
     
