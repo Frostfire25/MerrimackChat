@@ -5,6 +5,7 @@ import com.merrimackchat_client.ClientDriver;
 import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.listeners.KeyListener;
+import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketEncoder;
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -135,6 +136,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 formWindowGainedFocus(evt);
             }
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                frameClosing(evt);
             }
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -319,7 +325,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         chatPanel.setEditable(false);
         chatPanel.setBackground(new java.awt.Color(245, 240, 225));
         chatPanel.setColumns(20);
-        chatPanel.setRows(5);
+        chatPanel.setRows(100);
 
         headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         headerLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -501,19 +507,24 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     */
     private void chatTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatTextFocusGained
         
-            chatText.setText("");
-            chatText.requestFocus();
-            
-            removePlaceHolderStyle(chatText);
-            
+        channelsJList.setEnabled(false);
+
+        chatText.setText("");
+        chatText.requestFocus();
+
+        removePlaceHolderStyle(chatText);
         
     }//GEN-LAST:event_chatTextFocusGained
 
     private void chatTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatTextFocusLost
+        
+        channelsJList.setEnabled(true);
+        
         if(chatText.getText().equals("")) {
             addPlaceHolderStyle1(chatText);
             //chatText.setText("Type your response here...");
         }
+        
     }//GEN-LAST:event_chatTextFocusLost
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
@@ -551,7 +562,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     }//GEN-LAST:event_chatTextKeyPressed
 
     private void connectToServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToServerButtonActionPerformed
-        // TODO add your handling code here:
+       keyListener.connectPressed(evt);
     }//GEN-LAST:event_connectToServerButtonActionPerformed
 
     private void IPTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IPTextFocusGained
@@ -573,18 +584,28 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
         String name = JOptionPane.showInputDialog(null, "Please enter a name (under 15 characters preferably) for the new channel:");
-        System.out.println("Name: " + name);
-        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelCreatePacket(name));
+        if(name != null && !name.equals(""))
+            ClientDriver.getClient().sendPacket(PacketEncoder.createChannelCreatePacket(name));
+        else
+            System.out.println("No name given. Cancelling operation.");
     }//GEN-LAST:event_createBtnActionPerformed
 
     private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBtnActionPerformed
-        Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
-        ClientDriver.getClient().sendPacket(PacketEncoder.createChannelJoinPacket(ClientDriver.getClient().getID(), c.getId()));
+        if(channelsJList.getSelectedIndex() != -1) {
+            Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
+            ClientDriver.getClient().sendPacket(PacketEncoder.createChannelJoinPacket(ClientDriver.getClient().getID(), c.getId()));
+        }
     }//GEN-LAST:event_joinBtnActionPerformed
 
     private void leaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveBtnActionPerformed
         ClientDriver.getClient().sendPacket(PacketEncoder.createChannelLeavePacket(ClientDriver.getClient().getID()));
+        // Clears text when a client leaves a channel
     }//GEN-LAST:event_leaveBtnActionPerformed
+
+    private void frameClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_frameClosing
+        // Called when the frame is closing to disconect the client properly
+        ClientDriver.getClient().disconnect();
+    }//GEN-LAST:event_frameClosing
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
         Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
@@ -666,8 +687,25 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     
     public void clearUserList() {
         userNames.clear();
+        validate();
     }
         
+    /**
+     * Clears the user text area
+     */
+    public void clearText() {
+        chatPanel.setText("");
+    }    
+    
+    /**
+     * Adds {@code text} to the current text area
+     * @param text Text to be added
+     */
+    public void addTextToTextBox(String text) {
+        String currentText = text + "\n" + chatPanel.getText(); 
+        chatPanel.setText(currentText);
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IPText;

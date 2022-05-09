@@ -39,6 +39,9 @@ public abstract class ClientThread extends Thread implements Identifiable {
         // Assigns this clien to this thread.
         this.client = client;
         try {
+            // Assigns the connection over
+            this.connection = connection;
+            
             // Get audio input from the client (speaker) // UPDATED ON MONDAY BY ALEX
             in = connection.getInputStream();
             // Get audio output from the client (mic)
@@ -57,7 +60,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
      * Closes the clients connection
      */
     public void closeSocket() {
-        if(!connection.isClosed()) {
+        if(connection != null && !connection.isClosed()) {
             try {
                 connection.close();
             } catch (IOException ex) {
@@ -111,20 +114,6 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case AUDIO_BEING_SENT: {
                         
                         byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
-                        //System.out.println("Broadcasting out to channel " + packet.getArgs(2) + " by user " + packet.getArgs(1) + ": " + Arrays.toString(toBroadCast));
-                        // Gets the client
-                        //Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));
-                        
-                        // Makes sure the client exists.
-                        //if (client == null) { System.out.println("Null Client! In Client Thread, ID: " + packet.getArgs(1)); break; }
-                        
-                        // Gets the channel
-                        //Channel channel = ServerDriver.getChannelManager().getChannels().get(client.getChannel());
-                        
-                        // Makes sure the channel exists.
-                        //if (channel == null) { System.out.println("Null Client! In Client Thread, ID: " + client.getChannel()); break; }
-                               
-                        //channel.broadcastAudio(packet);
                         ServerDriver.getChannelManager().broadcastAudio(toBroadCast, packet.getArgs(1), packet.getArgs(2), packet.getArgs(3), packet.getArgs(4));
                         
                     }; break;
@@ -200,7 +189,17 @@ public abstract class ClientThread extends Thread implements Identifiable {
                             System.out.println("Could not locate channel of ID " + packet.getArgs(1));
                         }
                     }; break;
-
+                    case USER_SEND_TEXT: {
+                        // Gets the client
+                        Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));
+                        
+                        // Assures the client exists
+                        if(client == null) return;
+                        
+                        // Formatted text line
+                        String formattedText = PacketDecoder.getFormattedTextFromATextPacket(packet, client.getName());
+                        ServerDriver.getChannelManager().broadcastText(packet.getArgs(2), PacketEncoder.createUserSendText(packet.getArgs(1), packet.getArgs(2), formattedText));
+                    }; break;
                 }
                 
                 packet = null; // And set readData container to our default number

@@ -39,7 +39,7 @@ public class Channel {
     public void remove(byte clientID) {
         Client client = ServerDriver.getClientManager().getClientMap().get(clientID);
         getClients().remove(client);
-        updateForPreviewers(client.getName(), (byte) 1);
+        updateForPreviewers();
     }
     
     /**
@@ -50,7 +50,7 @@ public class Channel {
     public void add(byte clientID) {
         Client client = ServerDriver.getClientManager().getClientMap().get(clientID);
         getClients().add(client);
-        updateForPreviewers(client.getName(), (byte) 0);
+        updateForPreviewers();
     }
     
     /**
@@ -109,6 +109,36 @@ public class Channel {
             ServerDriver.getClientManager().removeClient(n.getID());
         });
     }
+    
+    /**
+     * Broadcasts a text packout out to all the clients 
+     * inside this channel.
+     * 
+     * @param packet Packet to be sent
+     */
+    public void broadcastText(Packet packet) {
+        // A set of clients that can possibly be removed if there was an error.
+        Set<Client> toRemove = new HashSet<>();
+        
+        getClients().stream().forEach(n -> {
+            
+            // Assert that the client is still connected
+            try {
+                packet.send(n.getOut());
+            } catch (IOException ex) {
+                if(ex.getMessage().contains("Connection reset by peer")) {
+                    toRemove.add(n);
+                }
+                
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        // Removes all the clients that aren't connected
+        toRemove.forEach(n -> {
+            ServerDriver.getClientManager().removeClient(n.getID());
+        });
+    }
 
     /**
      * @return the name
@@ -135,18 +165,25 @@ public class Channel {
     Private Methods
     */
     
-    private void updateForPreviewers(String newUserName, byte operation) {
-            previewers.forEach(n -> {
-                try {
-                    PacketEncoder.createClearUserListPacket().send(n.getOut());
-                    sendPreviewData(n.getOut());
-                } catch (IOException ex) {
-                    
-                }
-            });
-        } 
+    private void updateForPreviewers() {
+        previewers.forEach(n -> {
+            try {
+                PacketEncoder.createClearUserListPacket().send(n.getOut());
+                sendPreviewData(n.getOut());
+            } catch (IOException ex) {
+
+            }
+        });
+    } 
     
     private void sendPreviewData(OutputStream out) {
+        if(clients.isEmpty()) {
+            try {
+                PacketEncoder.createClearUserListPacket().send(out);
+            } catch (IOException ex) {
+                
+            }
+        }
         clients.forEach(n -> {
             try {
                 PacketEncoder.createSendUsersInChannelPacket(n.getName()).send(out);

@@ -181,18 +181,8 @@ public class Packet implements Sendable {
      *
      * Method from
      * (https://stackoverflow.com/questions/11638123/how-to-add-an-element-to-array-and-shift-indexes/)
-     */
-    /*
-    public byte[] insertIntoSpace(byte[] buff, int index, byte location) {
-        byte[] result = new byte[buff.length];
-        System.arraycopy(buff, 0, result, 0, index);
-        System.arraycopy(buff, index, result, index + 1, buff.length - index - 1);
-        result[index] = location;
-        return result;
-    }
-    */
-    
-    public static byte[] insertIntoSpace(byte buff[], int location, byte value)
+     */    
+    private static byte[] insertIntoSpace(byte buff[], int location, byte value)
     {
         int i;
  

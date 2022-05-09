@@ -134,10 +134,20 @@ public enum PacketType {
      * Has no arguments
      * Rest of the packet is the buff.
      */
-    SERVER_SENDING_AUDIO((byte) 13, 0, false)
+    SERVER_SENDING_AUDIO((byte) 13, 0, false),
     
-    
+    /**
+     * Packet to distribute a user sending text to a channel
+     * Has two arguments
+     *  - User ID sending the text
+     *  - Channel ID that the user is in
+     */    
+    USER_SEND_TEXT((byte) 9, 2, false)
     ;
+
+    public static PacketType getUSER_JOIN_SERVER() {
+        return USER_JOIN_SERVER;
+    }
 
     private byte ID;
     private int numOfArgs;

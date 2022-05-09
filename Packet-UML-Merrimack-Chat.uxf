@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>581</x>
+      <y>84</y>
+      <w>196</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+Sendable
+package com.merrimackchat_packet.data
+--
++ send() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>714</x>
+      <y>224</y>
+      <w>322</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>Packet
+package com.merrimackchat_packet.data
+--
+packetType: PacketType
+buff: byte[]
+len: int
+args: byte[]
+BUFFER_LENGTH: int
+--
+#Constructor(packetType: PacketType, buff: byte[])
+#Constructor (packetType: PacketType, buff: byte[], len: int) 
+#Constructor(packetType: PacketType, buff: byte[], len: int, args: byte...)
+--
++ getBuffWithoutArgsAndTrailingFillers(): byte[]
++ removeTrailingFillers(array: byte[]): byte[]
++ getPacketType(): PacketType
++ getBuff(): byte[]
++ getArgs(i: int): byte
++ send(out: OutputStream): void
+- fixLength() : byte[]
+- insertIntoSpace(buff: byte[], location: int, value: byte): byte[]
+- idPacket(): void
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>672</x>
+      <y>91</y>
+      <w>154</w>
+      <h>147</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;200.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>182</x>
+      <y>245</y>
+      <w>350</w>
+      <h>294</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+PacketType
+package com.merrimackchat_packet.data
+--
+	    USER_JOIN_SERVER
+    USER_LEFT_SERVER 
+    USER_JOIN_CHANNEL
+    USER_LEAVE_CHANNEL
+    USER_CREATE_CHANNEL
+    USER_DELETE_CHANNEL
+    REQUEST_USERS_IN_CHANNEL
+    SEND_USERS_IN_CHANNEL
+    CHANNEL_INFO
+    UPDATE_USER_CHANNEL_INFO
+    AUDIO_BEING_SENT
+    ERROR_MESSAGE
+    RESPONSE_USER_CONNECT_SERVER
+    SERVER_SENDING_AUDIO
+    USER_SEND_TEXT
+--
+#Constructor(ID: byte, numOfArgs: int, hasResponse: boolean)
+--
++ getID(): int
++ getNumOfArgs(): int
++ hasResponse(): boolean
++ getByID(ID: int): PacketType
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>364</y>
+      <w>203</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;270.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>847</x>
+      <y>616</y>
+      <w>364</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>PacketDecoder
+package com.merrimackchat_packet.data
+--
++ decodeByteArray(array: byte[]): Packet
++ getAudioStreamFromAnAudioPacket(packet: Packet): byte[]
++ getFormattedTextFromATextPacket(packet: Packet, username: String): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>868</x>
+      <y>469</y>
+      <w>280</w>
+      <h>161</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;380.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>322</x>
+      <y>623</y>
+      <w>476</w>
+      <h>217</h>
+    </coordinates>
+    <panel_attributes>PacketEncoder
+package com.merrimackchat_packet.data
+{Builder}
+--
++ createUserJoinPacket(clientID: byte, clientName: String): Packet
++ createUserLeaveServerPacket(clientID: byte): Packet
++ createAudioBeingSentPacket(clientID: byte, channelID: byte, len1: int, len2: int, sound: byte[]): Packet
++ createChannelJoinPacket(clientID: byte, channelID: byte): Packet
++ createChannelLeavePacket(clientID: byte): Packet
++ createChannelCreatePacket(channelName: String): Packet
++ createChannelDeletePacket(channelID: byte): Packet
++ createRequestChannelUsersPacket(channelID: byte): Packet
++ createSendChannelUserPacket(name: String): Packet
++ createErrorMessagePacket(message: String): Packet
++ createChannelInfoPacket(name: String, byte: ID, byte: operation): Packet
++ createResponseToUserConnectToServerAPakcet(byte: ID): Packet
++ createUpdateUserChannelInfoPacket(byte: channelID): Packet
++ createServerAudioPakcet(audio: byte[]): Packet
++ createUserSendText(userID: byte, channelID: byte, text: String): Packet
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>546</x>
+      <y>469</y>
+      <w>343</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>470.0;10.0;10.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>903</x>
+      <y>756</y>
+      <w>238</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Util
+package com.merrimackchat_packet.data
+{Utility}
+--
++ getStringFromByteArray(buff: byte[]): String
++ getByteArrayFromString(string: String): byte[]
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1015</x>
+      <y>693</y>
+      <w>21</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+</diagram>

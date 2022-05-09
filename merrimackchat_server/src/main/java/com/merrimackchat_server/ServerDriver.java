@@ -4,6 +4,7 @@ import com.merrimackchat_server.channel.FileManager;
 import com.merrimackchat_server.terminal.Console;
 import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.client.ClientManager;
+import com.merrimackchat_server.server_properties.ServerProperties;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -37,6 +38,9 @@ public class ServerDriver {
     @Getter
     private static Console console;
     
+    @Getter
+    private static ServerProperties serverProperties;
+    
     public static void main(String[] args) {
                
         // Initilizes the channel manager and client manager and channelFileManager
@@ -44,8 +48,11 @@ public class ServerDriver {
         channelManager = new ChannelManager();
         fileManager = new FileManager(channelManager);
         
+        // Creates the server properties
+        serverProperties = new ServerProperties(fileManager);
+        
         // Starts the server
-        server = new Server(PORT, ADDR);
+        server = new Server(serverProperties.PORT, serverProperties.ADRESS);
         server.start();
         // Server has been sarted
         System.out.println(String.format("\n[Server Launched]: The Server has been launched on, IP: %s (%s)", server.getServer().getInetAddress().getHostAddress(), server.getServer().getLocalPort()));
