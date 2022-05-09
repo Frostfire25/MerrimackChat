@@ -706,6 +706,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         chatPanel.setText(currentText);
     }
     
+    public JTextField getIPText() {
+        return IPText;
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IPText;

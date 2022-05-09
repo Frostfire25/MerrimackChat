@@ -11,6 +11,7 @@ import com.merrimackchat_packet.data.PacketEncoder;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.lang.*;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -62,6 +63,31 @@ public class KeyListener {
     }
     
     public void connectPressed(ActionEvent evt) {
+        
+        // Gets the text fields
+        JTextField ipField = ClientDriver.getMyGUI().getIPText();
+        String text = ipField.getText();
+        
+        // Determines if the regex is correct
+        if(text.isEmpty() && text.matches(".:.")) {
+            String splitted[] = text.split(":");
+            String address = splitted[0];
+            int port = 0;
+            
+            try {
+                port = Integer.parseInt(splitted[1]);
+            } catch(NumberFormatException e) {
+                JOptionPane.showInternalMessageDialog(null, "The PORT should only contain integers."); return;
+            }
+               
+            // Establishes the connection
+            ClientDriver.establishConnection(address, port);
+        } 
+        // Displays the error diolog box
+        else {
+            JOptionPane.showInternalMessageDialog(null, "Incorrect format for the text field, please put ADRESS:PORT to connect.");
+        }
+        
         System.out.println("Enter for connect btn pressed");
             
         

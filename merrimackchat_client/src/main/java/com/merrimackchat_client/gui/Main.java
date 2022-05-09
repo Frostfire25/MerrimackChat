@@ -208,10 +208,6 @@ public class Main extends javax.swing.JFrame {
                         }
                     });
                     
-                    // ToDo Establishes a connection when a succesful login happens.
-                    // TESTING WILL BE REMOVED
-                    ClientDriver.establishConnection("10.0.0.231", 5000);
-                    
                 // tell user if info entered is incorrect
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Incorrect Password");

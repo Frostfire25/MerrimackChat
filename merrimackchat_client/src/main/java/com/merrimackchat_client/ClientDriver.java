@@ -120,7 +120,7 @@ public class ClientDriver {
      */
     public static void establishConnection(String address, int port) {
         
-        System.out.println("Connection being established.");
+        System.out.println("[Client] Connection being established.");
         
         // Inits the channel manager
         channelManager = new ChannelManager();
@@ -130,6 +130,8 @@ public class ClientDriver {
 
         thread = new Thread(client);
         thread.start();       
+        
+        System.out.println("[Client] Connection established.");
     }
   
 }

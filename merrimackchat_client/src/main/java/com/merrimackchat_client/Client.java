@@ -27,7 +27,7 @@ public class Client implements Runnable {
     private Speaker speaker;
     private Socket socket;
 
-    private static String IP = "10.0.0.231";
+    private static String IP;
     private static int PORT;
 
     @Getter
