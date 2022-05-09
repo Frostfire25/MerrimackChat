@@ -6,13 +6,16 @@ import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.client.Client;
 import com.merrimackchat_server.exceptions.*;
 import com.merrimackchat_server.util.Pair;
+import com.sun.source.tree.ArrayAccessTree;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import lombok.Getter;
@@ -27,7 +30,7 @@ public class ChannelManager {
     private HashMap<Byte, Channel> channels = new HashMap<>();
     private ArrayList<Pair<Boolean, Byte>> ids; // True = available; False = unavailable
 
-    private byte[] clientJoinSoundBuffer = null;
+    private byte[] clientJoinSoundBuffer = new byte[2999];
     private byte[] clientLeaveSoundBuffer = null;
 
             
@@ -61,14 +64,19 @@ public class ChannelManager {
         if(joinSoundFile == null || !joinSoundFile.exists()) return;  
         
         // Allocates the join and leave .wav files to their appropriete byte buffers.
+        /*
         try {
-            this.clientJoinSoundBuffer = AudioSystem.getAudioInputStream(joinSoundFile).readAllBytes();
+            
+            AudioSystem.getAudioInputStream(new AudioFormat(8000.0f, 16, 1, true, false), AudioSystem.getAudioInputStream(joinSoundFile)).read(clientJoinSoundBuffer);
+            //AudioSystem.getAudioInputStream(joinSoundFile).read(clientJoinSoundBuffer);
+            //System.out.println(Arrays.toString(clientJoinSoundBuffer) + " \n\n\n" + clientJoinSoundBuffer.length);
             Logger.getLogger(ChannelManager.class.getName()).log(Level.INFO, "The Join ping buffer has been added successfully.");
         } catch (UnsupportedAudioFileException ex) {
             Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
 
     /**
@@ -154,7 +162,7 @@ public class ChannelManager {
             channels.get(channelID).add(userID);
             
             // ToDo Alex!
-            playSound(channelID, userID, clientJoinSoundBuffer);
+            //playSound(channelID, userID, clientJoinSoundBuffer);
         } else {
             throw new ChannelNotFoundException("No such channel could be joined");
         }

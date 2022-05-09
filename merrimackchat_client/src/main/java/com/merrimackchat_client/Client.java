@@ -118,7 +118,21 @@ public class Client extends PacketSender implements Runnable {
         }
     }
 
+    /**
+     * Called when a client disconects from the server.
+     */
     public void disconnect() {
+        if (socket.isConnected()) {
+            Packet userLeavePacket = PacketEncoder.createUserLeaveServerPacket(ID);
+            boolean worked = sendPacket(userLeavePacket);
+        }
+
+        // Temporarily closing the program on disconect
+        try {
+            forceDisconect();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -172,7 +186,10 @@ public class Client extends PacketSender implements Runnable {
                             System.out.println(e.getMessage());
                             if(e.getMessage().contains("Connection reset")) {
                                 try {forceDisconect();} catch (IOException ex) {Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);}
-                            } 
+                            } else if(e.getMessage().contains("closed")) {
+                                System.out.println("Socket is closed, not reading data anymore.");
+                                return;
+                            }
                             e.printStackTrace();
 
                         } catch (IOException e) {
@@ -190,7 +207,7 @@ public class Client extends PacketSender implements Runnable {
             }
         }).start();
 
-   /**
+        /**
          * This thread is used for sending audio out.
          */
         new Thread(new Runnable() {

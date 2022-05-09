@@ -51,7 +51,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         t.start(); // start thread for run method
         
         addPlaceHolderStyle1(chatText);
-        addPlaceHolderStyle2(IPText);
+        addPlaceHolderStyle2(connectTextField);
         
                         /* Set the Nimbus look and feel 
         * @author Mark
@@ -125,13 +125,15 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jList2 = new javax.swing.JList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        IPText = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
+        connectTextField = new javax.swing.JTextField();
+        connectButton = new javax.swing.JButton();
         headerPanel = new javax.swing.JPanel();
         headerLabel = new javax.swing.JLabel();
         cardPanels = new javax.swing.JPanel();
-        chatPanel = new javax.swing.JTextArea();
         audioPanel = new javax.swing.JTextArea();
+        chatPanel = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         clockPanel = new javax.swing.JPanel();
         clockLabel = new javax.swing.JLabel();
         chatText = new javax.swing.JTextField();
@@ -144,6 +146,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 formWindowGainedFocus(evt);
             }
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                myGUI.this.windowClosing(evt);
             }
         });
 
@@ -206,19 +213,19 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        IPText.addFocusListener(new java.awt.event.FocusAdapter() {
+        connectTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                IPTextFocusGained(evt);
+                connectTextFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                IPTextFocusLost(evt);
+                connectTextFieldFocusLost(evt);
             }
         });
 
-        jButton6.setText("Connect!");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        connectButton.setText("Connect!");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                connectButtonActionPerformed(evt);
             }
         });
 
@@ -226,19 +233,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(chooseCommLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(IPText, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6))
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(menuLabel)))
-                .addGap(0, 12, Short.MAX_VALUE))
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,16 +246,26 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(menuPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(menuPanelLayout.createSequentialGroup()
+                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, menuPanelLayout.createSequentialGroup()
+                                .addComponent(chooseCommLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(connectTextField))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, menuPanelLayout.createSequentialGroup()
+                                .addGap(81, 81, 81)
+                                .addComponent(menuLabel)))
+                        .addGap(18, 18, 18)
+                        .addComponent(connectButton)
+                        .addGap(0, 43, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         menuPanelLayout.setVerticalGroup(
@@ -272,8 +276,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addGap(12, 12, 12)
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chooseCommLabel)
-                    .addComponent(IPText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
+                    .addComponent(connectTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(connectButton))
                 .addGap(46, 46, 46)
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -307,7 +311,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(342, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(headerLabel)
                 .addGap(319, 319, 319))
         );
@@ -322,16 +326,23 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         cardPanels.setBackground(new java.awt.Color(255, 255, 255));
         cardPanels.setLayout(new java.awt.CardLayout());
 
+        audioPanel.setBackground(new java.awt.Color(245, 240, 225));
+        audioPanel.setColumns(20);
+        audioPanel.setRows(5);
+        cardPanels.add(audioPanel, "card6");
+
         chatPanel.setEditable(false);
         chatPanel.setBackground(new java.awt.Color(245, 240, 225));
         chatPanel.setColumns(20);
         chatPanel.setRows(5);
         cardPanels.add(chatPanel, "card5");
 
-        audioPanel.setBackground(new java.awt.Color(245, 240, 225));
-        audioPanel.setColumns(20);
-        audioPanel.setRows(5);
-        cardPanels.add(audioPanel, "card6");
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(50);
+        jTextArea2.setRows(20);
+        jScrollPane3.setViewportView(jTextArea2);
+
+        cardPanels.add(jScrollPane3, "card4");
 
         clockPanel.setBackground(new java.awt.Color(30, 61, 89));
 
@@ -417,7 +428,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(undo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addComponent(redo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -435,9 +446,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addComponent(cardPanels, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(undo)
-                            .addComponent(redo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(redo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(chatText))))
                 .addContainerGap())
         );
 
@@ -543,22 +554,26 @@ System.out.println(System.getProperty("awt.toolkit"));
         System.out.println("I'm: " + name + " and am connected");
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_connectButtonActionPerformed
 
-    private void IPTextFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IPTextFocusGained
-        IPText.setText("");
-            IPText.requestFocus();
+    private void connectTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_connectTextFieldFocusGained
+        connectTextField.setText("");
+            connectTextField.requestFocus();
             
-            removePlaceHolderStyle(IPText);
-    }//GEN-LAST:event_IPTextFocusGained
+            removePlaceHolderStyle(connectTextField);
+    }//GEN-LAST:event_connectTextFieldFocusGained
 
-    private void IPTextFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_IPTextFocusLost
-        if(IPText.getText().equals("")) {
-            addPlaceHolderStyle2(IPText);
+    private void connectTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_connectTextFieldFocusLost
+        if(connectTextField.getText().equals("")) {
+            addPlaceHolderStyle2(connectTextField);
         }
-    }//GEN-LAST:event_IPTextFocusLost
+    }//GEN-LAST:event_connectTextFieldFocusLost
+
+    private void windowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_windowClosing
+        ClientDriver.getClient().disconnect();
+    }//GEN-LAST:event_windowClosing
 
 
 
@@ -638,7 +653,6 @@ System.out.println(System.getProperty("awt.toolkit"));
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField IPText;
     private static javax.swing.JTextArea audioPanel;
     private javax.swing.JPanel cardPanels;
     private static javax.swing.JTextArea chatPanel;
@@ -646,6 +660,8 @@ System.out.println(System.getProperty("awt.toolkit"));
     private javax.swing.JLabel chooseCommLabel;
     private static javax.swing.JLabel clockLabel;
     private javax.swing.JPanel clockPanel;
+    private javax.swing.JButton connectButton;
+    private javax.swing.JTextField connectTextField;
     private javax.swing.JLabel headerLabel;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JButton jButton1;
@@ -653,14 +669,15 @@ System.out.println(System.getProperty("awt.toolkit"));
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel menuLabel;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JButton redo;

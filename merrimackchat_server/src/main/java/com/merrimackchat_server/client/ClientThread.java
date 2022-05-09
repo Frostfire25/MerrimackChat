@@ -153,7 +153,14 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         // For Derek or Alex with Channels
                     }; break;
                     case USER_LEFT_SERVER: {
-                        
+                        byte ID = packet.getArgs(1);
+                        Client clinet = ServerDriver.getClientManager().getClientMap().get(ID);
+
+                        // Removes the client if he exists
+                        if(client != null) {
+                            System.out.println("[Disconected] "+clinet.getName()+" has disconected from the server.");
+                            ServerDriver.getClientManager().removeClient(ID);
+                        }
                     }; break;
                 }
                 

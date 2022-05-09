@@ -19,6 +19,10 @@ public class PacketEncoder {
         return new Packet(PacketType.USER_JOIN_SERVER, array, array.length, new byte[]{clientID});
     }    
     
+    public static Packet createUserLeaveServerPacket(byte clientID) {
+        return new Packet(PacketType.USER_LEFT_SERVER, new byte[]{}, 0, new byte[]{clientID});
+    }
+    
     public static Packet createAudioBeingSentPacket(byte clientID, byte channelID, byte len1, byte len2, byte[] sound) {
         return new Packet(PacketType.AUDIO_BEING_SENT, sound, sound.length, new byte[] {clientID, channelID, len1, len2});
     }

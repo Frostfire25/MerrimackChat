@@ -83,7 +83,7 @@ public class ClientManager {
         byte currChannelID = clientMap.get(userID).getChannel();
         if(cm.exists(channelID) && currChannelID == channelID) {
             // Remove from current channel
-            cm.userLeaveChannel(currChannelID, userID);
+            cm.userLeaveChannel(userID, currChannelID);
             return true;
         }
         return false;
@@ -104,15 +104,25 @@ public class ClientManager {
         return Byte.MAX_VALUE;
     }
 
+    /**
+     * Called when removing a client from a server
+     * When the client sends a USER_LEFT_SERVER packet over
+     * Anytime the client should be disconected.
+     * 
+     * @param ID ID of the client
+     */
     public void removeClient(byte ID) {
-        if(clientMap.containsKey(ID)) {
-            Client client = clientMap.remove(ID);
+        if(clientMap.containsKey(ID)) {  
+            Client client = clientMap.get(ID);
             
             // Leaves channel
             leaveChannel(client.getID(), client.getChannel());
             
             // Stop thread (UNSAFE MAY HAVE TO REMOVE)
             client.stop();
+            
+            // Removes the client
+            clientMap.remove(ID);
         }
     }
     
