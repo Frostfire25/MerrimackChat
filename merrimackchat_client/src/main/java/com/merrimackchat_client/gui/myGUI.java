@@ -35,6 +35,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     
     @Getter
     private static Login loginBrowser;
+    
+    @Getter
+    private static KeyListener keyListener; 
 
     private int second, minute, hour;
     private ArrayList<String> channelNames = new ArrayList<>();
@@ -65,7 +68,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
-
+        
     }
 
     public myGUI() {
@@ -119,6 +122,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
             }
         });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         menuPanel.setBackground(new java.awt.Color(30, 61, 89));
 
@@ -142,18 +150,33 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         leaveButton.setText("Leave");
         leaveButton.setBorderPainted(false);
         leaveButton.setContentAreaFilled(false);
+        leaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                leaveButtonActionPerformed(evt);
+            }
+        });
 
         joinButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         joinButton.setForeground(new java.awt.Color(245, 240, 225));
         joinButton.setText("Join");
         joinButton.setBorderPainted(false);
         joinButton.setContentAreaFilled(false);
+        joinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                joinButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(245, 240, 225));
         deleteButton.setText("Delete");
         deleteButton.setBorderPainted(false);
         deleteButton.setContentAreaFilled(false);
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         createButton.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         createButton.setForeground(new java.awt.Color(245, 240, 225));
@@ -340,11 +363,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 chatTextFocusLost(evt);
             }
         });
-        chatText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chatTextActionPerformed(evt);
-            }
-        });
         chatText.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 chatTextKeyPressed(evt);
@@ -500,9 +518,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
    
     }//GEN-LAST:event_screenShotButtonActionPerformed
 
-    
-    private KeyListener keyListener = new KeyListener();
-    
     /*
     Calls key event in KeyListener class
     */
@@ -521,18 +536,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         redo();
     }//GEN-LAST:event_redoActionPerformed
 
-    private void chatTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatTextActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chatTextActionPerformed
-
     private void chatTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatTextKeyPressed
         keyListener.keyPressed(evt);
     
     }//GEN-LAST:event_chatTextKeyPressed
-
-    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-        
-    }//GEN-LAST:event_createButtonActionPerformed
 
     private void connectToServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToServerButtonActionPerformed
         // TODO add your handling code here:
@@ -550,6 +557,26 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             addPlaceHolderStyle2(IPText);
         }
     }//GEN-LAST:event_IPTextFocusLost
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+      keyListener.keyPressed(evt);
+    }//GEN-LAST:event_formKeyPressed
+
+    private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_createButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void leaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_leaveButtonActionPerformed
+
+    private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_joinButtonActionPerformed
 
     /*
     Getter method for JOptionPane messages

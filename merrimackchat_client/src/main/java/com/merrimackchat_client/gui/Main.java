@@ -191,7 +191,7 @@ public class Main extends javax.swing.JFrame {
                 // if entered characters in strings match up,
                 // display message and get rid of login browser
                 if(loginInfo.get(userIDNew).equals(passwordNew)) {
-                    JOptionPane.showMessageDialog(rootPane, "Login successful");
+                    
 
                     this.dispose(); // close login frame
 

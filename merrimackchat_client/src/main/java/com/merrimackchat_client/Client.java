@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lombok.Getter;
 
 /**
  * Class used to handle Client I/O to the server. Inspired by :
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author Derek Costello, Suraj Kumar (original author)
  */
-public class Client extends PacketSender implements Runnable {
+public class Client implements Runnable {
 
     private Microphone mic;
     private Speaker speaker;
@@ -29,7 +30,7 @@ public class Client extends PacketSender implements Runnable {
     private static String IP /*"73.249.253.64"*/;
     private static int PORT;
 
-
+    @Getter
     // ID refrence of this Client default is -128 which is min;
     private byte ID;
      
@@ -66,9 +67,9 @@ public class Client extends PacketSender implements Runnable {
                     //System.out.println(audioPacket.getBuff()[10] + " " + audioPacket.getBuff()[audioPacket.getBuff().length-1]);
                     System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
                     speaker.write(speakerBuffer, 0, speakerBuffer.length);
-                }
-                ;
-                break;
+                
+                };break;
+                
                 case RESPONSE_USER_CONNECT_SERVER: {
                     byte serverID = packet.getArgs(1);
                     this.ID = serverID;
@@ -105,7 +106,9 @@ public class Client extends PacketSender implements Runnable {
                         ClientDriver.getMyGUI().loadBeginningChannels();
                     
                 }; break;
-                
+                case USER_JOIN_CHANNEL: {
+                   
+                }
                 case SERVER_SENDING_AUDIO: {
                     byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
                     System.out.println("Server audio was received and played.");
@@ -289,7 +292,7 @@ public class Client extends PacketSender implements Runnable {
      *
      * @param packet Packet to be sent out
      */
-    @Override
+
     public boolean sendPacket(Packet packet) {
         try {
             if (socket.isConnected()) {
