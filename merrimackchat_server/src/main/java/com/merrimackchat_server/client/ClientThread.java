@@ -11,6 +11,7 @@ import com.merrimackchat_server.exceptions.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,21 +23,25 @@ import lombok.Setter;
  * @author Alex
  */
 public abstract class ClientThread extends Thread implements Identifiable {
- @Getter
+    
+    @Getter
     private InputStream in;
     @Getter
     private OutputStream out;
     
     @Getter @Setter private Client client;
+    
+    @Getter
+    private Socket connection;
 
-    public ClientThread(String address, int port) {
+    public ClientThread(String address, int port, Socket connection) {
         // Assigns this clien to this thread.
         this.client = client;
         try {
-            // Get audio input from the client (speaker)
-            in = ServerDriver.getServer().getConnection().getInputStream();
+            // Get audio input from the client (speaker) // UPDATED ON MONDAY BY ALEX
+            in = connection.getInputStream();
             // Get audio output from the client (mic)
-            out = ServerDriver.getServer().getConnection().getOutputStream();
+            out = connection.getOutputStream();
             // For test, included in the test channel
             //ServerDriver.getChannelManager().getAllChannels(out);
 
@@ -44,6 +49,19 @@ public abstract class ClientThread extends Thread implements Identifiable {
 
         } catch (IOException ex) {
             System.err.println("Error with I/O at server.");
+        }
+    }
+    
+    /**
+     * Closes the clients connection
+     */
+    public void closeSocket() {
+        if(!connection.isClosed()) {
+            try {
+                connection.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -67,7 +85,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                 // Tested working values are 1962, 1284
                 // Using a 1400 Packet byte size
                 
-                byte[] readData = in.readNBytes(4600);
+                byte[] readData = getIn().readNBytes(4600);
                 //Packet packet = PacketDecoder.
                 
                 packet = PacketDecoder.decodeByteArray(readData);
@@ -92,7 +110,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case AUDIO_BEING_SENT: {
                         
                         byte[] toBroadCast = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
-                        System.out.println("Broadcasting out to channel " + packet.getArgs(2) + " by user " + packet.getArgs(1) + ": " + Arrays.toString(toBroadCast));
+                        //System.out.println("Broadcasting out to channel " + packet.getArgs(2) + " by user " + packet.getArgs(1) + ": " + Arrays.toString(toBroadCast));
                         // Gets the client
                         //Client client = ServerDriver.getClientManager().getClientMap().get(packet.getArgs(1));
                         
@@ -123,25 +141,29 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     case USER_CREATE_CHANNEL: {
                         try {
                             ServerDriver.getChannelManager().createChannel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()));
+                            // Saves the channels after they are updated.
+                            ServerDriver.getFileManager().saveChannels();
                         } catch (NoIDAvailableException e) {
                             try {
-                                PacketEncoder.createErrorMessagePacket(e.getMessage()).send(out);
+                                PacketEncoder.createErrorMessagePacket(e.getMessage()).send(getOut());
                             } catch (IOException ex) {
                                 System.out.println("Could not send NoIDAvailableError");
                             }
                         }
-                    }; break;
+                    }break;
                     case USER_DELETE_CHANNEL: {
                         try {
                             ServerDriver.getChannelManager().deleteChannel(packet.getArgs(1));
+                            // Saves the channels after they are updated.
+                            ServerDriver.getFileManager().saveChannels();
                         } catch (ChannelNotFoundException e) {
                             try {
-                                PacketEncoder.createErrorMessagePacket(e.getMessage()).send(out);
+                                PacketEncoder.createErrorMessagePacket(e.getMessage()).send(getOut());
                             } catch (IOException ex) {
                                 System.out.println("Could not send NoIDAvailableError");
                             }
                         }
-                    }; break;
+                    }break;
                     case USER_JOIN_SERVER: {
                         //System.out.println("Buff: " + Arrays.toString(packet.getBuff()));
                         System.out.println("Buff Without Args: " + Arrays.toString(packet.getBuffWithoutArgsAndTrailingFillers()));
@@ -158,8 +180,15 @@ public abstract class ClientThread extends Thread implements Identifiable {
                         // For Derek or Alex with Channels
                     }; break;
                     case USER_LEFT_SERVER: {
-                        
-                    }; break;
+                        byte ID = packet.getArgs(1);
+                        Client clinet = ServerDriver.getClientManager().getClientMap().get(ID);
+
+                        // Removes the client if he exists
+                        if(getClient() != null) {
+                            System.out.println("[Disconected] "+clinet.getName()+" has disconected from the server.");
+                            ServerDriver.getClientManager().removeClient(ID);
+                        }
+                    }break;
                 }
                 
                 packet = null; // And set readData container to our default number
@@ -177,7 +206,7 @@ public abstract class ClientThread extends Thread implements Identifiable {
      */
     public void play(int input, int threadNum) {
         try {
-            out.write(input);
+            getOut().write(input);
         } catch (IOException ex) {
             ex.printStackTrace();
             System.err.println("Cannot write audio out to socket " + threadNum);
@@ -193,10 +222,38 @@ public abstract class ClientThread extends Thread implements Identifiable {
      */
     public void play(byte[] input, int threadNum) {
         try {
-            out.write(input);
+            getOut().write(input);
         } catch (IOException ex) {
             ex.printStackTrace();
             System.err.println("Cannot write audio out to socket " + threadNum);
         }
+    }
+
+    /**
+     * @return the in
+     */
+    public InputStream getIn() {
+        return in;
+    }
+
+    /**
+     * @return the out
+     */
+    public OutputStream getOut() {
+        return out;
+    }
+
+    /**
+     * @return the client
+     */
+    public Client getClient() {
+        return client;
+    }
+
+    /**
+     * @param client the client to set
+     */
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

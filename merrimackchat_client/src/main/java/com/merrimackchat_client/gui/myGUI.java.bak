@@ -2,7 +2,6 @@ package com.merrimackchat_client.gui;
 
 import com.merrimackchat_client.Client;
 import com.merrimackchat_client.ClientDriver;
-import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.listeners.KeyListener;
 import com.merrimackchat_packet.data.PacketEncoder;
@@ -579,8 +578,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         ClientDriver.getClient().sendPacket(PacketEncoder.createChannelLeavePacket(ClientDriver.getClient().getID()));
     }//GEN-LAST:event_leaveBtnActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        Channel c = ClientDriver.getChannelManager().get(channelNames.get(JListChannel.getSelectedIndex()));
         ClientDriver.getClient().sendPacket(PacketEncoder.createChannelDeletePacket(c.getId()));
     }
 

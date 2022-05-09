@@ -115,23 +115,31 @@
                       <Component id="screenShotButton" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
+<<<<<<< HEAD
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <Component id="leaveBtn" alignment="0" max="32767" attributes="0"/>
+                              <Component id="joinBtn" max="32767" attributes="0"/>
+                              <Component id="deleteBtn" alignment="0" max="32767" attributes="0"/>
+                              <Component id="createBtn" alignment="0" max="32767" attributes="0"/>
+=======
                               <Component id="functionsLabel" min="-2" max="-2" attributes="0"/>
                               <Component id="leaveButton" alignment="0" max="32767" attributes="0"/>
                               <Component id="joinButton" max="32767" attributes="0"/>
                               <Component id="deleteButton" alignment="0" max="32767" attributes="0"/>
                               <Component id="createButton" alignment="0" max="32767" attributes="0"/>
+>>>>>>> master
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="channelsLabel" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPaneChannels" min="-2" pref="123" max="-2" attributes="0"/>
+                              <Component id="jScrollPaneChannels" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="usersLabel" min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPaneUsers" min="-2" pref="130" max="-2" attributes="0"/>
+                              <Component id="jScrollPaneUsers" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="17" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -159,6 +167,15 @@
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jScrollPaneChannels" alignment="1" pref="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
+<<<<<<< HEAD
+                          <Component id="createBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="deleteBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="leaveBtn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="joinBtn" min="-2" max="-2" attributes="0"/>
+=======
                           <Component id="createButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="deleteButton" min="-2" max="-2" attributes="0"/>
@@ -166,6 +183,7 @@
                           <Component id="leaveButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="joinButton" min="-2" max="-2" attributes="0"/>
+>>>>>>> master
                       </Group>
                       <Component id="jScrollPaneUsers" alignment="1" max="32767" attributes="0"/>
                   </Group>
@@ -207,7 +225,43 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="screenShotButtonActionPerformed"/>
           </Events>
         </Component>
+<<<<<<< HEAD
+        <Component class="javax.swing.JButton" name="leaveBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Leave"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="leaveBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="joinBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Join"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="joinBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="deleteBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Delete"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="createBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Create"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+=======
         <Component class="javax.swing.JButton" name="leaveButton">
+>>>>>>> master
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="2"/>

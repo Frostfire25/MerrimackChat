@@ -43,7 +43,7 @@ public class PacketDecoder {
     
     
     public static byte[] getAudioStreamFromAnAudioPacket(Packet packet) {
-        if(packet == null || packet.getPacketType() == null || packet.getPacketType() != PacketType.AUDIO_BEING_SENT) return null;
+        if(packet == null || packet.getPacketType() == null || (packet.getPacketType() != PacketType.AUDIO_BEING_SENT && packet.getPacketType() != PacketType.SERVER_SENDING_AUDIO)) return null;
         
         return packet.getBuffWithoutArgsAndTrailingFillers() /*Arrays.copyOfRange(packet.getBuff(), 15, ((int) packet.getArgs(3) * (int) packet.getArgs(4)) + 1)*/;
         

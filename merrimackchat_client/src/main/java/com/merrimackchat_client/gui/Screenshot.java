@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.merrimackchat_client.gui;
 
 import java.awt.*;
@@ -18,7 +13,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Screenshot {
     
-myGUI get = new myGUI();
+    myGUI get = new myGUI();
  
     // Prints contents of a panel to file locatiion of users choice    
     public void makePanelImage(Component panel) {

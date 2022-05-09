@@ -111,8 +111,17 @@ public enum PacketType {
      * Expects a Response
      *  - User sends their display name back
      */
-    RESPONSE_USER_CONNECT_SERVER((byte) 12, 1, true)
+    RESPONSE_USER_CONNECT_SERVER((byte) 12, 1, true),
     
+    /**
+     * OUT from Server -> Client
+     * Sends a generic audio to a client from the server, 
+     * not from anyone specific, no client.
+     * 
+     * Has no arguments
+     * Rest of the packet is the buff.
+     */
+    SERVER_SENDING_AUDIO((byte) 13, 0, false)
     
     
     ;

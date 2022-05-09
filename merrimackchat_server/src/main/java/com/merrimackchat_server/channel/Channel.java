@@ -16,11 +16,12 @@ import lombok.Getter;
  *
  * @author Derek Costello
  */
+
 public class Channel {
     
-    @Getter private String name;
-    @Getter private byte id;
-    @Getter private ArrayList<Client> clients = new ArrayList<>();
+    private String name;
+    private byte id;
+    private ArrayList<Client> clients = new ArrayList<>();
 
     public Channel(String name, byte id) {
         this.name = name;
@@ -33,8 +34,8 @@ public class Channel {
      * @param clientID client's ID.
      */
     public void remove(byte clientID) {
-        System.out.println("Removing user: " + clientID + " from channel: " + id);
-        clients.remove(ServerDriver.getClientManager().getClientMap().get(clientID));
+        System.out.println("Removing user: " + clientID + " from channel: " + getId());
+        getClients().remove(ServerDriver.getClientManager().getClientMap().get(clientID));
     }
     
     /**
@@ -43,15 +44,15 @@ public class Channel {
      * @param clientID client's ID.
      */
     public void add(byte clientID) {
-        System.out.println("Adding user: " + clientID + " to channel: " + id);
-        clients.add(ServerDriver.getClientManager().getClientMap().get(clientID));
+        System.out.println("Adding user: " + clientID + " to channel: " + getId());
+        getClients().add(ServerDriver.getClientManager().getClientMap().get(clientID));
     }
     
     /**
      * Clears clients from the channel.
      */
     public void clear() {
-        clients.clear();
+        getClients().clear();
     }
     
     /**
@@ -64,7 +65,7 @@ public class Channel {
         
         Set<Client> toRemove = new HashSet<>();
         
-        clients.stream().filter(n -> n.getID() != senderID).forEach(n -> {
+        getClients().stream().filter(n -> n.getID() != senderID).forEach(n -> {
             
             // Assert that the client is still connected
             try {
@@ -82,5 +83,26 @@ public class Channel {
         toRemove.forEach(n -> {
             ServerDriver.getClientManager().removeClient(n.getID());
         });
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the id
+     */
+    public byte getId() {
+        return id;
+    }
+
+    /**
+     * @return the clients
+     */
+    public ArrayList<Client> getClients() {
+        return clients;
     }
 }

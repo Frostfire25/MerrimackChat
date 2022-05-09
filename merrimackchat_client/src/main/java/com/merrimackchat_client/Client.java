@@ -2,7 +2,7 @@ package com.merrimackchat_client;
 
 import com.merrimackchat_client.channel.Channel;
 import com.merrimackchat_client.gui.IdAndPasswords;
-import com.merrimackchat_client.gui.LoginBrowser;
+
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketDecoder;
 import com.merrimackchat_packet.data.PacketEncoder;
@@ -26,7 +26,7 @@ public class Client implements Runnable {
     private Microphone mic;
     private Speaker speaker;
     private Socket socket;
-    
+
     private static String IP /*"73.249.253.64"*/;
     private static int PORT;
 
@@ -37,7 +37,6 @@ public class Client implements Runnable {
     private byte channel;
      
     // Name that needs to be set through the GUI
-    public static String clientName;
 
     // Does not allow this client to send any packets until 
     //private boolean waitingForPacketResponse = false;
@@ -52,9 +51,6 @@ public class Client implements Runnable {
         
         mic = new Microphone();
         speaker = new Speaker();
-
-        // Assigns the name
-        clientName = "Alex";
         
         // Sets the ID to the empty value
         ID = Byte.MIN_VALUE;
@@ -73,7 +69,9 @@ public class Client implements Runnable {
                     //System.out.println(audioPacket.getBuff()[10] + " " + audioPacket.getBuff()[audioPacket.getBuff().length-1]);
                     System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
                     speaker.write(speakerBuffer, 0, speakerBuffer.length);
-                }; break;
+                
+                };break;
+                
                 case RESPONSE_USER_CONNECT_SERVER: {
                     byte serverID = packet.getArgs(1);
                     this.ID = serverID;
@@ -88,7 +86,7 @@ public class Client implements Runnable {
                     System.out.println(this.ID);
                     
                     // Now we want to send the user join packet that contains the users name
-                    sendPacket(PacketEncoder.createUserJoinPacket(ID, clientName));
+                    sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
                 }; break;
                 case CHANNEL_INFO: {
                     String channelName = Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers());
@@ -105,15 +103,61 @@ public class Client implements Runnable {
                     // TODO
                 }; break;
                 case UPDATE_USER_CHANNEL_INFO: {
-                    channel = packet.getArgs(1);
-                }
+                    channel = packet.getArgs(1);                
+                    //sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
+                }; break;
+                
+                /*
+                case CHANNEL_INFO: {
+                    System.out.println("Final packet?: " + packet.getArgs(3));
+                    
+                    
+                    //while(packet.getArgs(3) == (byte) 0) { // While this is not the last packet
+                    //    System.out.println("Adding new channel (from Client.java)");
+                    //    ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
+                    //} 
+                    
+ 
+                    // Add the final packet
+                    System.out.println("Adding new channel (from Client.java)");
+                    ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
+                                        
+                    // Final channel
+                    if(packet.getArgs(3) == (byte) 1)
+                        ClientDriver.getMyGUI().loadBeginningChannels();
+                    
+                }; break;
+                */
+                case USER_JOIN_CHANNEL: {
+                   
+                }; break;
+                case SERVER_SENDING_AUDIO: {
+                    byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
+                    System.out.println("Server audio was received and played.");
+                    speaker.write(speakerBuffer, 0, speakerBuffer.length);
+                }; break;
+                
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Called when a client disconects from the server.
+     */
     public void disconnect() {
+        if (socket.isConnected()) {
+            Packet userLeavePacket = PacketEncoder.createUserLeaveServerPacket(ID);
+            boolean worked = sendPacket(userLeavePacket);
+        }
+
+        // Temporarily closing the program on disconect
+        try {
+            forceDisconect();
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -167,7 +211,10 @@ public class Client implements Runnable {
                             System.out.println(e.getMessage());
                             if(e.getMessage().contains("Connection reset")) {
                                 try {forceDisconect();} catch (IOException ex) {Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);}
-                            } 
+                            } else if(e.getMessage().contains("closed")) {
+                                System.out.println("Socket is closed, not reading data anymore.");
+                                return;
+                            }
                             e.printStackTrace();
 
                         } catch (IOException e) {
@@ -205,12 +252,6 @@ public class Client implements Runnable {
                     Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                if(!socket.isConnected()) {
-                    System.out.println("Socket is not connected, closing down.");
-                    disconnect();
-                    return;
-                }
-                
                 // Determines if the user is talking
                 while (socket.isConnected()) { // While a connection is still established
                     if (mic.isSending()) {

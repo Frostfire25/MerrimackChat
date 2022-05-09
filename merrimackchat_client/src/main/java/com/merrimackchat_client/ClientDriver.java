@@ -6,8 +6,9 @@ package com.merrimackchat_client;
 
 import com.merrimackchat_client.channel.ChannelManager;
 import com.merrimackchat_client.gui.IdAndPasswords;
-import com.merrimackchat_client.gui.LoginBrowser;
+import com.merrimackchat_client.gui.Login;
 
+import com.merrimackchat_client.gui.Main;
 import com.merrimackchat_client.gui.myGUI;
 import javax.swing.JFrame;
 import lombok.Generated;
@@ -21,7 +22,7 @@ import lombok.Setter;
 
 public class ClientDriver {
 
-    @Generated
+    @Getter
     private static Thread thread;
     
     @Getter
@@ -37,9 +38,20 @@ public class ClientDriver {
     private static IdAndPasswords idAndPasswords;
     
     @Getter
-    private static LoginBrowser loginBrowser;
+    private static Login loginBrowser;
+    
+    @Getter
+    private static Main main;
     
     public static void main(String[] args) {
+
+    
+        //Assigns the client out
+//        client = new Client();
+//
+//        thread = new Thread(client);
+//        thread.start();
+        
 
         /*Commenting out by alex for simplicity *
         IdAndPasswords s = new IdAndPasswords();        
@@ -60,32 +72,45 @@ public class ClientDriver {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(myGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientDriver.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(myGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientDriver.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(myGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientDriver.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(myGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientDriver.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         // Login
+        
         idAndPasswords = new IdAndPasswords(); 
-        loginBrowser = new LoginBrowser(idAndPasswords.getInfo());    
+        loginBrowser = new Login(idAndPasswords.getInfo());  
+        main = new Main();
     
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+
                 //myGUI = new myGUI("Derek");
                 //myGUI.setVisible(true);
                 //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
                 //myGUI.setTitle("Chat App");
                 //myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//*/
-                loginBrowser.setVisible(true);
+                main.setVisible(true);
                 //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
-                loginBrowser.setTitle("Chat App");
-                loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                main.setTitle("Chat App");
+                main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                /*myGUI = new myGUI();
+                myGUI.setVisible(true);
+                myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+                myGUI.setTitle("Chat App");
+                myGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+//                loginBrowser.setVisible(true);
+//                //myGUI.requestFocusInWindow(); // makes sure textfield or other components don't auto focus on start-up
+//                loginBrowser.setTitle("Chat App");
+//                loginBrowser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             }
         });      
     }
@@ -97,6 +122,7 @@ public class ClientDriver {
         
         System.out.println("Connection being established.");
         
+        // Inits the channel manager
         channelManager = new ChannelManager();
         
         //Assigns the client out

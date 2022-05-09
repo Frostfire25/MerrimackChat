@@ -4,11 +4,6 @@
  */
 package com.merrimackchat_packet.data;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Alex
@@ -23,6 +18,10 @@ public class PacketEncoder {
         
         return new Packet(PacketType.USER_JOIN_SERVER, array, array.length, new byte[]{clientID});
     }    
+    
+    public static Packet createUserLeaveServerPacket(byte clientID) {
+        return new Packet(PacketType.USER_LEFT_SERVER, new byte[]{}, 0, new byte[]{clientID});
+    }
     
     public static Packet createAudioBeingSentPacket(byte clientID, byte channelID, byte len1, byte len2, byte[] sound) {
         return new Packet(PacketType.AUDIO_BEING_SENT, sound, sound.length, new byte[] {clientID, channelID, len1, len2});
@@ -79,6 +78,10 @@ public class PacketEncoder {
     
     public static Packet createUpdateUserChannelInfoPacket(byte channelID) {
         return new Packet(PacketType.UPDATE_USER_CHANNEL_INFO, new byte[]{}, 0, new byte[]{channelID});
+    }
+    
+    public static Packet createServerAudioPakcet(byte[] audio) {
+        return new Packet(PacketType.SERVER_SENDING_AUDIO, audio, audio.length, new byte[]{});
     }
     
 }

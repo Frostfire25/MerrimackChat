@@ -133,6 +133,7 @@ public class Packet implements Sendable {
         // Fixes the length to be to sending protocol
         //idPacket();
         //System.out.println(Arrays.toString(buff));
+                
         this.buff = fixLength();
         out.write(buff);
 

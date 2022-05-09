@@ -6,6 +6,7 @@ import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.exceptions.ChannelNotFoundException;
 import com.merrimackchat_server.util.Pair;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,16 +32,17 @@ public class ClientManager {
      * @param name Requested name from the client
      * @param address address of the client
      * @param port port of the client
+     * @param connection connection of this client
      * @return If the client was created correctly
      */
-    public Pair<Boolean, Client> clientJoined(String name, String address, int port) {
+    public Pair<Boolean, Client> clientJoined(String name, String address, int port, Socket connection) {
         byte id = getID();
         
         // If the id is greater than the max allowed value, we must return false
         if(id == Byte.MAX_VALUE) return new Pair(false, null);
         
         // Creates and assigns a client; -1 implies no channle is joined
-        Client client = new Client(name, address, port, id, (byte) -1);
+        Client client = new Client(name, address, port, id, ((byte) -1), connection);
         clientMap.put(id, client);
         
         // Send back the ID to the client Here
@@ -129,6 +131,9 @@ public class ClientManager {
             
             // Leaves channel
             leaveChannel(client.getID());
+            
+            // Closes the clients connection.
+            client.closeSocket();
             
             // Stop thread (UNSAFE MAY HAVE TO REMOVE)
             client.stop();
