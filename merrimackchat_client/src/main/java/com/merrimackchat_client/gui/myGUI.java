@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -40,6 +42,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     private int second, minute, hour;
     private ArrayList<String> channelNames = new ArrayList<>();
+    private ArrayList<String> userNames = new ArrayList<>();
 
     UndoManager um = new UndoManager();
     
@@ -68,6 +71,16 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         // Set JFrame to be displayed in center of users screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        
+        // Add selection listener to channelsJList
+        channelsJList.addListSelectionListener((ListSelectionEvent e) -> {
+            userNames.clear();
+            refreshUsersList();
+            if(channelsJList.getSelectedValue() != null) {
+                byte ID = ClientDriver.getChannelManager().get(channelsJList.getSelectedValue()).getId();
+                ClientDriver.getClient().sendPacket(PacketEncoder.createUserPreviewPacket(ID));
+            }
+        });
         
         // Assigns the name the new name.
         this.clientName = userIDNew;
@@ -102,10 +115,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         usersLabel = new javax.swing.JLabel();
         jScrollPaneChannels = new javax.swing.JScrollPane();
         channelsJList = new javax.swing.JList<>();
-        jScrollPaneUsers = new javax.swing.JScrollPane();
-        usersTextArea = new javax.swing.JTextArea();
         IPText = new javax.swing.JTextField();
         connectToServerButton = new javax.swing.JButton();
+        jScrollPaneChannels1 = new javax.swing.JScrollPane();
+        usersJList = new javax.swing.JList<>();
         cardPanels = new javax.swing.JPanel();
         chatPanel = new javax.swing.JTextArea();
         headerLabel = new javax.swing.JLabel();
@@ -204,21 +217,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         usersLabel.setText("Users:");
 
         jScrollPaneChannels.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        channelsJList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Channel 1", "Channel 2", "Channel 3", "Channel 4", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPaneChannels.setViewportView(channelsJList);
-
-        jScrollPaneUsers.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPaneUsers.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        usersTextArea.setEditable(false);
-        usersTextArea.setColumns(20);
-        usersTextArea.setRows(5);
-        jScrollPaneUsers.setViewportView(usersTextArea);
 
         IPText.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -235,6 +234,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 connectToServerButtonActionPerformed(evt);
             }
         });
+
+        jScrollPaneChannels1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        usersJList.setFocusable(false);
+        jScrollPaneChannels1.setViewportView(usersJList);
 
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
@@ -268,11 +272,14 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(channelsLabel)
                             .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(usersLabel)
-                            .addComponent(jScrollPaneUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 11, Short.MAX_VALUE)))
+                            .addGroup(menuPanelLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(usersLabel))
+                            .addGroup(menuPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         menuPanelLayout.setVerticalGroup(
@@ -301,8 +308,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addComponent(leaveButton)
                         .addGap(18, 18, 18)
                         .addComponent(joinButton))
-                    .addComponent(jScrollPaneUsers))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
                 .addComponent(screenShotButton)
                 .addContainerGap())
         );
@@ -627,8 +634,13 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         um.redo();
     }
 
-     public void refreshChannelList() {
+    private void refreshChannelList() {
         channelsJList.setListData(channelNames.toArray(String[]::new));
+        validate();
+    }
+    
+    private void refreshUsersList() {
+        usersJList.setListData(userNames.toArray(String[]::new));
         validate();
     }
     
@@ -640,6 +652,20 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     public void removeChannel(String channelName) {
         channelNames.remove(channelName);
         refreshChannelList();
+    }
+    
+    public void addUserToPreviewList(String userName) {
+        userNames.add(userName);
+        refreshUsersList();
+    }
+    
+    public void removeUserFromPreviewList(String userName) {
+        userNames.remove(userName);
+        refreshUsersList();
+    }
+    
+    public void clearUserList() {
+        userNames.clear();
     }
         
     
@@ -659,7 +685,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     private javax.swing.JLabel functionsLabel;
     private javax.swing.JLabel headerLabel;
     private javax.swing.JScrollPane jScrollPaneChannels;
-    private javax.swing.JScrollPane jScrollPaneUsers;
+    private javax.swing.JScrollPane jScrollPaneChannels1;
     private javax.swing.JButton joinButton;
     private keeptoo.KGradientPanel kGradientPanel1;
     private javax.swing.JButton leaveButton;
@@ -668,7 +694,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     private javax.swing.JButton redo;
     private javax.swing.JButton screenShotButton;
     private javax.swing.JButton undo;
+    private javax.swing.JList<String> usersJList;
     private javax.swing.JLabel usersLabel;
-    private javax.swing.JTextArea usersTextArea;
     // End of variables declaration//GEN-END:variables
 }

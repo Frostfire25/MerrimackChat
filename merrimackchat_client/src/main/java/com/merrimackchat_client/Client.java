@@ -99,37 +99,15 @@ public class Client implements Runnable {
                     }
                     
                 }; break;
+                case CLEAR_USER_LIST: {
+                    ClientDriver.getMyGUI().clearUserList();
+                }; break;
                 case SEND_USERS_IN_CHANNEL: {
-                    // TODO
+                    ClientDriver.getMyGUI().addUserToPreviewList(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()));
                 }; break;
                 case UPDATE_USER_CHANNEL_INFO: {
                     channel = packet.getArgs(1);                
                     //sendPacket(PacketEncoder.createUserJoinPacket(ID, ClientDriver.getMyGUI().getClientName()));
-                }; break;
-                
-                /*
-                case CHANNEL_INFO: {
-                    System.out.println("Final packet?: " + packet.getArgs(3));
-                    
-                    
-                    //while(packet.getArgs(3) == (byte) 0) { // While this is not the last packet
-                    //    System.out.println("Adding new channel (from Client.java)");
-                    //    ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                    //} 
-                    
- 
-                    // Add the final packet
-                    System.out.println("Adding new channel (from Client.java)");
-                    ClientDriver.getChannelManager().add(new Channel(Util.getStringFromByteArray(packet.getBuffWithoutArgsAndTrailingFillers()), packet.getArgs(1)));
-                                        
-                    // Final channel
-                    if(packet.getArgs(3) == (byte) 1)
-                        ClientDriver.getMyGUI().loadBeginningChannels();
-                    
-                }; break;
-                */
-                case USER_JOIN_CHANNEL: {
-                   
                 }; break;
                 case SERVER_SENDING_AUDIO: {
                     byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);

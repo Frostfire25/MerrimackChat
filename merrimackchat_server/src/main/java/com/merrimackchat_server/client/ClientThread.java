@@ -7,6 +7,7 @@ import com.merrimackchat_packet.data.PacketType;
 import com.merrimackchat_packet.data.Util;
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.channel.Channel;
+import com.merrimackchat_server.channel.ChannelManager;
 import com.merrimackchat_server.exceptions.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -181,14 +182,25 @@ public abstract class ClientThread extends Thread implements Identifiable {
                     }; break;
                     case USER_LEFT_SERVER: {
                         byte ID = packet.getArgs(1);
-                        Client clinet = ServerDriver.getClientManager().getClientMap().get(ID);
+                        Client leaveClient = ServerDriver.getClientManager().getClientMap().get(ID);
+                        
+                        System.out.println("Attempting to disconnect " + leaveClient.getName() + ".");
 
                         // Removes the client if he exists
-                        if(getClient() != null) {
-                            System.out.println("[Disconected] "+clinet.getName()+" has disconected from the server.");
+                        if(leaveClient != null) {
+                            System.out.println("[Disconected] "+leaveClient.getName()+" has disconected from the server.");
                             ServerDriver.getClientManager().removeClient(ID);
                         }
-                    }break;
+                    }; break;
+                    case USER_PREVIEW_CHANNEL:  {
+                        try {
+                            ChannelManager cm = ServerDriver.getChannelManager();
+                            cm.userPreviewChannel(client.getID(), packet.getArgs(1));
+                        } catch (ChannelNotFoundException ex) {
+                            System.out.println("Could not locate channel of ID " + packet.getArgs(1));
+                        }
+                    }; break;
+
                 }
                 
                 packet = null; // And set readData container to our default number

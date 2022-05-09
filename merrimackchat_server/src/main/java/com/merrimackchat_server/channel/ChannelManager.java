@@ -127,8 +127,6 @@ public class ChannelManager {
         if (exists(channelID)) {
             Channel c = channels.get(channelID);
             c.add(userID);
-            // Update list for participants of the channel
-            updateForParticipantsOfChannel(c);
 //            playSound(new File("soundFile.mp3"));
         } else {
             throw new ChannelNotFoundException("Could not locate channel with ID " + channelID + " for user: " + userID);
@@ -143,18 +141,31 @@ public class ChannelManager {
      * @throws com.merrimackchat_server.exceptions.ChannelNotFoundException
      */
     public void userLeaveChannel(byte userID, byte channelID) throws ChannelNotFoundException {
-        System.out.println("Testing to see if channel " + channelID + " exists (ChannelManager.java).");
         if (exists(channelID)) {
             Channel c = channels.get(channelID);
-            System.out.println("Current channel (to remove): " + c.getId() + " (ChannelManager.java).");
             c.remove(userID);
-            // Update list of users for users
-            updateForParticipantsOfChannel(c);
 //          playSound(new File("soundFile.mp3"));
         } else {
             throw new ChannelNotFoundException("No such channel could be joined");
         }
         
+    }
+    
+    public void userPreviewChannel(byte userID, byte channelID) throws ChannelNotFoundException {
+        if (exists(channelID)) {
+            Channel c = channels.get(channelID);
+            Channel prev = channels.get(ServerDriver.getClientManager().getClientMap().get(userID).getChannel());
+            if(prev != null)
+                prev.removeFromPreviewers(userID);
+            c.addToPreviewers(userID);
+        } else {
+            throw new ChannelNotFoundException("No such channel could be joined");
+        }
+    }
+    
+    public void userUnpreviewChannel(byte userID) {
+        Channel c = channels.get(ServerDriver.getClientManager().getClientMap().get(userID).getChannel());
+        c.removeFromPreviewers(userID);
     }
 
     /**
@@ -168,23 +179,6 @@ public class ChannelManager {
      */
     public void broadcastAudio(byte[] input, byte senderID, byte channelID, byte len1, byte len2) {
         channels.get(channelID).broadcastAudio(PacketEncoder.createAudioBeingSentPacket(senderID, channelID, len1, len2, input), senderID);
-    }
-
-    /**
-     * Sends packet information of the users to the OutputStream of the
-     * requested client one-by-one by channel ID.
-     *
-     * @param out output stream of client
-     * @param channelID ID of specified channel
-     */
-    public void sendUserListOfUsers(OutputStream out, byte channelID) {
-        channels.get(channelID).getClients().forEach(n -> {
-            try {
-                PacketEncoder.createSendChannelUserPacket(n.getName()).send(out);
-            } catch (IOException ex) {
-                System.err.println("Could not send data for user " + n.getName() + " for channel information.");
-            }
-        });
     }
 
     /*
@@ -224,9 +218,4 @@ public class ChannelManager {
         });
     }
     
-    private void updateForParticipantsOfChannel(Channel c) {
-        c.getClients().forEach(n -> {
-            sendUserListOfUsers(n.getOut(), c.getId());
-        });
-    }
 }

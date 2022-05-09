@@ -1,10 +1,12 @@
 package com.merrimackchat_server.channel;
 
 import com.merrimackchat_packet.data.Packet;
+import com.merrimackchat_packet.data.PacketEncoder;
 import com.merrimackchat_server.Server;
 import com.merrimackchat_server.ServerDriver;
 import com.merrimackchat_server.client.Client;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +24,7 @@ public class Channel {
     private String name;
     private byte id;
     private ArrayList<Client> clients = new ArrayList<>();
+    private ArrayList<Client> previewers = new ArrayList<>();
 
     public Channel(String name, byte id) {
         this.name = name;
@@ -34,7 +37,9 @@ public class Channel {
      * @param clientID client's ID.
      */
     public void remove(byte clientID) {
-        getClients().remove(ServerDriver.getClientManager().getClientMap().get(clientID));
+        Client client = ServerDriver.getClientManager().getClientMap().get(clientID);
+        getClients().remove(client);
+        updateForPreviewers(client.getName(), (byte) 1);
     }
     
     /**
@@ -43,7 +48,29 @@ public class Channel {
      * @param clientID client's ID.
      */
     public void add(byte clientID) {
-        getClients().add(ServerDriver.getClientManager().getClientMap().get(clientID));
+        Client client = ServerDriver.getClientManager().getClientMap().get(clientID);
+        getClients().add(client);
+        updateForPreviewers(client.getName(), (byte) 0);
+    }
+    
+    /**
+     * Adds to list of previewers by ID.
+     * 
+     * @param clientID previewer's ID
+     */
+    public void addToPreviewers(byte clientID) {
+        Client client = ServerDriver.getClientManager().getClientMap().get(clientID);
+        previewers.add(client);
+        sendPreviewData(client.getOut());
+    }
+    
+    /**
+     * Removes from list of previewers by ID.
+     * 
+     * @param clientID previewer's ID
+     */
+    public void removeFromPreviewers(byte clientID) {
+        previewers.remove(ServerDriver.getClientManager().getClientMap().get(clientID));
     }
     
     /**
@@ -102,5 +129,30 @@ public class Channel {
      */
     public ArrayList<Client> getClients() {
         return clients;
+    }
+    
+    /*
+    Private Methods
+    */
+    
+    private void updateForPreviewers(String newUserName, byte operation) {
+            previewers.forEach(n -> {
+                try {
+                    PacketEncoder.createClearUserListPacket().send(n.getOut());
+                    sendPreviewData(n.getOut());
+                } catch (IOException ex) {
+                    
+                }
+            });
+        } 
+    
+    private void sendPreviewData(OutputStream out) {
+        clients.forEach(n -> {
+            try {
+                PacketEncoder.createSendUsersInChannelPacket(n.getName()).send(out);
+            } catch (IOException ex) {
+                
+            }
+        });
     }
 }

@@ -99,7 +99,7 @@ public class ClientManager {
                 try {
                     PacketEncoder.createUpdateUserChannelInfoPacket((byte) -1).send(client.getOut());
                 } catch (IOException ex) {
-                    System.out.println("Could not retrieve Output stream for client " + client.getID());
+                    
                 }
             } catch (ChannelNotFoundException ex) {
                 System.out.println("Channel not found to leave (ClientManager.java).");
@@ -129,7 +129,9 @@ public class ClientManager {
             Client client = clientMap.remove(ID);
             
             // Leaves channel
+            ServerDriver.getChannelManager().userUnpreviewChannel(client.getID());
             leaveChannel(client.getID());
+            
             
             // Closes the clients connection.
             client.closeSocket();
