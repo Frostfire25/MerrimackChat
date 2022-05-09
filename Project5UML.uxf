@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>3</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>897</x>
+      <y>336</y>
+      <w>63</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>PanelGradient
+Package: DesignPanels
+--
+# gradiente : Gradiente
+# colorPrimario : Color
+# colorSecundario : Color
+--
+&lt;&lt;Gradiente&gt;&gt; ()
+# paintComponent(Graphics g)
+- getGradientPaint() : Paint
++ getColorPrimario() : Color
++ getColorSecundario() : Color
++ setColorSecundario() : void
++ getGradiente() : Gradiente
++ setColorPrimario() : void
++ setGradiente() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>897</x>
+      <y>228</y>
+      <w>66</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>PanelRound
+Package: DesignPanels
+--
+- roundTopLeft : int
+- roundTopRight : int
+- roundBottomRight : int
+- roundBottomLeft : int
+--
++ getRoundTopLeft() : int
++ setRoundTopLeft() : void
++ getRoundTopRight() : int
++ setRoundTopRight() : void
++ getRoundBottomLeft() : int
++ setRoundBottomLeft() : void
++ getRoundBottomRight() : int
++ setRoundBottomRight() : void
+# paintComponent() : void
+- createRoundTopLeft() : Shape
+- createRoundTopRight() : Shape
+- createRoundBottomLeft() : Shape
+- createRoundBottomRight() : Shape</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>888</x>
+      <y>156</y>
+      <w>63</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>PanelSlide
+Package: DesignPanels
+--
+- animate : int
+- timer : Timer
+- com1 : Component
+- com2 : Component
+- list :  ArrayList&lt;&gt;
+- currentShowing : int
+- animateRight : boolean
+--
++ init(Component... com) : void
++ show() : void
++ animate() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>762</x>
+      <y>234</y>
+      <w>81</w>
+      <h>333</h>
+    </coordinates>
+    <panel_attributes>myGUI
+Package: com.merrimackchat_client.gui
+--
+- channelManager : ChannelManager
+- idAndPasswords : IdAndPasswords
+- loginBrowser : Login
+- keyListener : KeyListener
+- second : int
+- minute : int
+- hour : int
+- um : UndoManager
+- s : IdAndPasswords
+IPText : JTextField
+- cardPanels : JTextField
+- channelsJList : JList
+- channelsLabel : JLabel
+- chatPanel: JTextArea
+- chatText : JTextField
+- clockLabel : JLabel
+- clockPanel : JPanel
+- connectToServerButton : JButton
+- createButton : JButton
+- deleteButton : JButton
+- enterIPLabel : JLabel
+- functionsLabel : JLabel
+- headerLabel : JLabel
+- jScrollPaneChannels : JScrollPane
+- jScrollPaneUsers : JScrollPane
+- joinButton : JButton
+- kGradientPanel1 : kGradientPanel
+- leaveButton : JButton
+- menuLabel : JLabel
+- menuPanel : JPanel
+- redo: JButton
+- screenShotButton : JButton
+- undo : JButton
+- usersLabel: JLabel
+- usersTextArea : JTextArea
+--
+&lt;&lt;myGUI&gt;&gt; (userIDNew : String)
+&lt;&lt;myGUI&gt;&gt; 
++ addPlaceHolderStyle1() : void
++ addPlaceHolderStyle2() : void
++ removePlaceHolderStyle() : void
+- chatTextFocusGained() : void
+- chatTextFocusLost() : void
+- formWindowGainedFocus() : void
+- screenShotButtonActionPerformed() : void
+- chatTextKeyReleased() : void
+- undoActionPerformed() : void
+- redoActionPerformed() : void
+- chatTextKeyPressed() : void
+- connectToServerButtonActionPerformed() : void
+- IPTextFocusGained() : void
+- IPTextFocusLost() : void
+- formKeyPressed() : void
+- createButtonActionPerformed() : void
+- deleteButtonActionPerformedleaveButtonActionPerformed() : void
+- joinButtonActionPerformed() : void
+- chatTextActionPerformed() : void
+- getChatPanel() : JTextArea
+- getChatText() : JTextField
+- run() : void
+- undo() : void
+- redo() : void
+- refreshChannelList() : void
+- loadBeginningChannels() : void
+- addChannel() : void
+- removeChannel() : void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>525</x>
+      <y>213</y>
+      <w>81</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Main
+Package: com.merrimackchat_client.gui
+--
+- idAndPasswords : IdAndPasswords
+- loginBrowser : Login
+- keyListener : KeyListener
+- register : Register
+- loginBtn : JButton
+- panelGradient1 : PanelGradient
+- panelRound1 : PanelRound
+- panelSlide1 : PanelSlide
+- registerBtn : JButton
+--
+&lt;&lt;Main&gt;&gt;
++ getResetBtn() : JButton
+- loginBtnActionPerformed() : void
+- registerBtnActionPerformed() : void
+- loginBtnKeyReleased() : void
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>306</y>
+      <w>63</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>261</y>
+      <w>63</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;190.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>189</y>
+      <w>54</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;260.0;160.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>318</y>
+      <w>84</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>Register
+Package: com.merrimackchat_client.gui
+--
+- PasswordLbl2 : JLabel
+- backToLoginBtn : JButton
+- jLabel3 : JLabel
+- panelRound3 : PanelRound
+- registerPassword : JPasswordField
+- registerUsername : JTextField
+- usernameLbl2 : JLabel
+--
+&lt;&lt;Register&gt;&gt;
++ register() : void
++ addEventBackLogin() : void
++ getBackToLoginBtn() : JButton
++ getRegisterPassword() : JTextField
++ getRegisterPassword() : JPasswordField</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>519</x>
+      <y>294</y>
+      <w>30</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>576</x>
+      <y>321</y>
+      <w>78</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Login
+Package: com.merrimackchat_client.gui
+--
+loginInfo : HashMap&lt;String,String&gt;
+- loginLabel : JLabel
+- loginPanel : PanelRound
+- passwordLoginField : JPasswordField
+- passwordLoginLabel : JLabel
+- signUpButton : JButton
+- usernameLoginField : JTextField
+- usernameLoginLabel : JLabel
+--
+
++ getPasswordText() : JPasswordField
++ getUsernameText2() : JTextField
++ login() : void
++ addEventRegister() : void
++ setTest() : void
++ getTest() : String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>582</x>
+      <y>294</y>
+      <w>30</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>573</x>
+      <y>441</y>
+      <w>81</w>
+      <h>33</h>
+    </coordinates>
+    <panel_attributes>IdAndPasswords
+Package: com.merrimackchat_client.gui
+--
++ loginInfo : HashMap&lt;String, String&gt;
+--
+&lt;&lt;IdAndPasswords&gt;&gt;
++ getInfo() : HashMap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>612</x>
+      <y>408</y>
+      <w>9</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>927</x>
+      <y>576</y>
+      <w>90</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>ScreenShot
+Package: com.merrimackchat_client.gui
+--
+get : myGUI()
+--
++ makePanelImage() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>543</y>
+      <w>102</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;320.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>570</x>
+      <y>501</y>
+      <w>81</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>UserInfo
+Package: com.merrimackchat_client.gui
+--
++ username : String
++ password : String
+--
+&lt;&lt;UserInfo&gt;&gt; (parts : String[])</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>612</x>
+      <y>471</y>
+      <w>9</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=BLACK</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>777</x>
+      <y>171</y>
+      <w>63</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>KeyListener
+Package: com.merrimackchat_client.gui
+--
++ myGUI : myGUI
+- PUSH_TO_TALK_KEY : int
+- isPressed : boolean
+--
++ keyReleased(): void
++ keyPressed() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>801</x>
+      <y>210</y>
+      <w>12</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>20.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>357</x>
+      <y>225</y>
+      <w>72</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>Channel
+Package: com.merrimackchat_client.gui
+--
+- name : String
+- byte : id
+--
+&lt;&lt;Channel&gt;&gt; (name : String, id : byte)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>357</x>
+      <y>141</y>
+      <w>75</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>ChannelManager
+Package: com.merrimackchat_client.gui
+--
+channelMap : HashMap&lt;String, Channel&gt;
+--
++ add(Channel c) : void
++ remove(String name) : void
++ get(String name) : Channel
++ getChannels() : Collection&lt;Channel&gt;
++ getChannelNames() : Set&lt;String&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>543</x>
+      <y>108</y>
+      <w>63</w>
+      <h>57</h>
+    </coordinates>
+    <panel_attributes>ClientDriver
+Package: com.merrimackchat_client.gui
+--
+- channelManager : ChannelManager
+- idAndPasswords : IdAndPasswords
+- loginBrowser : Login
+- myGUI : myGUI
+- client : Client
+--
+main(String[] args) : void
+run() : void
+establishConnection() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>603</x>
+      <y>252</y>
+      <w>165</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=BLACK</panel_attributes>
+    <additional_attributes>530.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>564</x>
+      <y>162</y>
+      <w>12</w>
+      <h>57</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=BLACK</panel_attributes>
+    <additional_attributes>10.0;170.0;20.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>720</x>
+      <y>609</y>
+      <w>81</w>
+      <h>87</h>
+    </coordinates>
+    <panel_attributes>Client
+Package: com.merrimackchat_client.gui
+--
+- mic : Microphone
+- speaker : Speaker
+- socket : Socket
+- IP : String
+- PORT : int
+- ID : byte
+--
+&lt;&lt;Client&gt;&gt; (IP : String, port : int)
++ readPacket() : void
++ disconnect() : void
++ forceDisconect() : void
++ run() : void
++ run(): void
++ run() : void
++ sendAudio(boolean value) : void
++ sendPacket(Packet packet) : boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>825</x>
+      <y>612</y>
+      <w>63</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>ClientChat
+Package: com.merrimackchat_client.gui
+--
+- socket : Socket
+- IP : String
+- PORT : int
+- int2 : BufferedReader
+- out2 : PrintWriter
++ name : String
+- ID : byte
+--
++ getPrintWriter() : PrintWriter
++ getName() : String
++ run() : void
++ finalize() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>756</x>
+      <y>564</y>
+      <w>30</w>
+      <h>51</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>804</x>
+      <y>564</y>
+      <w>63</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>687</x>
+      <y>753</y>
+      <w>63</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>Speaker
+Package: com.merrimackchat_client.gui
+--
++ SAMPLE_RATE : float
++ SAMPLE_SIZE + int
+- line : SourceDataLine
+- format : AudioFormat
+--
+&lt;&lt;Speaker&gt;&gt;
++ open() : void
++ start() : void
++ write() : void
++ stop() : void
++ getBufferedSize() : int
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>783</x>
+      <y>753</y>
+      <w>81</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Microphone
+Package: com.merrimackchat_client.gui
+--
+&lt;&lt;Microphone&gt;&gt;
++ SAMPLE_RATE : float
++ SAMPLE_SIZE : int
+- line : TargetDataLine
+- format : AudioFormat
+- sending : boolean
+--
++ startSending() : void
++ stopSending() : void
++ isSending() : boolean
++ open() : boolean
++ start() : void
++ read() : int
++ stop() : void
++ getBufferSize() : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>381</x>
+      <y>186</y>
+      <w>15</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;130.0;30.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>429</x>
+      <y>135</y>
+      <w>120</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+bg=BLACK</panel_attributes>
+    <additional_attributes>10.0;80.0;380.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>714</x>
+      <y>693</y>
+      <w>24</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>756</x>
+      <y>693</y>
+      <w>60</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;180.0;200.0</additional_attributes>
+  </element>
+</diagram>
