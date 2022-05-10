@@ -31,17 +31,6 @@ public class ChannelManager {
         for (byte b = 0; b < 127; b++) {
             ids.add(new Pair(true, b));
         }
-
-        // TEST
-        try {
-            // Creates a test chanel for this purpose
-            createChannel("TestChanel:1");
-            createChannel("TestChanel:2");
-            createChannel("TestChanel:3");
-            createChannel("TestChanel:4");
-        } catch (NoIDAvailableException ex) {
-            Logger.getLogger(ChannelManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -89,6 +78,9 @@ public class ChannelManager {
         if (id != -1) {
             channels.put(id, new Channel(name, id));
             broadcastChannelChange(name, id, (byte) 0); // Broadcast change
+            
+            // Saves all the channels
+            ServerDriver.getFileManager().saveChannels();
         } else {
             throw new NoIDAvailableException("No available IDs to create the new channel. Reduce the number of channels.");
         }
@@ -112,6 +104,9 @@ public class ChannelManager {
             // Remove channel
             channels.remove(id);
             broadcastChannelChange(c.getName(), id, (byte) 1); // Broadcast change
+            
+            // Saves all the channels
+            ServerDriver.getFileManager().saveChannels();
         } else {
             throw new ChannelNotFoundException("No such channel is not found, so it cannot be deleted.");
         }

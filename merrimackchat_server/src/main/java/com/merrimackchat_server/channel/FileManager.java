@@ -64,7 +64,6 @@ public class FileManager {
 
         try {
             // Creates the channel file
-            System.out.println(channelFile.exists() + " " + channelFile.getPath());
             if (!channelFile.exists()) {
                 channelFile.createNewFile();
                 System.out.println("Initizlied the Channel file at directory " + channelFile.getPath());
@@ -131,10 +130,12 @@ public class FileManager {
                 writer.append(n.getName());
                 writer.newLine();
             }
+            
+            writer.flush();
+            writer.close();
         } catch (IOException ex) {
             Logger.getLogger(FileManager.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
+        }         
         return true;
     }
     
