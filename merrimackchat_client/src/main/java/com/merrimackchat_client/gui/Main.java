@@ -247,9 +247,6 @@ public class Main extends javax.swing.JFrame {
         }
             
                     this.dispose(); // dispose login JFrame
-
-                    // Establishes a connection when a succesful login happens.
-                    ClientDriver.establishConnection("localhost", 5000);
                     
                     // Once old form is disposed, open main gui form
                     java.awt.EventQueue.invokeLater(new Runnable() {
