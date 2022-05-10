@@ -128,6 +128,15 @@ public class Client implements Runnable {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Determine if this client is connected to a server
+     * 
+     * @return Boolean value if this client is connected
+     */
+    public boolean isConnected() {
+        return socket.isConnected();
+    }
 
     /**
      * Called when a client disconects from the server.

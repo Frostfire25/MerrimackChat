@@ -131,6 +131,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         kGradientPanel1 = new keeptoo.KGradientPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                formFocusLost(evt);
+            }
+        });
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
             public void windowGainedFocus(java.awt.event.WindowEvent evt) {
                 formWindowGainedFocus(evt);
@@ -251,40 +256,39 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         menuPanelLayout.setHorizontalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
-                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(enterIPLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(IPText, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(connectToServerButton))
-                    .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(menuLabel)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(menuPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(screenShotButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(functionsLabel)
-                            .addComponent(leaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(joinButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(channelsLabel)
-                            .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(menuPanelLayout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(usersLabel))
-                            .addGroup(menuPanelLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(190, 190, 190)
+                                .addComponent(menuLabel))
+                            .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(menuPanelLayout.createSequentialGroup()
+                                    .addComponent(enterIPLabel)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(IPText)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(connectToServerButton))
+                                .addGroup(menuPanelLayout.createSequentialGroup()
+                                    .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(functionsLabel)
+                                        .addComponent(leaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(joinButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(channelsLabel)
+                                        .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(menuPanelLayout.createSequentialGroup()
+                                            .addGap(14, 14, 14)
+                                            .addComponent(usersLabel))
+                                        .addGroup(menuPanelLayout.createSequentialGroup()
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -487,7 +491,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         font = font.deriveFont(Font.ITALIC);
         textField.setFont(font);
         textField.setForeground(Color.LIGHT_GRAY);
-        textField.setText("xxx.xx.xx.xx");
+        textField.setText("xxx.xx.xx.xx:PORT");
     }
     
     public void removePlaceHolderStyle(JTextField textField) {
@@ -604,10 +608,22 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     private void frameClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_frameClosing
         // Called when the frame is closing to disconect the client properly
+        
+        // If the connected is never established, disconnect.
+        if(ClientDriver.getClient() == null) { System.exit(-1); return;} 
+        
         ClientDriver.getClient().disconnect();
     }//GEN-LAST:event_frameClosing
 
+    private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
+        // TODO add your handling code here:
+        // Always keep the focus
+    }//GEN-LAST:event_formFocusLost
+
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // No Channel is selected
+        if(channelsJList.getSelectedIndex() == -1) return;
+        
         Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
         ClientDriver.getClient().sendPacket(PacketEncoder.createChannelDeletePacket(c.getId()));
     }

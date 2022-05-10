@@ -31,6 +31,7 @@ public class Server extends Thread {
 
         // Attempt to build a server socket to the port
         try {
+            System.out.println("[Server] Attempting to connect to " +addr+":"+p);
             server = new ServerSocket(this.port, 5, InetAddress.getByName(addr));
             //server = new ServerSocket(p);
         } catch (IOException ex) {

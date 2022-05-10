@@ -4,10 +4,13 @@
  */
 package com.merrimackchat_server.terminal;
 
+import lombok.Getter;
+
 /**
  *
  * @author Alex
  */
+@Getter
 public class Command {
     
     private String command;
@@ -15,16 +18,16 @@ public class Command {
     private Runnable run;
     
     public Command(Runnable runnable, String command, String... paramaters) {
-        this.run = run;
+        this.run = runnable;
         this.command = command;
         this.paramaters = paramaters;
     }
     
     public boolean isssueCommand(String[] args) {
         // Command could not be issued, wrong arguments
-        if(paramaters.length != args.length) return false;
+        // if(paramaters.length != args.length) return false;
         
-        
+        run.run();
         
         return true;
     }   
