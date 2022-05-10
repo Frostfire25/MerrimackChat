@@ -229,8 +229,7 @@ public class Main extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "No username or password detected", "Alert", JOptionPane.WARNING_MESSAGE);
             } else {
                 
-            try {
-                
+            try {                
                 // If the file doesn't exist
                 if(!file.exists()) {
                     try {
