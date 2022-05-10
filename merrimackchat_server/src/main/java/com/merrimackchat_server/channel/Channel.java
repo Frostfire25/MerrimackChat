@@ -176,6 +176,7 @@ public class Channel {
     }
 
     private void sendPreviewData(OutputStream out) {
+        
         if (clients.isEmpty()) {
             try {
                 PacketEncoder.createClearUserListPacket().send(out);

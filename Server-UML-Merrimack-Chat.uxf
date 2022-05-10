@@ -1,5 +1,360 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.3.0">
-  <help_text/>
-  <zoom_level>10</zoom_level>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>738</x>
+      <y>78</y>
+      <w>138</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>Server
+com.merrimackchat_server
+--
+- connection: Socket
+- server: ServerSocket
+- port: int
+--
+#Constuctor(p: int, addr: String)
+--
++ run(): void
+--
++ broadcast(input: int): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>774</x>
+      <y>36</y>
+      <w>60</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>/Thread/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>798</x>
+      <y>48</y>
+      <w>18</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;..</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>486</x>
+      <y>78</y>
+      <w>204</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>ServerDriver
+com.merrimackchat_server
+{Driver}
+--
+    
+- @Getter clientManager: ClientManager
+- @Getter channelManager: ChannelManager
+- @Getter fileManager: FileManager
+- @Getter server: Server
+- @Getter console: Console
+- @Getter serverProperties: ServerProperties
+--
+#main (args: String[]): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>684</x>
+      <y>126</y>
+      <w>66</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>168</x>
+      <y>264</y>
+      <w>246</w>
+      <h>222</h>
+    </coordinates>
+    <panel_attributes>Channel
+com.merrimackchat_server.channel
+--
+-  name: String
+-  id: byte
+-  clients: ArrayList&lt;Client&gt; 
+-  previewers : ArrayList&lt;Client&gt; 
+--
+#Constuctor(name: String, byte: ID)
+--
++ remove(clientID: byte): void
++ add(clientID: byte): void
++ addToPreviews(clientID: byte): void
++ removeFromPreviews(clientID: byte): void
++ clear(): void
++ broadcastAudio(packet: Packet, byte: senderID): void
++ broadcastText(packet: Packet): void
++ getName(): String
++ getID(): byte
++ getClients(): ArrayList&lt;Client&gt;
+- updateForPreviewers(): void
+- sendPreviewData(out: OutputStream): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>468</x>
+      <y>258</y>
+      <w>378</w>
+      <h>204</h>
+    </coordinates>
+    <panel_attributes>ChannelManager
+com.merrimackchat_server.channel
+{Manager}
+--
+- channels: HashMap&lt;Byte, Channel&gt;
+- ids: ArrayList&lt;Pair&lt;Boolean, Byte&gt;&gt;
+--
+&lt;&lt;Default Constructor&gt;&gt;
+--
++ exists(id: byte) : boolean
++ getAllChannels(out: OutputStream) : void
++ createChannel(name: String) : void : throws NoIDAvailableException
++ deleteChannel(byte: userID, byte: channelID): void : throws ChannelNotFoundException
++ userJoinChannel(byte: userID, byte: channelID): void : throws ChannelNotFoundException
++ userLeaveChannel(byte: userID, byte: channelID): void : throws ChannelNotFoundException 
++ userPreviewChannel(byte: userID, byte: channelID): void : throws ChannelNotFoundException
++ userUnpreviewChannel(byte: userID): void
++ broadcastAudio(input: byte[], senderID: byte, channelID: byte, len1: byte, len2: byte): void
++ broadcastText(byte: channelID, Packet: packet): void
+- getAvailableID(): byte
+- playSound(): void
+- broadcastChannelChange(name: String, id: byte, operation: byte): void
+--
+
+layer=4</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>402</x>
+      <y>378</y>
+      <w>78</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>576</x>
+      <y>198</y>
+      <w>18</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>156</x>
+      <y>78</y>
+      <w>276</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>FileManager
+com.merrimackchat_server.channel
+{Manager}
+--
++ channelManager: ChannelManager
+- String: SERVER_DIRECTORY
+- String: FILE_CHANNEL_NAME
+--
+#Constuctor(channelManager: ChannelManager)
+--
+- initDirectory(): void
+--
++ getFileInDirectory(name: String): File
++ loadChannels(): boolean
++ saveChannels(): boolean
++ createServerPropertiesFile(serverProperties: ServerProperties): File
+- createDefaultFiles(): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>426</x>
+      <y>138</y>
+      <w>66</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>222</y>
+      <w>60</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>468</x>
+      <y>738</y>
+      <w>192</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>ChannelNotFoundException
+package com.merrimackchat_server.exceptions
+{Exception}
+--
+#Constructor(message: String}
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>894</x>
+      <y>846</y>
+      <w>60</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>Exception</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>798</y>
+      <w>396</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>640.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>888</x>
+      <y>738</y>
+      <w>192</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>IDObjectNotFoundException
+package com.merrimackchat_server.exceptions
+{Exception}
+--
+#Constructor(message: String}
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>678</x>
+      <y>738</y>
+      <w>192</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>NoIDAvailableException
+package com.merrimackchat_server.exceptions
+{Exception}
+--
+#Constructor(message: String}
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1098</x>
+      <y>738</y>
+      <w>192</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>ServerFullException
+package com.merrimackchat_server.exceptions
+{Exception}
+--
+#Constructor(message: String}
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>924</x>
+      <y>798</y>
+      <w>66</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>762</x>
+      <y>798</y>
+      <w>180</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>280.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>918</x>
+      <y>798</y>
+      <w>288</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;460.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>564</x>
+      <y>456</y>
+      <w>168</w>
+      <h>294</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;470.0;260.0;10.0</additional_attributes>
+  </element>
 </diagram>
