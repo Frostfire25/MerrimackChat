@@ -140,7 +140,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         connectToServerButton = new javax.swing.JButton();
         jScrollPaneChannels1 = new javax.swing.JScrollPane();
         usersJList = new javax.swing.JList<>();
-        voiceButton = new javax.swing.JButton();
         cardPanels = new javax.swing.JPanel();
         chatPanel = new javax.swing.JTextArea();
         headerLabel = new javax.swing.JLabel();
@@ -150,6 +149,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         undo = new javax.swing.JButton();
         redo = new javax.swing.JButton();
         kGradientPanel1 = new keeptoo.KGradientPanel();
+        jLabel1 = new javax.swing.JLabel();
+        voiceButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addFocusListener(new java.awt.event.FocusAdapter() {
@@ -300,31 +301,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         });
         jScrollPaneChannels1.setViewportView(usersJList);
 
-        voiceButton.setBackground(new java.awt.Color(153, 153, 153));
-        voiceButton.setForeground(new java.awt.Color(51, 51, 51));
-        voiceButton.setText("Click To Talk");
-        voiceButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                voiceButtonMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                voiceButtonMouseReleased(evt);
-            }
-        });
-        voiceButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                voiceButtonActionPerformed(evt);
-            }
-        });
-        voiceButton.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                voiceButtonKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                voiceButtonKeyReleased(evt);
-            }
-        });
-
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
@@ -334,48 +310,44 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(screenShotButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(menuPanelLayout.createSequentialGroup()
-                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(menuPanelLayout.createSequentialGroup()
-                                .addGap(190, 190, 190)
-                                .addComponent(menuLabel))
-                            .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(menuPanelLayout.createSequentialGroup()
-                                    .addComponent(enterIPLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(IPText)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(connectToServerButton))
-                                .addGroup(menuPanelLayout.createSequentialGroup()
-                                    .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(functionsLabel)
-                                        .addComponent(leaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(joinButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(channelsLabel)
-                                        .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(menuPanelLayout.createSequentialGroup()
-                                            .addGap(14, 14, 14)
-                                            .addComponent(usersLabel))
-                                        .addGroup(menuPanelLayout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGroup(menuPanelLayout.createSequentialGroup()
-                                                    .addGap(6, 6, 6)
-                                                    .addComponent(voiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
+                                .addComponent(enterIPLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(IPText)
+                                .addGap(18, 18, 18)
+                                .addComponent(connectToServerButton))
+                            .addGroup(menuPanelLayout.createSequentialGroup()
+                                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(functionsLabel)
+                                    .addComponent(leaveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(joinButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(channelsLabel)
+                                    .addComponent(jScrollPaneChannels, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(menuPanelLayout.createSequentialGroup()
+                                        .addGap(14, 14, 14)
+                                        .addComponent(usersLabel))
+                                    .addGroup(menuPanelLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(menuLabel)
+                .addGap(137, 137, 137))
         );
         menuPanelLayout.setVerticalGroup(
             menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(menuLabel)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(enterIPLabel)
                     .addComponent(IPText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -397,8 +369,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addGap(18, 18, 18)
                         .addComponent(joinButton))
                     .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(voiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(screenShotButton)
                 .addContainerGap())
@@ -458,7 +428,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         );
         clockPanelLayout.setVerticalGroup(
             clockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(clockLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+            .addComponent(clockLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         chatText.setText("Type your response here...");
@@ -506,16 +476,56 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         kGradientPanel1.setkGradientFocus(700);
         kGradientPanel1.setkStartColor(new java.awt.Color(30, 61, 89));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(245, 240, 225));
+        jLabel1.setText("Merrimack Chat");
+        jLabel1.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                jLabel1ComponentAdded(evt);
+            }
+        });
+
         javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
         kGradientPanel1.setLayout(kGradientPanel1Layout);
         kGradientPanel1Layout.setHorizontalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(263, 263, 263))
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 31, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
         );
+
+        voiceButton.setBackground(new java.awt.Color(153, 153, 153));
+        voiceButton.setForeground(new java.awt.Color(51, 51, 51));
+        voiceButton.setText("Click To Talk");
+        voiceButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                voiceButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                voiceButtonMouseReleased(evt);
+            }
+        });
+        voiceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voiceButtonActionPerformed(evt);
+            }
+        });
+        voiceButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                voiceButtonKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                voiceButtonKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -532,8 +542,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(clockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(voiceButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(undo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(redo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -558,7 +570,8 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(chatText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(undo)
-                            .addComponent(redo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(redo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(voiceButton))))
                 .addContainerGap())
         );
 
@@ -783,6 +796,10 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         keyListener.talkReleased();
     }//GEN-LAST:event_voiceButtonMouseReleased
 
+    private void jLabel1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jLabel1ComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1ComponentAdded
+
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // No Channel is selected
         if(channelsJList.getSelectedIndex() == -1) return;
@@ -905,6 +922,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     private javax.swing.JLabel enterIPLabel;
     private javax.swing.JLabel functionsLabel;
     private javax.swing.JLabel headerLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPaneChannels;
     private javax.swing.JScrollPane jScrollPaneChannels1;
     private javax.swing.JButton joinButton;
