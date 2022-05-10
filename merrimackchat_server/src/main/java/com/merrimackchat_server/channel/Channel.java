@@ -8,6 +8,7 @@ import com.merrimackchat_server.client.Client;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -162,13 +163,14 @@ public class Channel {
     /*
     Private Methods
      */
+    
     private void updateForPreviewers() {
         previewers.forEach(n -> {
             try {
                 PacketEncoder.createClearUserListPacket().send(n.getOut());
                 sendPreviewData(n.getOut());
             } catch (IOException ex) {
-
+               
             }
         });
     }
@@ -185,7 +187,7 @@ public class Channel {
             try {
                 PacketEncoder.createSendUsersInChannelPacket(n.getName()).send(out);
             } catch (IOException ex) {
-
+                
             }
         });
 

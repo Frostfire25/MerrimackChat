@@ -8,6 +8,7 @@ import com.merrimackchat_client.listeners.KeyListener;
 import com.merrimackchat_packet.data.Packet;
 import com.merrimackchat_packet.data.PacketEncoder;
 import java.awt.*;
+import java.awt.event.AWTEventListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Area;
@@ -73,6 +74,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
+        
         // Add selection listener to channelsJList
         channelsJList.addListSelectionListener((ListSelectionEvent e) -> {
             userNames.clear();
@@ -89,6 +91,23 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
 
     public myGUI() {
         initComponents();
+        
+        /*
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(chatText);
+        chatPanel.add(scrollPane);
+        */
+        
+        // Add selection listener to channelsJList
+        channelsJList.addListSelectionListener((ListSelectionEvent e) -> {
+            userNames.clear();
+            refreshUsersList();
+            if(channelsJList.getSelectedValue() != null) {
+                byte ID = ClientDriver.getChannelManager().get(channelsJList.getSelectedValue()).getId();
+                ClientDriver.getClient().sendPacket(PacketEncoder.createUserPreviewPacket(ID));
+            }
+        });
+        
     }
     
     
@@ -103,6 +122,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        scrollbar1 = new java.awt.Scrollbar();
         menuPanel = new javax.swing.JPanel();
         menuLabel = new javax.swing.JLabel();
         enterIPLabel = new javax.swing.JLabel();
@@ -152,9 +172,20 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
         });
 
         menuPanel.setBackground(new java.awt.Color(30, 61, 89));
+        menuPanel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                menuPanelKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                menuPanelKeyReleased(evt);
+            }
+        });
 
         menuLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         menuLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -228,6 +259,15 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         usersLabel.setText("Users:");
 
         jScrollPaneChannels.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        channelsJList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                channelsJListKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                channelsJListKeyReleased(evt);
+            }
+        });
         jScrollPaneChannels.setViewportView(channelsJList);
 
         IPText.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -249,6 +289,14 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         jScrollPaneChannels1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         usersJList.setFocusable(false);
+        usersJList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                usersJListKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                usersJListKeyReleased(evt);
+            }
+        });
         jScrollPaneChannels1.setViewportView(usersJList);
 
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
@@ -330,6 +378,19 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         chatPanel.setBackground(new java.awt.Color(245, 240, 225));
         chatPanel.setColumns(20);
         chatPanel.setRows(100);
+        chatPanel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                chatPanelFocusLost(evt);
+            }
+        });
+        chatPanel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                chatPanelKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                chatPanelKeyReleased(evt);
+            }
+        });
 
         headerLabel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         headerLabel.setForeground(new java.awt.Color(245, 240, 225));
@@ -546,7 +607,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     Calls key event in KeyListener class
     */
     private void chatTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatTextKeyReleased
-        keyListener.keyReleased(evt);
+        keyListener.chatReleased(evt);
     }//GEN-LAST:event_chatTextKeyReleased
     
     
@@ -561,10 +622,17 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     }//GEN-LAST:event_redoActionPerformed
 
     private void chatTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatTextKeyPressed
-        keyListener.keyPressed(evt);
-    
+        
     }//GEN-LAST:event_chatTextKeyPressed
 
+    private void pushToTalkPressed() {
+        
+    }
+    
+    public void pushToTalkReleased() {
+        
+    }   
+    
     private void connectToServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectToServerButtonActionPerformed
        keyListener.connectPressed(evt);
     }//GEN-LAST:event_connectToServerButtonActionPerformed
@@ -583,7 +651,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     }//GEN-LAST:event_IPTextFocusLost
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-      keyListener.keyPressed(evt);
+      keyListener.pushToTalkPressed(evt);
     }//GEN-LAST:event_formKeyPressed
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
@@ -595,9 +663,14 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     }//GEN-LAST:event_createBtnActionPerformed
 
     private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinBtnActionPerformed
+        
         if(channelsJList.getSelectedIndex() != -1) {
+            
+            System.out.println(channelsJList.getSelectedIndex() + "   " + channelNames.get(channelsJList.getSelectedIndex()));
+            
             Channel c = ClientDriver.getChannelManager().get(channelNames.get(channelsJList.getSelectedIndex()));
             ClientDriver.getClient().sendPacket(PacketEncoder.createChannelJoinPacket(ClientDriver.getClient().getID(), c.getId()));
+            
         }
     }//GEN-LAST:event_joinBtnActionPerformed
 
@@ -619,6 +692,46 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         // TODO add your handling code here:
         // Always keep the focus
     }//GEN-LAST:event_formFocusLost
+
+    private void chatPanelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chatPanelFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chatPanelFocusLost
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+        keyListener.pushToTalkReleased(evt);
+    }//GEN-LAST:event_formKeyReleased
+
+    private void chatPanelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatPanelKeyPressed
+        keyListener.pushToTalkPressed(evt);
+    }//GEN-LAST:event_chatPanelKeyPressed
+
+    private void chatPanelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatPanelKeyReleased
+        keyListener.pushToTalkReleased(evt);
+    }//GEN-LAST:event_chatPanelKeyReleased
+
+    private void menuPanelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuPanelKeyPressed
+        keyListener.pushToTalkPressed(evt);
+    }//GEN-LAST:event_menuPanelKeyPressed
+
+    private void menuPanelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuPanelKeyReleased
+        keyListener.pushToTalkReleased(evt);
+    }//GEN-LAST:event_menuPanelKeyReleased
+
+    private void usersJListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usersJListKeyPressed
+        keyListener.pushToTalkPressed(evt);
+    }//GEN-LAST:event_usersJListKeyPressed
+
+    private void usersJListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usersJListKeyReleased
+        keyListener.pushToTalkReleased(evt);
+    }//GEN-LAST:event_usersJListKeyReleased
+
+    private void channelsJListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_channelsJListKeyPressed
+       keyListener.pushToTalkPressed(evt);
+    }//GEN-LAST:event_channelsJListKeyPressed
+
+    private void channelsJListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_channelsJListKeyReleased
+        keyListener.pushToTalkReleased(evt);
+    }//GEN-LAST:event_channelsJListKeyReleased
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // No Channel is selected
@@ -751,6 +864,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     private javax.swing.JPanel menuPanel;
     private javax.swing.JButton redo;
     private javax.swing.JButton screenShotButton;
+    private java.awt.Scrollbar scrollbar1;
     private javax.swing.JButton undo;
     private javax.swing.JList<String> usersJList;
     private javax.swing.JLabel usersLabel;

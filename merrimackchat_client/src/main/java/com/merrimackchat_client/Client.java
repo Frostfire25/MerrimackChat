@@ -65,9 +65,9 @@ public class Client implements Runnable {
             switch (packet.getPacketType()) {
                 case AUDIO_BEING_SENT: {
                     byte[] speakerBuffer = PacketDecoder.getAudioStreamFromAnAudioPacket(packet);
-                    System.out.println(Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
+                    //System.out.println(Arrays.toString(Arrays.copyOfRange(packet.getBuff(), 0, 20)));
                     //System.out.println(audioPacket.getBuff()[10] + " " + audioPacket.getBuff()[audioPacket.getBuff().length-1]);
-                    System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
+                    //System.out.println(String.format("RECEVING: First in buffer : [%s]  Last in Buffer : [%s]\n\n", speakerBuffer[0], speakerBuffer[speakerBuffer.length - 1]));
                     speaker.write(speakerBuffer, 0, speakerBuffer.length);
                 
                 };break;
@@ -266,11 +266,11 @@ public class Client implements Runnable {
                                 //System.out.println(Arrays.toString(buffer));
                                 //if(System.currentTimeMillis() >= nextTimeToRun) {
                                 //System.out.println("Buffer length : " + buffer.length + "   Read Length: " + read);
-                                System.out.println(String.format("SENDING: First in buffer : [%s]  Last in Buffer : [%s]", buffer[0], buffer[buffer.length - 1]));
+                                //System.out.println(String.format("SENDING: First in buffer : [%s]  Last in Buffer : [%s]", buffer[0], buffer[buffer.length - 1]));
 
                                 Packet audioPacket = PacketEncoder.createAudioBeingSentPacket((byte) -128, channel, value1, value2, buffer);
                                 audioPacket.send(socket.getOutputStream());
-                                System.out.println("Audio sent");
+                                //System.out.println("Audio sent");
 
                                 // Update the send time
                                 // nextTimeToRun += 5000;

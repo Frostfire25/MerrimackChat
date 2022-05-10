@@ -27,10 +27,11 @@ public class KeyListener {
 
     private final int TEXT_SEND_LENGTH = 400;
 
-    //myGUI get = new myGUI();
-    //ClientChat cc = new ClientChat();
-    public void keyReleased(KeyEvent e) {
-        // Person pressed enter on their text, to be sent
+    /**
+     * Called on the release of a key in the chat key in chatTextField
+     * @param e 
+     */
+    public void chatReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER && e.getSource() instanceof JTextField) {
             JTextField area = (JTextField) e.getSource();
             String line = area.getText();
@@ -40,7 +41,10 @@ public class KeyListener {
                 System.out.println("You can not send text with a length greater than " + TEXT_SEND_LENGTH);
                 return;
             }
-
+            
+            // Connection not established
+            if(ClientDriver.getClient() == null) return;
+            
             // Sends the text packet to the server
             byte channel = ClientDriver.getClient().getChannel();
             byte userID = ClientDriver.getClient().getID();
@@ -52,11 +56,32 @@ public class KeyListener {
             // Remove the text in the text box
             area.setText("");
 
-        } // Person is releasing their press to talk key
-        else if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY && isPressed) {
-            System.out.println("Push to talk key released");
+        }
+    }
+    
+    /**
+     * Called when the push to talk key could be released
+     * @param e 
+     */
+    public void pushToTalkReleased(KeyEvent e) {        
+        if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY && isPressed) {
+            System.out.println("[Talk] Push to talk key released");
             ClientDriver.getClient().sendAudio(false);
             isPressed = false;
+        }
+    }
+    
+    /**
+     * Called when the push to talk key could be pressed
+     * @param e 
+     */
+    public void pushToTalkPressed(KeyEvent e) {
+        // Person is pressing their push to talk key
+        if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY && !isPressed) {
+            System.out.println("[Talk] Push to talk key pressed");
+            ClientDriver.getClient().sendAudio(true);
+            isPressed = true;
+
         }
     }
 
@@ -94,14 +119,5 @@ public class KeyListener {
             JOptionPane.showInternalMessageDialog(null, "Incorrect format for the text field, please put ADRESS:PORT to connect.");
         }
 
-    }
-
-    public void keyPressed(KeyEvent e) {
-        // Person is pressing their push to talk key
-        if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY && !isPressed) {
-            ClientDriver.getClient().sendAudio(true);
-            isPressed = true;
-
-        }
     }
 }
