@@ -20,7 +20,12 @@ public class IdAndPasswords {
             Scanner data_store = new Scanner(new File(System.getProperty("user.dir") + File.separator + "credentials.txt"));  // adds users directory so absolute path does not need to be changed         
 
             while (data_store.hasNextLine()) {
-                String[] split_string = data_store.nextLine().split(","); // split strings on comma
+                String line = data_store.nextLine();   
+                
+                // If the line is empty, continie to the next password
+                if(line.isEmpty() || !line.contains(",")) continue;
+                
+                String[] split_string = line.split(","); // split strings on comma
                 UserInfo u = new UserInfo(split_string);
                 loginInfo.put(u.username, u.password); // username set to first half, paqssword to second half
             } // End while                   
