@@ -63,11 +63,9 @@ public class KeyListener {
      * Called when the push to talk key could be released
      * @param e 
      */
-    public void pushToTalkReleased(KeyEvent e) {        
-        if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY && isPressed) {
-            System.out.println("[Talk] Push to talk key released");
-            ClientDriver.getClient().sendAudio(false);
-            isPressed = false;
+    public void pushToTalkKeyReleased(KeyEvent e) {        
+        if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY) {
+            talkReleased();
         }
     }
     
@@ -75,13 +73,32 @@ public class KeyListener {
      * Called when the push to talk key could be pressed
      * @param e 
      */
-    public void pushToTalkPressed(KeyEvent e) {
+    public void pushToTalkKeyPressed(KeyEvent e) {
         // Person is pressing their push to talk key
-        if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY && !isPressed) {
+        if (e.getExtendedKeyCode() == PUSH_TO_TALK_KEY ) {
+            talkPressed();
+        }
+    }
+    
+    /**
+     * A talk was pressed
+     */
+    public void talkPressed() {
+        if(!isPressed) {
             System.out.println("[Talk] Push to talk key pressed");
             ClientDriver.getClient().sendAudio(true);
             isPressed = true;
-
+        }
+    }
+    
+    /**
+     * A talk was released
+     */
+    public void talkReleased() {
+        if(isPressed) {
+            System.out.println("[Talk] Push to talk key released");
+            ClientDriver.getClient().sendAudio(false);
+            isPressed = false;
         }
     }
 

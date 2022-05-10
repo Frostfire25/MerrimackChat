@@ -5,6 +5,8 @@ import static com.merrimackchat_client.gui.IdAndPasswords.loginInfo;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import lombok.*;
 
@@ -228,6 +230,16 @@ public class Main extends javax.swing.JFrame {
             } else {
                 
             try {
+                
+                // If the file doesn't exist
+                if(!file.exists()) {
+                    try {
+                        file.createNewFile();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
                 PrintStream bw = new PrintStream(new FileOutputStream(file, true));
                 bw.append("\n" + registerID + "," + registerPass);
                 bw.close();

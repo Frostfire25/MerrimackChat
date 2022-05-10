@@ -140,6 +140,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         connectToServerButton = new javax.swing.JButton();
         jScrollPaneChannels1 = new javax.swing.JScrollPane();
         usersJList = new javax.swing.JList<>();
+        voiceButton = new javax.swing.JButton();
         cardPanels = new javax.swing.JPanel();
         chatPanel = new javax.swing.JTextArea();
         headerLabel = new javax.swing.JLabel();
@@ -299,6 +300,31 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         });
         jScrollPaneChannels1.setViewportView(usersJList);
 
+        voiceButton.setBackground(new java.awt.Color(153, 153, 153));
+        voiceButton.setForeground(new java.awt.Color(51, 51, 51));
+        voiceButton.setText("Click To Talk");
+        voiceButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                voiceButtonMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                voiceButtonMouseReleased(evt);
+            }
+        });
+        voiceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voiceButtonActionPerformed(evt);
+            }
+        });
+        voiceButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                voiceButtonKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                voiceButtonKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuPanelLayout = new javax.swing.GroupLayout(menuPanel);
         menuPanel.setLayout(menuPanelLayout);
         menuPanelLayout.setHorizontalGroup(
@@ -336,7 +362,11 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                                             .addComponent(usersLabel))
                                         .addGroup(menuPanelLayout.createSequentialGroup()
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                            .addGroup(menuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(menuPanelLayout.createSequentialGroup()
+                                                    .addGap(6, 6, 6)
+                                                    .addComponent(voiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                         .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -367,7 +397,9 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
                         .addGap(18, 18, 18)
                         .addComponent(joinButton))
                     .addComponent(jScrollPaneChannels1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(voiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(screenShotButton)
                 .addContainerGap())
         );
@@ -482,7 +514,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 31, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -651,7 +683,7 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     }//GEN-LAST:event_IPTextFocusLost
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-      keyListener.pushToTalkPressed(evt);
+      keyListener.pushToTalkKeyPressed(evt);
     }//GEN-LAST:event_formKeyPressed
 
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createBtnActionPerformed
@@ -698,40 +730,58 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     }//GEN-LAST:event_chatPanelFocusLost
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
-        keyListener.pushToTalkReleased(evt);
+        keyListener.pushToTalkKeyReleased(evt);
     }//GEN-LAST:event_formKeyReleased
 
     private void chatPanelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatPanelKeyPressed
-        keyListener.pushToTalkPressed(evt);
+        keyListener.pushToTalkKeyPressed(evt);
     }//GEN-LAST:event_chatPanelKeyPressed
 
     private void chatPanelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chatPanelKeyReleased
-        keyListener.pushToTalkReleased(evt);
+        keyListener.pushToTalkKeyReleased(evt);
     }//GEN-LAST:event_chatPanelKeyReleased
 
     private void menuPanelKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuPanelKeyPressed
-        keyListener.pushToTalkPressed(evt);
+        keyListener.pushToTalkKeyPressed(evt);
     }//GEN-LAST:event_menuPanelKeyPressed
 
     private void menuPanelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_menuPanelKeyReleased
-        keyListener.pushToTalkReleased(evt);
+        keyListener.pushToTalkKeyReleased(evt);
     }//GEN-LAST:event_menuPanelKeyReleased
 
     private void usersJListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usersJListKeyPressed
-        keyListener.pushToTalkPressed(evt);
+        keyListener.pushToTalkKeyPressed(evt);
     }//GEN-LAST:event_usersJListKeyPressed
 
     private void usersJListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usersJListKeyReleased
-        keyListener.pushToTalkReleased(evt);
+        keyListener.pushToTalkKeyReleased(evt);
     }//GEN-LAST:event_usersJListKeyReleased
 
     private void channelsJListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_channelsJListKeyPressed
-       keyListener.pushToTalkPressed(evt);
+       keyListener.pushToTalkKeyPressed(evt);
     }//GEN-LAST:event_channelsJListKeyPressed
 
     private void channelsJListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_channelsJListKeyReleased
-        keyListener.pushToTalkReleased(evt);
+        keyListener.pushToTalkKeyReleased(evt);
     }//GEN-LAST:event_channelsJListKeyReleased
+
+    private void voiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voiceButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_voiceButtonActionPerformed
+
+    private void voiceButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_voiceButtonKeyPressed
+    }//GEN-LAST:event_voiceButtonKeyPressed
+
+    private void voiceButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_voiceButtonKeyReleased
+    }//GEN-LAST:event_voiceButtonKeyReleased
+
+    private void voiceButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voiceButtonMousePressed
+        keyListener.talkPressed();
+    }//GEN-LAST:event_voiceButtonMousePressed
+
+    private void voiceButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voiceButtonMouseReleased
+        keyListener.talkReleased();
+    }//GEN-LAST:event_voiceButtonMouseReleased
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // No Channel is selected
@@ -868,5 +918,6 @@ public class myGUI extends javax.swing.JFrame  implements Runnable {
     private javax.swing.JButton undo;
     private javax.swing.JList<String> usersJList;
     private javax.swing.JLabel usersLabel;
+    private javax.swing.JButton voiceButton;
     // End of variables declaration//GEN-END:variables
 }
